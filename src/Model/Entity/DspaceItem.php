@@ -1,5 +1,5 @@
 <?php
-namespace DpaceConnector\Model\Entity;
+namespace DspaceConnector\Model\Entity;
 
 use Omeka\Model\Entity\AbstractEntity;
 use Omeka\Model\Entity\Job;

@@ -15,57 +15,81 @@ class Import extends AbstractJob
     
     protected $api;
     
+    protected $termIdMap;
+    
     public function perform()
     {
         $this->api = $this->getServiceLocator()->get('Omeka\ApiManager');
-        $itemUrl = '';
-        
-        $this->importItem($itemUrl);
+        $this->prepareTermIdMap();
+        $this->client = $this->getServiceLocator()->get('Omeka\HttpClient');
+        $this->client->setHeaders(array('Accept' => 'application/json'));
+        $itemUrl = 'https://demo.dspace.org/rest/items/4';
+        $itemUrl = 'http://ebot.gmu.edu/rest/items/2168';
+        $this->apiUrl = 'http://ebot.gmu.edu';
+        $this->importItem('/rest/items/2168');
     }
     
-    public function importItem($itemUrl)
+    public function importItem($itemLink)
     {
-        
-        //$itemXml = simplexml_load_file($itemUrl);
-        $itemXml = $this->client->getResponse($itemUrl);
+        $response = $this->getResponse($itemLink, 'metadata,bitstreams');
+        if ($response) {
+            $itemArray = json_decode($response->getBody(), true);
+        }
         $dspaceItem = new DspaceItem;
-        $dspaceItem->setHandle($itemXml->handle);
-        $dspaceItem->setRemoteId($itemXml->id);
-        //$itemMetadataXml = simplexml_load_file($itemUrl . '/metadata');
-        $itemMetadataXml = $this->client->getResponse($itemUrl . '/metadata');
-        $itemArray = array();
-        $this->processItemMetadata($itemMetadataXml, $itemArray);
+        $dspaceItem->setHandle($itemArray['handle']);
+        $dspaceItem->setRemoteId($itemArray['id']);
+
+        $itemJson = array();
+        $itemJson = $this->processItemMetadata($itemArray['metadata'], $itemJson);
+        $this->api->create('items', $itemJson);
     }
     
-    public function processItemMetadata(SimpleXMLElement $itemMetadataXml, $itemArray)
+    public function processItemMetadata($itemMetadataArray, $itemJson)
     {
-        foreach ($itemMetadataXml->metadataentry as $metadataEntry) {
-            $terms = $this->mapKeyToTerm($metadataEntry->key);
+        foreach ($itemMetadataArray as $metadataEntry) {
+            $terms = $this->mapKeyToTerm($metadataEntry['key']);
 
             foreach ($terms as $term) {
                 $valueArray = array();
                 if ($term == 'bibo:uri') {
-                    $valueArray['@id'] = $metadataEntry->value;
+                    $valueArray['@id'] = $metadataEntry['value'];
                 } else {
-                    $valueArray['@value'] = $metadataEntry->value;
-                    if ($metadataEntry->language) {
-                        $valueArray['@language'] = $metadataEntry->language;
+                    $valueArray['@value'] = $metadataEntry['value'];
+                    if (isset($metadataEntry['language'])) {
+                        $valueArray['@language'] = $metadataEntry['language'];
                     }
                 }
-                $itemArray[$term][] = $valueArray;                    
+                $valueArray['property_id'] = $this->termIdMap[$term];
+                $itemJson[$term][] = $valueArray;                    
             }
-
         }
+        return $itemJson;
     }
     
     public function processItemBitstreams($item)
     {
         
     }
+
+    public function getResponse($link, $expand = 'all')
+    {
+        $this->client->setUri($this->apiUrl . $link);
+        $this->client->setParameterGet(array('expand' => $expand));
+        
+        $response = $this->client->send();
+        if (!$response->isSuccess()) {
+            throw new Exception\RuntimeException(sprintf(
+                'Requested "%s" got "%s".', $url, $response->renderStatusLine()
+            ));
+        }
+        return $response;
+    }
     
     protected function mapKeyToTerm($key)
     {
         $parts = explode('.', $key);
+        //only using dc. Don't know if DSpace ever emits anything else
+        //(except for the subproperties listed below that aren't actually in dcterms
         if ($parts[0] != 'dc') {
             return array();
         }
@@ -75,7 +99,7 @@ class Import extends AbstractJob
         }
         
         if (count($parts) == 3) {
-            //liberal mapping onto refined term always
+            //liberal mapping onto superproperties by default
             $termsArray = array('dcterms:' . $parts[1]);
             //parse out refinements where known
             switch ($parts[2]) {
@@ -87,14 +111,37 @@ class Import extends AbstractJob
                     $termsArray[] = "dcterms:abstract";
                 break;
                 
-                case 'uri' :
-                    $termsArray[] = "dcterms:identifier";
+                case 'uri' : 
                     $termsArray[] = "bibo:uri";
+                break;
+                case 'iso' : //handled by superproperty dcterms:language
+                case 'editor' : //handled as dcterms:contributor
+                case 'accessioned' : //ignored
                 break;
                 default :
                     $termsArray[] = 'dcterms:' . $parts[2]; 
             }
             return $termsArray;
         }
+    }
+    
+    protected function prepareTermIdMap()
+    {
+        $this->termIdMap = array();
+        $properties = $this->api->search('properties', array(
+            'vocabulary_namespace_uri' => 'http://purl.org/dc/terms/'
+        ))->getContent();
+        foreach ($properties as $property) {
+            $term = "dcterms:" . $property->localName();
+            $this->termIdMap[$term] = $property->id();
+        }
+
+        $properties = $this->api->search('properties', array(
+            'vocabulary_namespace_uri' => 'http://purl.org/ontology/bibo/'
+        ))->getContent();
+        foreach ($properties as $property) {
+            $term = "bibo:" . $property->localName();
+            $this->termIdMap[$term] = $property->id();
+        }        
     }
 }
