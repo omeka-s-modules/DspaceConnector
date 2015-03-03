@@ -38,9 +38,9 @@ class Import extends AbstractJob
         $dspaceItem = new DspaceItem;
         $dspaceItem->setHandle($itemArray['handle']);
         $dspaceItem->setRemoteId($itemArray['id']);
-
         $itemJson = array();
         $itemJson = $this->processItemMetadata($itemArray['metadata'], $itemJson);
+        $itemJson = $this->processItemBitstreams($itemArray['bitstreams'], $itemJson);
         $this->api->create('items', $itemJson);
     }
     
@@ -66,9 +66,24 @@ class Import extends AbstractJob
         return $itemJson;
     }
     
-    public function processItemBitstreams($item)
+    public function processItemBitstreams($bitstreamsArray, $itemJson)
     {
-        
+        foreach($bitstreamsArray as $bitstream) {
+            $itemJson['o:media'][] = array(
+                'o:type'     => 'file',
+                'o:data'     => json_encode($bitstream),
+                'o:source'   => $this->apiUrl . $bitstream['link'],
+                'ingest_uri' => $this->apiUrl . '/rest' . $bitstream['retrieveLink'],
+                'dcterms:title' => array(
+                    array(
+                        '@value' => $bitstream['name'],
+                        'property_id' => $this->termIdMap['dcterms:title']
+                    ),
+                ),
+            );
+        }
+        print_r($itemJson);
+        return $itemJson;
     }
 
     public function getResponse($link, $expand = 'all')
