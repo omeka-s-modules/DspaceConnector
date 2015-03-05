@@ -1,0 +1,76 @@
+<?php
+$this->headScript()->appendFile($this->assetUrl('js/dspace-connector.js', 'DspaceConnector'));
+
+$form->prepare(); 
+$escapeHtml = $this->plugin('escapeHtml');
+$formElement = $this->plugin('formElement');
+$formLabel = $this->plugin('formLabel');
+?>
+<style type='text/css'>
+
+
+ul .description .o-icon-info + p {
+  left: -9999px;
+  padding: 0.375em 0;
+  position: absolute;
+  top: -9999px;
+  width: 100%;
+}
+
+li {
+    border-radius: 0;
+    font-weight: normal;
+    margin: 0 -10px;
+    padding: 0.375em 10px;
+    list-style: none outside none;
+    position: relative;
+}
+
+.description {
+    display: inline-block;
+}
+
+li button {
+    float: right;
+}
+
+</style>
+
+
+<h1><?php echo $escapeHtml($this->translate('DSpace Connector')); ?></h1>
+<?php echo $this->form()->openTag($form); ?>
+<div id="page-actions">
+<a class='button get-collections'>Get Collections</a>
+<a class='button get-communities'>Get Communities</a>
+</div>
+
+<?php $apiElement = $form->get('api_url'); ?>
+<?php echo $this->formElements($form); ?>
+
+<ul class="communities">
+
+</ul>
+
+<ul class="collections">
+<input type='hidden' name='collection_link' value='' />
+</ul>
+
+<li class="collection template">
+    
+    <div class="description">
+        <p class="o-icon-info"><span class="screen-reader-text">More Info</span></p>
+        <p></p>
+    </div>
+    <span class="label"></span>
+    <button><?php echo $this->escapeHtml($this->translate('Import Collection')); ?></button>
+</li>
+
+<li class="community template">
+    <div class="description">
+        <p class="o-icon-info"><span class="screen-reader-text">More Info</span></p>
+        <p></p>
+    </div>
+    <span class="label"></span>
+    <a href='#' class='button'>Get Collections</a>
+</li>
+<?php echo $this->form()->closeTag(); ?>

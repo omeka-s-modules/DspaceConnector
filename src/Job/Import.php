@@ -23,12 +23,24 @@ class Import extends AbstractJob
         $this->prepareTermIdMap();
         $this->client = $this->getServiceLocator()->get('Omeka\HttpClient');
         $this->client->setHeaders(array('Accept' => 'application/json'));
-        $itemUrl = 'https://demo.dspace.org/rest/items/4';
-        $itemUrl = 'http://ebot.gmu.edu/rest/items/2168';
+        //$itemUrl = 'https://demo.dspace.org/rest/items/4';
+        //$itemUrl = 'http://ebot.gmu.edu/rest/items/2168';
         $this->apiUrl = 'http://ebot.gmu.edu';
-        $this->importItem('/rest/items/2168');
+        //$this->importItem('/rest/items/2168');
+        $this->importCollection('/rest/collections/54');
     }
-    
+
+    public function importCollection($collectionLink)
+    {
+        $response = $this->getResponse($collectionLink, 'items');
+        if ($response) {
+            $collection = json_decode($response->getBody(), true);
+            foreach ($collection['items'] as $itemData) {
+                $this->importItem($itemData['link']);
+            }
+        }
+    }
+
     public function importItem($itemLink)
     {
         $response = $this->getResponse($itemLink, 'metadata,bitstreams');
@@ -82,7 +94,6 @@ class Import extends AbstractJob
                 ),
             );
         }
-        print_r($itemJson);
         return $itemJson;
     }
 
