@@ -30,7 +30,12 @@ class IndexController extends AbstractActionController
         $params = $this->params()->fromQuery();
         $dspaceUrl = $params['dspaceUrl'];
         $link = $params['link'];
-        $expand = 'all';
+        if (isset($params['expand'])) {
+            $expand = $params['expand'];
+        } else {
+            $expand = 'all';
+        }
+        
         
         $client = $this->getServiceLocator()->get('Omeka\HttpClient');
         $client->setHeaders(array('Accept' => 'application/json'));
