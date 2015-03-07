@@ -23,11 +23,8 @@ class Import extends AbstractJob
         $this->prepareTermIdMap();
         $this->client = $this->getServiceLocator()->get('Omeka\HttpClient');
         $this->client->setHeaders(array('Accept' => 'application/json'));
-        //$itemUrl = 'https://demo.dspace.org/rest/items/4';
-        //$itemUrl = 'http://ebot.gmu.edu/rest/items/2168';
-        $this->apiUrl = 'http://ebot.gmu.edu';
-        //$this->importItem('/rest/items/2168');
-        $this->importCollection('/rest/collections/54');
+        $this->apiUrl = $this->getArg('api_url');
+        $this->importCollection($this->getArg('collection_link'));
     }
 
     public function importCollection($collectionLink)
@@ -52,7 +49,9 @@ class Import extends AbstractJob
         $dspaceItem->setRemoteId($itemArray['id']);
         $itemJson = array();
         $itemJson = $this->processItemMetadata($itemArray['metadata'], $itemJson);
-        $itemJson = $this->processItemBitstreams($itemArray['bitstreams'], $itemJson);
+        if ($this->getArg('ingest_files')) {
+            $itemJson = $this->processItemBitstreams($itemArray['bitstreams'], $itemJson);
+        }
         $this->api->create('items', $itemJson);
     }
     
@@ -62,17 +61,20 @@ class Import extends AbstractJob
             $terms = $this->mapKeyToTerm($metadataEntry['key']);
 
             foreach ($terms as $term) {
-                $valueArray = array();
-                if ($term == 'bibo:uri') {
-                    $valueArray['@id'] = $metadataEntry['value'];
-                } else {
-                    $valueArray['@value'] = $metadataEntry['value'];
-                    if (isset($metadataEntry['language'])) {
-                        $valueArray['@language'] = $metadataEntry['language'];
+                //skip non-understood or mis-written terms
+                if (isset($this->termIdMap[$term])) {
+                    $valueArray = array();
+                    if ($term == 'bibo:uri') {
+                        $valueArray['@id'] = $metadataEntry['value'];
+                    } else {
+                        $valueArray['@value'] = $metadataEntry['value'];
+                        if (isset($metadataEntry['language'])) {
+                            $valueArray['@language'] = $metadataEntry['language'];
+                        }
                     }
+                    $valueArray['property_id'] = $this->termIdMap[$term];
+                    $itemJson[$term][] = $valueArray;
                 }
-                $valueArray['property_id'] = $this->termIdMap[$term];
-                $itemJson[$term][] = $valueArray;                    
             }
         }
         return $itemJson;

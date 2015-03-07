@@ -51,6 +51,12 @@ input#api-url {
 
 
 <h1><?php echo $escapeHtml($this->translate('DSpace Connector')); ?></h1>
+<?php if (isset($job)): ?>
+<p>Importing <?php echo $collectionName; ?> in job <?php echo $job->getId(); ?></p>
+
+
+<?php endif; ?>
+
 <?php echo $this->form()->openTag($form); ?>
 
 <?php $apiElement = $form->get('api_url'); ?>
@@ -75,7 +81,7 @@ input#api-url {
 </div>
 
 <?php echo $this->partial('common/form-element', array('element' => $form->get('ingest_files')));?>
-<?php // echo $this->formElements($form); ?>
+<?php echo $formElement($form->get('csrf')); ?>
 
 <ul class="communities container">
 
@@ -93,6 +99,7 @@ input#api-url {
     </div>
     <span class="label"></span>
     <input type='hidden' name='collection_link' class='collection-link' value='' />
+    <input type='hidden' name='collection_name' class='collection-name' value='' />
     <button class='import-collection'><?php echo $this->escapeHtml($this->translate('Import Collection')); ?></button>
 </li>
 

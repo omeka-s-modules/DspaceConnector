@@ -2,6 +2,7 @@
     
     $(document).ready(function() {
         $('a.get-collections').on('click', function(e) {
+            $('ul.container').empty();
             e.preventDefault();
             var dspaceUrl = $('#api-url').val();
             if (dspaceUrl == '') {
@@ -23,6 +24,7 @@
         });
         
         $('a.get-communities').on('click', function(e) {
+            $('ul.container').empty();
             e.preventDefault();
             var dspaceUrl = $('#api-url').val();
             if (dspaceUrl == '') {
@@ -45,7 +47,9 @@
         
         $('form').on('click', 'button.import-collection', function(e) {
             $('input.collection-link').prop('disabled', true);
+            $('input.collection-name').prop('disabled', true);
             $(this).siblings('input.collection-link').prop('disabled', false);
+            $(this).siblings('input.collection-name').prop('disabled', false);
         });
     });
     
@@ -56,8 +60,8 @@
         template.find('.label').html(collectionObj.name);
         
         template.find('p.description').html(collectionObj.introductoryText);
-        template.find('input').val(collectionObj.link);
-        //$('ul.collections input').val(collectionObj.link);
+        template.find('input.collection-link').val(collectionObj.link);
+        template.find('input.collection-name').val(collectionObj.name);
         this.append(template);
     }
     
