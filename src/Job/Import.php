@@ -52,7 +52,11 @@ class Import extends AbstractJob
         if ($this->getArg('ingest_files')) {
             $itemJson = $this->processItemBitstreams($itemArray['bitstreams'], $itemJson);
         }
-        $this->api->create('items', $itemJson);
+        $response = $this->api->create('items', $itemJson);
+        if ($response->isError()) {
+            throw new Exception\RuntimeException('There was an error during item creation.');
+        }
+        
     }
     
     public function processItemMetadata($itemMetadataArray, $itemJson)
@@ -84,7 +88,7 @@ class Import extends AbstractJob
     {
         foreach($bitstreamsArray as $bitstream) {
             $itemJson['o:media'][] = array(
-                'o:type'     => 'file',
+                'o:type'     => 'url',
                 'o:data'     => json_encode($bitstream),
                 'o:source'   => $this->apiUrl . $bitstream['link'],
                 'ingest_uri' => $this->apiUrl . '/rest' . $bitstream['retrieveLink'],
