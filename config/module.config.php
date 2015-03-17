@@ -10,6 +10,11 @@ return array(
             OMEKA_PATH . '/module/DspaceConnector/view',
         ),
     ),
+    'entity_manager' => array(
+        'mapping_classes_paths' => array(
+            OMEKA_PATH . '/module/DspaceConnector/src/Model/Entity',
+        ),
+    ),
     'navigation' => array(
         'admin' => array(
             array(
