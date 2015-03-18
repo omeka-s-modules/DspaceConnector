@@ -1,8 +1,10 @@
 <?php
 namespace DspaceConnector\Model\Entity;
 
+use DateTime;
 use Omeka\Model\Entity\AbstractEntity;
 use Omeka\Model\Entity\Job;
+use Omeka\Model\Entity\Item;
 
 /**
  * @Entity
@@ -19,13 +21,14 @@ class DspaceItem extends AbstractEntity
     
     /**
      * @OneToOne(targetEntity="Omeka\Model\Entity\Item")
+     * @JoinColumn(nullable=false)
      * @var int
      */
-    protected $itemId;
+    protected $item;
 
     /**
-     * @OneToOne(targetEntity="Omeka\Model\Entity\Job")
-     * @JoinColumn(onDelete="SET NULL")
+     * @ManyToOne(targetEntity="Omeka\Model\Entity\Job")
+     * @JoinColumn(nullable=false)
      */
     protected $job;
     
@@ -41,13 +44,29 @@ class DspaceItem extends AbstractEntity
      */
     protected $remoteId;
     
+    /**
+     * @Column(type="string")
+     */
     protected $handle;
     
+    /**
+     * @Column(type="datetime")
+     */
     protected $lastModified;
     
     public function getId()
     {
         return $this->id;
+    }
+    
+    public function getItem()
+    {
+        return $this->item;
+    }
+    
+    public function setItem(Item $item)
+    {
+        $this->item = $item;
     }
 
     public function setJob(Job $job)
@@ -91,7 +110,7 @@ class DspaceItem extends AbstractEntity
         return $this->handle;
     }
     
-    public function setLastModified($lastModified) 
+    public function setLastModified(DateTime $lastModified) 
     {
         $this->lastModified = $lastModified;
     }

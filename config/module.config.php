@@ -1,5 +1,10 @@
 <?php
 return array(
+    'api_adapters' => array(
+        'invokables' => array(
+            'dspace_items' => 'DspaceConnector\Api\Adapter\Entity\DspaceItemAdapter',
+        ),
+    ),
     'controllers' => array(
         'invokables' => array(
             'DspaceConnector\Controller\Index' => 'DspaceConnector\Controller\IndexController',

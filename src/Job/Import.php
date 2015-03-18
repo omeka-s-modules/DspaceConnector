@@ -44,9 +44,6 @@ class Import extends AbstractJob
         if ($response) {
             $itemArray = json_decode($response->getBody(), true);
         }
-        $dspaceItem = new DspaceItem;
-        $dspaceItem->setHandle($itemArray['handle']);
-        $dspaceItem->setRemoteId($itemArray['id']);
         $itemJson = array();
         $itemJson = $this->processItemMetadata($itemArray['metadata'], $itemJson);
         if ($this->getArg('ingest_files')) {
@@ -56,7 +53,22 @@ class Import extends AbstractJob
         if ($response->isError()) {
             throw new Exception\RuntimeException('There was an error during item creation.');
         }
-        
+        $itemId = $response->getContent()->id();
+        $dspaceItemJson = array(
+                            'o:job'     => array('o:id' => $this->job->getId()),
+                            'o:item'    => array('o:id' => $itemId),
+                            'api_url'   => $this->apiUrl,
+                            'remote_id' => $itemArray['id'],
+                            'handle'    => $itemArray['handle'],
+                            'last_modified' => new \DateTime($itemArray['lastModified'])
+                        );
+        $response = $this->api->create('dspace_items', $dspaceItemJson);
+        if ($response->isError()) {
+            print_r($response->getErrors());
+            echo $response->getStatus();
+            echo 'fail';
+            throw new Exception\RuntimeException('There was an error during dspace item creation.');
+        }
     }
     
     public function processItemMetadata($itemMetadataArray, $itemJson)
@@ -116,7 +128,7 @@ class Import extends AbstractJob
         }
         return $response;
     }
-    
+
     protected function mapKeyToTerm($key)
     {
         $parts = explode('.', $key);
