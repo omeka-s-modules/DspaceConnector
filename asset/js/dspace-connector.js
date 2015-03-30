@@ -16,6 +16,8 @@
                 'dataType' : 'json'
             }).done(function(data) {
                 data.forEach(writeCollectionLi, $('ul.collections.container'));
+                
+
             }).error(function(data) {
                 alert('Something went wrong.');
             });
@@ -54,20 +56,52 @@
         // this is the container to which to append the LI
         var template = $('li.collection.template').clone();
         template.removeClass('template');
-        template.find('.label').html(collectionObj.name);
-        template.find('p.description').html(collectionObj.introductoryText);
+        template.find('label').html(collectionObj.name);
+        if (collectionObj.introductoryText == '') {
+            template.find('p.field-comment').html('No information provided');
+        } else {
+            template.find('p.field-comment').html(collectionObj.introductoryText);
+        }
+        
         template.find('input.collection-link').val(collectionObj.link);
         template.find('input.collection-name').val(collectionObj.name);
         this.append(template);
+        //@TODO avoid this duplication from globals
+        template.find('.o-icon-info').on('mouseover', function(e) {
+            var moreInfoIcon = $(this);
+            var fieldDesc = moreInfoIcon.next('.field-comment');
+            var fieldDescBottom = moreInfoIcon.offset().top + moreInfoIcon.height() + fieldDesc.height() - $(window).scrollTop();
+            if (fieldDescBottom > $(window).height()) {
+                fieldDesc.removeClass('below').addClass('above');
+            } else {
+                fieldDesc.removeClass('above').addClass('below');
+            }
+        });
     }
 
     function writeCommunityLi(communityObj) {
         var template = $('li.community.template').clone();
         template.removeClass('template');
-        template.find('.label').html(communityObj.name);        
-        template.find('p.description').html(communityObj.introductoryText);
+        template.find('label').html(communityObj.name);
+        if (communityObj.introductoryText == '') {
+            template.find('p.field-comment').html('No information provided');
+        } else {
+            template.find('p.field-comment').html(communityObj.introductoryText);
+        }
+        
         var container = template.find('.community-collections');
         communityObj.collections.forEach(writeCollectionLi, container);
         $('ul.communities.container').append(template);
+        //@TODO avoid this duplication from globals
+        template.find('.o-icon-info').on('mouseover', function(e) {
+            var moreInfoIcon = $(this);
+            var fieldDesc = moreInfoIcon.next('.field-comment');
+            var fieldDescBottom = moreInfoIcon.offset().top + moreInfoIcon.height() + fieldDesc.height() - $(window).scrollTop();
+            if (fieldDescBottom > $(window).height()) {
+                fieldDesc.removeClass('below').addClass('above');
+            } else {
+                fieldDesc.removeClass('above').addClass('below');
+            }
+        });
     }
 })(jQuery);

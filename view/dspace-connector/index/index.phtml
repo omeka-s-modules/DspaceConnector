@@ -6,6 +6,7 @@ $escapeHtml = $this->plugin('escapeHtml');
 $formElement = $this->plugin('formElement');
 $formLabel = $this->plugin('formLabel');
 ?>
+
 <style type='text/css'>
 
 
@@ -49,7 +50,6 @@ input#api-url {
 
 </style>
 
-
 <h1><?php echo $escapeHtml($this->translate('DSpace Connector')); ?></h1>
 <?php if (isset($job)): ?>
 <p>Importing <?php echo $collectionName; ?> in job <?php echo $job->getId(); ?></p>
@@ -84,31 +84,37 @@ input#api-url {
 <?php echo $formElement($form->get('csrf')); ?>
 
 <ul class="communities container">
-
 </ul>
 
 <ul class="collections container">
-
 </ul>
 
 <li class="collection template">
-    
-    <div class="description">
-        <p class="o-icon-info"><span class="screen-reader-text">More Info</span></p>
-        <p></p>
+    <div class="field">
+        <div class="field-meta">
+            <label></label>
+            <div class="field-description">
+                <p class="o-icon-info"><span class="screen-reader-text">More Info</span></p>
+                <p class="field-comment"></p>
+            </div>
+        </div>
+        <input type='hidden' name='collection_link' class='collection-link' value='' />
+        <input type='hidden' name='collection_name' class='collection-name' value='' />
+        <button class='import-collection'><?php echo $this->escapeHtml($this->translate('Import Collection')); ?></button>    
     </div>
-    <span class="label"></span>
-    <input type='hidden' name='collection_link' class='collection-link' value='' />
-    <input type='hidden' name='collection_name' class='collection-name' value='' />
-    <button class='import-collection'><?php echo $this->escapeHtml($this->translate('Import Collection')); ?></button>
+
 </li>
 
 <li class="community template">
-    <div class="description">
-        <p class="o-icon-info"><span class="screen-reader-text">More Info</span></p>
-        <p></p>
+    <div class="field">
+        <div class="field-meta">
+            <label></label>
+            <div class="field-description">
+                <p class="o-icon-info"><span class="screen-reader-text">More Info</span></p>
+                <p class="field-comment"></p>
+            </div>
+        </div>
     </div>
-    <span class="label"></span>
     <ul class='community-collections'>
     </ul>
 </li>
