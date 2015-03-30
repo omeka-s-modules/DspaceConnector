@@ -33,7 +33,21 @@ class Import extends AbstractJob
         if ($response) {
             $collection = json_decode($response->getBody(), true);
             foreach ($collection['items'] as $itemData) {
-                $this->importItem($itemData['link']);
+                $oresponse = $this->api->search('dspace_items', 
+                                                array('remote_id' => $itemData['id'],
+                                                      'api_url' => $this->apiUrl
+                                                ));
+                $content = $oresponse->getContent();
+                if (count($content) == 0) {
+                    $this->importItem($itemData['link']);
+                } else {
+                    //for now, just update the lastModified on the DspaceItem
+                    //that will give dates to compare if the Omeka Item has lagged
+                    //behind, either in 'created' or, if not null, 'modified'
+                    $dspaceItemId = $content[0]->id();
+                    $updateJson = array('last_modified' => new \DateTime($itemData['lastModified']));
+                    $updateResponse = $this->api->update('dspace_items', $dspaceItemId, $updateJson);
+                }
             }
         }
     }

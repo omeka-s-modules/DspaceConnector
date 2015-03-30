@@ -1,6 +1,7 @@
 <?php 
 namespace DspaceConnector\Api\Adapter\Entity;
 
+use Doctrine\ORM\QueryBuilder;
 use Omeka\Api\Adapter\Entity\AbstractEntityAdapter;
 use Omeka\Api\Request;
 use Omeka\Model\Entity\EntityInterface;
@@ -21,6 +22,24 @@ class DspaceItemAdapter extends AbstractEntityAdapter
     public function getRepresentationClass()
     {
         return 'DspaceConnector\Api\Representation\Entity\DspaceItemRepresentation';
+    }
+    
+    public function buildQuery(QueryBuilder $qb, array $query)
+    {
+        if (isset($query['remote_id'])) {
+            $qb->andWhere($qb->expr()->eq(
+                $this->getEntityClass() . '.remoteId',
+                $this->createNamedParameter($qb, $query['remote_id']))
+            );
+        }
+        
+        if (isset($query['api_url'])) {
+            $qb->andWhere($qb->expr()->eq(
+                $this->getEntityClass() . '.apiUrl',
+                $this->createNamedParameter($qb, $query['api_url']))
+            );
+        }
+        
     }
     
     public function hydrate(Request $request, EntityInterface $entity,

@@ -66,7 +66,7 @@ input#api-url {
         <?php if ($info = $apiElement->getOption('info')): ?>
         <div class="field-description">
             <p class="o-icon-info"><span class="screen-reader-text"><?php echo $escapeHtml($this->translate('More Info')); ?></span></p>
-            <p><?php echo $escapeHtml($info); ?></p>
+            <p class='field-comment'><?php echo $escapeHtml($info); ?></p>
         </div>
         <?php endif; ?>
     </div>
