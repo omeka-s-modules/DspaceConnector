@@ -66,21 +66,6 @@
         template.find('input.collection-link').val(collectionObj.link);
         template.find('input.collection-name').val(collectionObj.name);
         this.append(template);
-        //@TODO avoid this duplication from globals
-        
-        template.find('.o-icon-info').on('mouseover', Omeka.attachInfoPlacement);
-        /*
-        template.find('.o-icon-info').on('mouseover', function(e) {
-            var moreInfoIcon = $(this);
-            var fieldDesc = moreInfoIcon.next('.field-comment');
-            var fieldDescBottom = moreInfoIcon.offset().top + moreInfoIcon.height() + fieldDesc.height() - $(window).scrollTop();
-            if (fieldDescBottom > $(window).height()) {
-                fieldDesc.removeClass('below').addClass('above');
-            } else {
-                fieldDesc.removeClass('above').addClass('below');
-            }
-        });
-        */
     }
 
     function writeCommunityLi(communityObj) {
@@ -96,20 +81,5 @@
         var container = template.find('.community-collections');
         communityObj.collections.forEach(writeCollectionLi, container);
         $('ul.communities.container').append(template);
-        template.find('.o-icon-info').on('mouseover', Omeka.attachInfoPlacement);
-        
-        //@TODO avoid this duplication from globals
-        /*
-        template.find('.o-icon-info').on('mouseover', function(e) {
-            var moreInfoIcon = $(this);
-            var fieldDesc = moreInfoIcon.next('.field-comment');
-            var fieldDescBottom = moreInfoIcon.offset().top + moreInfoIcon.height() + fieldDesc.height() - $(window).scrollTop();
-            if (fieldDescBottom > $(window).height()) {
-                fieldDesc.removeClass('below').addClass('above');
-            } else {
-                fieldDesc.removeClass('above').addClass('below');
-            }
-        });
-        */
     }
 })(jQuery);
