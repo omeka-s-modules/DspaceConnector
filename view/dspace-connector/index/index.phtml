@@ -1,121 +1,89 @@
 <?php
 $this->headScript()->appendFile($this->assetUrl('js/dspace-connector.js', 'DspaceConnector'));
-
+$this->headLink()->appendStylesheet($this->assetUrl('css/dspace-connector.css', 'DspaceConnector'));
 $form->prepare(); 
 $escapeHtml = $this->plugin('escapeHtml');
 $formElement = $this->plugin('formElement');
 $formLabel = $this->plugin('formLabel');
 ?>
 
-<style type='text/css'>
-
-
-ul .description .o-icon-info + p {
-  left: -9999px;
-  padding: 0.375em 0;
-  position: absolute;
-  top: -9999px;
-  width: 100%;
-}
-
-li {
-    border-radius: 0;
-    font-weight: normal;
-    margin: 0 -10px;
-    padding: 0.375em 10px;
-    list-style: none outside none;
-    position: relative;
-}
-
-.description {
-    display: inline-block;
-}
-
-li button {
-    float: right;
-}
-
-#actions {
-
-}
-
-input#api-url {
-    width: inherit;
-}
-
-.inputs {
-    width: none;
-    min-width: 70%;
-}
-
-</style>
-
 <h1><?php echo $escapeHtml($this->translate('DSpace Connector')); ?></h1>
+
+<nav class="section-nav">
+    <ul>
+        <li><a href="#import" class="active"><?php echo $this->translate('Import'); ?></a></li>
+        <li><a href="#past-imports"><?php echo $this->translate('Past Imports'); ?></a></li>
+    </ul>
+</nav>
+
 <?php if (isset($job)): ?>
 <p>Importing <?php echo $collectionName; ?> in job <?php echo $job->getId(); ?></p>
-
-
 <?php endif; ?>
-
-<?php echo $this->form()->openTag($form); ?>
-
-<?php $apiElement = $form->get('api_url'); ?>
-<div class="field">
-    <div class="field-meta">
-        <?php echo $this->formLabel($apiElement); ?>
-        <?php if ($info = $apiElement->getOption('info')): ?>
-        <div class="field-description">
-            <p class="o-icon-info"><span class="screen-reader-text"><?php echo $escapeHtml($this->translate('More Info')); ?></span></p>
-            <p class='field-comment'><?php echo $escapeHtml($info); ?></p>
+<div id="import" class="section active">
+    <?php echo $this->form()->openTag($form); ?>
+    
+    <?php $apiElement = $form->get('api_url'); ?>
+    <div class="field">
+        <div class="field-meta">
+            <?php echo $this->formLabel($apiElement); ?>
+            <?php if ($info = $apiElement->getOption('info')): ?>
+            <div class="field-description">
+                <p class="o-icon-info"><span class="screen-reader-text"><?php echo $escapeHtml($this->translate('More Info')); ?></span></p>
+                <p class='field-comment'><?php echo $escapeHtml($info); ?></p>
+            </div>
+            <?php endif; ?>
         </div>
-        <?php endif; ?>
+        <div class="inputs">
+            <?php echo $this->formElement($apiElement); ?>
+            <span id='actions'>
+                <a class='button get-collections'>Collections</a>
+                <a class='button get-communities'>Communities</a>
+            </span>
+        </div>
+        <?php echo $this->formElementErrors($apiElement, array('class' => 'messages')); ?>
     </div>
-    <div class="inputs">
-        <?php echo $this->formElement($apiElement); ?>
-        <span id='actions'>
-            <a class='button get-collections'>Collections</a>
-            <a class='button get-communities'>Communities</a>
-        </span>
-    </div>
-    <?php echo $this->formElementErrors($apiElement, array('class' => 'messages')); ?>
+    
+    <?php echo $this->partial('common/form-element', array('element' => $form->get('ingest_files')));?>
+    <?php echo $formElement($form->get('csrf')); ?>
+    
+    <ul class="communities container">
+    </ul>
+    
+    <ul class="collections container">
+    </ul>
+    
+    <li class="collection template">
+        <div class="field">
+            <div class="field-meta">
+                <label></label>
+                <div class="field-description">
+                    <p class="o-icon-info"><span class="screen-reader-text">More Info</span></p>
+                    <p class="field-comment"></p>
+                </div>
+            </div>
+            <input type='hidden' name='collection_link' class='collection-link' value='' />
+            <input type='hidden' name='collection_name' class='collection-name' value='' />
+            <button class='import-collection'><?php echo $this->escapeHtml($this->translate('Import Collection')); ?></button>    
+        </div>
+    
+    </li>
+    
+    <li class="community template">
+        <div class="field">
+            <div class="field-meta">
+                <label></label>
+                <div class="field-description">
+                    <p class="o-icon-info"><span class="screen-reader-text">More Info</span></p>
+                    <p class="field-comment"></p>
+                </div>
+            </div>
+        </div>
+        <ul class='community-collections'>
+        </ul>
+    </li>
+    <?php echo $this->form()->closeTag(); ?>
 </div>
 
-<?php echo $this->partial('common/form-element', array('element' => $form->get('ingest_files')));?>
-<?php echo $formElement($form->get('csrf')); ?>
+<div id="past-imports" class="section">
 
-<ul class="communities container">
-</ul>
-
-<ul class="collections container">
-</ul>
-
-<li class="collection template">
-    <div class="field">
-        <div class="field-meta">
-            <label></label>
-            <div class="field-description">
-                <p class="o-icon-info"><span class="screen-reader-text">More Info</span></p>
-                <p class="field-comment"></p>
-            </div>
-        </div>
-        <input type='hidden' name='collection_link' class='collection-link' value='' />
-        <input type='hidden' name='collection_name' class='collection-name' value='' />
-        <button class='import-collection'><?php echo $this->escapeHtml($this->translate('Import Collection')); ?></button>    
-    </div>
-
-</li>
-
-<li class="community template">
-    <div class="field">
-        <div class="field-meta">
-            <label></label>
-            <div class="field-description">
-                <p class="o-icon-info"><span class="screen-reader-text">More Info</span></p>
-                <p class="field-comment"></p>
-            </div>
-        </div>
-    </div>
-    <ul class='community-collections'>
-    </ul>
-</li>
-<?php echo $this->form()->closeTag(); ?>
+</div>
