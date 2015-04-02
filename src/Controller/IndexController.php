@@ -23,10 +23,14 @@ class IndexController extends AbstractActionController
                 $this->messenger()->addError('There was an error during validation');
             }
         }
-        $response = $this->api()->search('jobs', array('class' => 'DspaceConnector\Job\Import'));
-        $view->setVariable('jobs', $response->getContent());
+
         $view->setVariable('form', $form);
         return $view;
+    }
+    
+    public function pastImportsAction()
+    {
+        
     }
     
     public function fetchAction()
