@@ -63,8 +63,11 @@ class Import extends AbstractJob
         if ($this->getArg('ingest_files')) {
             $itemJson = $this->processItemBitstreams($itemArray['bitstreams'], $itemJson);
         }
+        print_r($itemJson);
         $response = $this->api->create('items', $itemJson);
         if ($response->isError()) {
+            echo 'error';
+            print_r( $response->getErrors() );
             throw new Exception\RuntimeException('There was an error during item creation.');
         }
         $itemId = $response->getContent()->id();
@@ -117,7 +120,7 @@ class Import extends AbstractJob
                 'o:type'     => 'url',
                 'o:data'     => json_encode($bitstream),
                 'o:source'   => $this->apiUrl . $bitstream['link'],
-                'ingest_uri' => $this->apiUrl . '/rest' . $bitstream['retrieveLink'],
+                'ingest_url' => $this->apiUrl . '/rest' . $bitstream['retrieveLink'],
                 'dcterms:title' => array(
                     array(
                         '@value' => $bitstream['name'],
