@@ -58,9 +58,9 @@
         template.removeClass('template');
         template.find('label').html(collectionObj.name);
         if (collectionObj.introductoryText == '') {
-            template.find('p.field-comment').html('No information provided');
+            template.find('div.field-description').html('No information provided');
         } else {
-            template.find('p.field-comment').html(collectionObj.introductoryText);
+            template.find('div.field-description').html(collectionObj.introductoryText);
         }
         
         template.find('input.collection-link').val(collectionObj.link);
@@ -73,9 +73,9 @@
         template.removeClass('template');
         template.find('label').html(communityObj.name);
         if (communityObj.introductoryText == '') {
-            template.find('p.field-comment').html('No information provided');
+            template.find('div.field-description').html('No information provided');
         } else {
-            template.find('p.field-comment').html(communityObj.introductoryText);
+            template.find('div.field-description').html(communityObj.introductoryText);
         }
         
         var container = template.find('.community-collections');

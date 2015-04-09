@@ -28,9 +28,9 @@ $formLabel = $this->plugin('formLabel');
             <?php echo $this->formLabel($apiElement); ?>
             <?php if ($info = $apiElement->getOption('info')): ?>
             <a class="expand o-icon-right" aria-label="Expand" href="#"></a>
-                <div class="field-description">
-                    <?php echo $escapeHtml($info); ?>
-                </div>
+            <div class="field-description">
+                <?php echo $escapeHtml($info); ?>
+            </div>
             <?php endif; ?>
         </div>
         <div class="inputs">
@@ -56,9 +56,8 @@ $formLabel = $this->plugin('formLabel');
         <div class="field">
             <div class="field-meta">
                 <label></label>
+                <a class="expand o-icon-right" aria-label="Expand" href="#"></a>
                 <div class="field-description">
-                    <p class="o-icon-info"><span class="screen-reader-text">More Info</span></p>
-                    <p class="field-comment"></p>
                 </div>
             </div>
             <input type='hidden' name='collection_link' class='collection-link' value='' />
@@ -72,9 +71,8 @@ $formLabel = $this->plugin('formLabel');
         <div class="field">
             <div class="field-meta">
                 <label></label>
+                <a class="expand o-icon-right" aria-label="Expand" href="#"></a>
                 <div class="field-description">
-                    <p class="o-icon-info"><span class="screen-reader-text">More Info</span></p>
-                    <p class="field-comment"></p>
                 </div>
             </div>
         </div>
