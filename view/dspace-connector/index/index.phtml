@@ -27,18 +27,18 @@ $formLabel = $this->plugin('formLabel');
         <div class="field-meta">
             <?php echo $this->formLabel($apiElement); ?>
             <?php if ($info = $apiElement->getOption('info')): ?>
-            <div class="field-description">
-                <p class="o-icon-info"><span class="screen-reader-text"><?php echo $escapeHtml($this->translate('More Info')); ?></span></p>
-                <p class='field-comment'><?php echo $escapeHtml($info); ?></p>
-            </div>
+            <a class="expand o-icon-right" aria-label="Expand" href="#"></a>
+                <div class="field-description">
+                    <?php echo $escapeHtml($info); ?>
+                </div>
             <?php endif; ?>
         </div>
         <div class="inputs">
             <?php echo $this->formElement($apiElement); ?>
-            <span id='actions'>
+            <div id='actions'>
                 <a class='button get-collections'>Collections</a>
                 <a class='button get-communities'>Communities</a>
-            </span>
+            </div>
         </div>
         <?php echo $this->formElementErrors($apiElement, array('class' => 'messages')); ?>
     </div>
