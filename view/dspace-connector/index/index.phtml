@@ -1,5 +1,6 @@
 <?php
 $this->headScript()->appendFile($this->assetUrl('js/dspace-connector.js', 'DspaceConnector'));
+$this->headLink()->appendStylesheet($this->assetUrl('css/dspace-connector.css', 'DspaceConnector'));
 $form->prepare(); 
 $escapeHtml = $this->plugin('escapeHtml');
 $formElement = $this->plugin('formElement');

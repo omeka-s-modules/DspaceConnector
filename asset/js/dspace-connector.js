@@ -77,9 +77,10 @@
         } else {
             template.find('th.description').html(communityObj.introductoryText);
         }
+        //$('ul.communities.container').append(template);
+        $('table#collections tbody').append(template);
+        //var container = template.find('.community-collections');
+        communityObj.collections.forEach(writeCollection);
         
-        var container = template.find('.community-collections');
-        communityObj.collections.forEach(writeCollection, container);
-        $('ul.communities.container').append(template);
     }
 })(jQuery);
