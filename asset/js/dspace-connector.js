@@ -15,7 +15,7 @@
                 'type' : 'get',
                 'dataType' : 'json'
             }).done(function(data) {
-                data.forEach(writeCollectionLi, $('ul.collections.container'));
+                data.forEach(writeCollection, $('ul.collections.container'));
                 
 
             }).error(function(data) {
@@ -38,7 +38,7 @@
                 'type' : 'get',
                 'dataType' : 'json'
             }).done(function(data) {
-                data.forEach(writeCommunityLi);
+                data.forEach(writeCommunity);
             }).error(function(data) {
                 alert('Something went wrong.');
             });
@@ -52,34 +52,34 @@
         });
     });
 
-    function writeCollectionLi(collectionObj) {
+    function writeCollection(collectionObj) {
         // this is the container to which to append the LI
-        var template = $('li.collection.template').clone();
+        var template = $('tr.collection.template').clone();
         template.removeClass('template');
-        template.find('label').html(collectionObj.name);
+        template.find('td.name span.name').html(collectionObj.name);
         if (collectionObj.introductoryText == '') {
-            template.find('div.field-description').html('No information provided');
+            template.find('td.description').html('No information provided');
         } else {
-            template.find('div.field-description').html(collectionObj.introductoryText);
+            template.find('td.description').html(collectionObj.introductoryText);
         }
         
         template.find('input.collection-link').val(collectionObj.link);
         template.find('input.collection-name').val(collectionObj.name);
-        this.append(template);
+        $('table#collections tbody').append(template);
     }
 
-    function writeCommunityLi(communityObj) {
-        var template = $('li.community.template').clone();
+    function writeCommunity(communityObj) {
+        var template = $('tr.community.template').clone();
         template.removeClass('template');
-        template.find('label').html(communityObj.name);
+        template.find('th.name').html(communityObj.name);
         if (communityObj.introductoryText == '') {
-            template.find('div.field-description').html('No information provided');
+            template.find('th.description').html('No information provided');
         } else {
-            template.find('div.field-description').html(communityObj.introductoryText);
+            template.find('th.description').html(communityObj.introductoryText);
         }
         
         var container = template.find('.community-collections');
-        communityObj.collections.forEach(writeCollectionLi, container);
+        communityObj.collections.forEach(writeCollection, container);
         $('ul.communities.container').append(template);
     }
 })(jQuery);
