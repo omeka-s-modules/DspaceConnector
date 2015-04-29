@@ -4,14 +4,14 @@ namespace DspaceConnector\Api\Adapter\Entity;
 use Doctrine\ORM\QueryBuilder;
 use Omeka\Api\Adapter\Entity\AbstractEntityAdapter;
 use Omeka\Api\Request;
-use Omeka\Model\Entity\EntityInterface;
+use Omeka\Entity\EntityInterface;
 use Omeka\Stdlib\ErrorStore;
 
 class DspaceItemAdapter extends AbstractEntityAdapter
 {
     public function getEntityClass()
     {
-        return 'DspaceConnector\Model\Entity\DspaceItem';
+        return 'DspaceConnector\Entity\DspaceItem';
     }
     
     public function getResourceName()

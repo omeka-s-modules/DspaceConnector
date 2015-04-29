@@ -1,10 +1,10 @@
 <?php
-namespace DspaceConnector\Model\Entity;
+namespace DspaceConnector\Entity;
 
 use DateTime;
-use Omeka\Model\Entity\AbstractEntity;
-use Omeka\Model\Entity\Job;
-use Omeka\Model\Entity\Item;
+use Omeka\Entity\AbstractEntity;
+use Omeka\Entity\Job;
+use Omeka\Entity\Item;
 
 /**
  * @Entity
@@ -20,14 +20,14 @@ class DspaceItem extends AbstractEntity
     protected $id;
     
     /**
-     * @OneToOne(targetEntity="Omeka\Model\Entity\Item")
+     * @OneToOne(targetEntity="Omeka\Entity\Item")
      * @JoinColumn(nullable=false)
      * @var int
      */
     protected $item;
 
     /**
-     * @ManyToOne(targetEntity="Omeka\Model\Entity\Job")
+     * @ManyToOne(targetEntity="Omeka\Entity\Job")
      * @JoinColumn(nullable=false)
      */
     protected $job;

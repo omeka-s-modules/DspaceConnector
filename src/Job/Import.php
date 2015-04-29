@@ -3,7 +3,7 @@ namespace DspaceConnector\Job;
 
 use Omeka\Job\AbstractJob;
 use Omeka\Job\Exception;
-use DspaceConnector\Model\Entity\DspaceItem;
+use DspaceConnector\Entity\DspaceItem;
 use Zend\Http\Client;
 use SimpleXMLElement;
 

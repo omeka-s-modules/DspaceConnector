@@ -2,7 +2,7 @@
 namespace DspaceConnector;
 
 use Omeka\Module\AbstractModule;
-use Omeka\Model\Entity\Job;
+use Omeka\Entity\Job;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
 class Module extends AbstractModule

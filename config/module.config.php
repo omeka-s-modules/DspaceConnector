@@ -17,7 +17,7 @@ return array(
     ),
     'entity_manager' => array(
         'mapping_classes_paths' => array(
-            OMEKA_PATH . '/module/DspaceConnector/src/Model/Entity',
+            OMEKA_PATH . '/module/DspaceConnector/src/Entity',
         ),
     ),
     'navigation' => array(
