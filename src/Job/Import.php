@@ -32,6 +32,7 @@ class Import extends AbstractJob
         $response = $this->getResponse($collectionLink, 'items');
         if ($response) {
             $collection = json_decode($response->getBody(), true);
+
             foreach ($collection['items'] as $itemData) {
                 $oresponse = $this->api->search('dspace_items', 
                                                 array('remote_id' => $itemData['id'],
@@ -63,7 +64,6 @@ class Import extends AbstractJob
         if ($this->getArg('ingest_files')) {
             $itemJson = $this->processItemBitstreams($itemArray['bitstreams'], $itemJson);
         }
-        print_r($itemJson);
         $response = $this->api->create('items', $itemJson);
         if ($response->isError()) {
             echo 'error';
@@ -134,13 +134,16 @@ class Import extends AbstractJob
 
     public function getResponse($link, $expand = 'all')
     {
+        
+        //work around some dspace api versions reporting RESTapi instead of rest in the link
+        $link = str_replace('RESTapi', 'rest', $link);
         $this->client->setUri($this->apiUrl . $link);
         $this->client->setParameterGet(array('expand' => $expand));
         
         $response = $this->client->send();
         if (!$response->isSuccess()) {
             throw new Exception\RuntimeException(sprintf(
-                'Requested "%s" got "%s".', $url, $response->renderStatusLine()
+                'Requested "%s" got "%s".', $this->apiUrl . $link, $response->renderStatusLine()
             ));
         }
         return $response;

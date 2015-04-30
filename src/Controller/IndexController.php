@@ -49,8 +49,8 @@ class IndexController extends AbstractActionController
         
         $response = $client->send();
         if (!$response->isSuccess()) {
-            throw new Exception\RuntimeException(sprintf(
-                'Requested "%s" got "%s".', $url, $response->renderStatusLine()
+            throw new \RuntimeException(sprintf(
+                'Requested "%s" got "%s".', $dspaceUrl . '/rest/' . $link, $response->renderStatusLine()
             ));
         }
         $view->setVariable('data', $response->getBody());
