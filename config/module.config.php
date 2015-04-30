@@ -25,9 +25,21 @@ return array(
             array(
                 'label'      => 'Dspace Connector',
                 'route'      => 'dspace-connector',
-                'controller' => 'DspaceConnector',
-                'action'     => 'index',
                 'resource'   => 'DspaceConnector\Controller\Index',
+                'pages'      => array(
+                    array(
+                        'label'      => 'Import',
+                        'route'      => 'dspace-connector/default',
+                        'resource'   => 'DspaceConnector\Controller\Index',
+                    ),
+                    array(
+                        'label'      => 'Past Imports',
+                        'route'      => 'dspace-connector/default',
+                        'controller' => 'Index',
+                        'action'     => 'past-imports',
+                        'resource'   => 'DspaceConnector\Controller\Index',
+                    ),
+                ),
             ),
         ),
     ),

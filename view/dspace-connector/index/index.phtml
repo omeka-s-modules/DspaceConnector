@@ -9,13 +9,6 @@ $formLabel = $this->plugin('formLabel');
 
 <h1><?php echo $escapeHtml($this->translate('DSpace Connector')); ?></h1>
 
-<nav class="section-nav">
-    <ul>
-        <li><a href="#import" class="active"><?php echo $this->translate('Import'); ?></a></li>
-        <li><a href="#past-imports"><?php echo $this->translate('Past Imports'); ?></a></li>
-    </ul>
-</nav>
-
 <?php if (isset($job)): ?>
 <p>Importing <?php echo $collectionName; ?> in job <?php echo $job->getId(); ?></p>
 <?php endif; ?>
@@ -54,8 +47,4 @@ $formLabel = $this->plugin('formLabel');
     </table>
 
     <?php echo $this->form()->closeTag(); ?>
-</div>
-
-<div id="past-imports" class="section">
-
 </div>

@@ -81,9 +81,6 @@ class Import extends AbstractJob
                         );
         $response = $this->api->create('dspace_items', $dspaceItemJson);
         if ($response->isError()) {
-            print_r($response->getErrors());
-            echo $response->getStatus();
-            echo 'fail';
             throw new Exception\RuntimeException('There was an error during dspace item creation.');
         }
     }
