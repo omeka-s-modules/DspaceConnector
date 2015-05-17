@@ -12,12 +12,12 @@ return array(
     ),
     'view_manager' => array(
         'template_path_stack'      => array(
-            OMEKA_PATH . '/module/DspaceConnector/view',
+            OMEKA_PATH . '/modules/DspaceConnector/view',
         ),
     ),
     'entity_manager' => array(
         'mapping_classes_paths' => array(
-            OMEKA_PATH . '/module/DspaceConnector/src/Entity',
+            OMEKA_PATH . '/modules/DspaceConnector/src/Entity',
         ),
     ),
     'navigation' => array(
