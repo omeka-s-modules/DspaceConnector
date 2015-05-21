@@ -1,9 +1,9 @@
 <?php
-$this->htmlElement('body')->appendAttribute('class', 'fedora jobs undo');
+$this->htmlElement('body')->appendAttribute('class', 'dspace jobs undo');
 $escape = $this->plugin('escapeHtml');
 ?>
 
-<h1><?php echo $escape($this->translate('Past Fedora Imports')); ?></h1>
+<h1><?php echo $escape($this->translate('Past DSpace Imports')); ?></h1>
 <?php echo $this->pagination(); ?>
 
 <form method='POST'>
