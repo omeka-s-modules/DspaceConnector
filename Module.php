@@ -4,6 +4,7 @@ namespace DspaceConnector;
 use Omeka\Module\AbstractModule;
 use Omeka\Entity\Job;
 use Zend\ServiceManager\ServiceLocatorInterface;
+use Zend\EventManager\SharedEventManagerInterface;
 
 class Module extends AbstractModule
 {
@@ -27,5 +28,36 @@ class Module extends AbstractModule
         $connection->exec("ALTER TABLE dspace_item DROP FOREIGN KEY FK_1C6D63B4BE04EA9;");
         $connection->exec('DROP TABLE dspace_item');
     }
+    
+    public function attachListeners(
+        SharedEventManagerInterface $sharedEventManager,
+        SharedEventManagerInterface $filterManager
+    ) {
+        $sharedEventManager->attach(
+                'Omeka\Controller\Admin\Item',
+                'view.show.after',
+                array($this, 'showSource')
+                );
+    }
+    
+    public function showSource($event) 
+    {
+        $view = $event->getTarget();
+        $item = $view->item;
+        $api = $this->getServiceLocator()->get('Omeka\ApiManager');
+        $response = $api->search('dspace_items', array('item' => $item->id()));
+        if ($response->isError()) {
+
+        }
+        $dspaceItems = $response->getContent();
+        if ($dspaceItems) {
+            $dspaceItem = $dspaceItems[0];
+            $url = $dspaceItem->apiUrl() . '/handle/' . $dspaceItem->handle();
+            echo '<h3>' . $view->translate('Original')  . '</h3>';
+            echo '<p>' . $view->translate('Last Modified') . ' ' . $view->i18n()->dateFormat($dspaceItem->lastModified()) . '</p>';
+            echo '<p><a href="' . $url . '">' . $view->translate('Link') . '</a></p>';
+        }
+    }
+    
 }
 
