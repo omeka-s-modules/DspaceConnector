@@ -40,6 +40,19 @@ class DspaceItemAdapter extends AbstractEntityAdapter
             );
         }
         
+        if (isset($query['job_id'])) {
+            $qb->andWhere($qb->expr()->eq(
+                $this->getEntityClass() . '.job',
+                $this->createNamedParameter($qb, $query['job_id']))
+            );
+        }
+        
+        if (isset($query['item_id'])) {
+            $qb->andWhere($qb->expr()->eq(
+                $this->getEntityClass() . '.item',
+                $this->createNamedParameter($qb, $query['item_id']))
+            );
+        }
     }
     
     public function hydrate(Request $request, EntityInterface $entity,
