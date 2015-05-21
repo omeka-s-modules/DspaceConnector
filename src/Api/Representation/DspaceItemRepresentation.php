@@ -1,7 +1,7 @@
 <?php 
-namespace DspaceConnector\Api\Representation\Entity;
+namespace DspaceConnector\Api\Representation;
 
-use Omeka\Api\Representation\Entity\AbstractEntityRepresentation;
+use Omeka\Api\Representation\AbstractEntityRepresentation;
 
 class DspaceItemRepresentation extends AbstractEntityRepresentation
 {

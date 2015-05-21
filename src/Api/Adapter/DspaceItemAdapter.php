@@ -1,8 +1,8 @@
 <?php 
-namespace DspaceConnector\Api\Adapter\Entity;
+namespace DspaceConnector\Api\Adapter;
 
 use Doctrine\ORM\QueryBuilder;
-use Omeka\Api\Adapter\Entity\AbstractEntityAdapter;
+use Omeka\Api\Adapter\AbstractEntityAdapter;
 use Omeka\Api\Request;
 use Omeka\Entity\EntityInterface;
 use Omeka\Stdlib\ErrorStore;
@@ -21,7 +21,7 @@ class DspaceItemAdapter extends AbstractEntityAdapter
     
     public function getRepresentationClass()
     {
-        return 'DspaceConnector\Api\Representation\Entity\DspaceItemRepresentation';
+        return 'DspaceConnector\Api\Representation\DspaceItemRepresentation';
     }
     
     public function buildQuery(QueryBuilder $qb, array $query)
