@@ -13,11 +13,11 @@ class Undo extends AbstractJob
         $dspaceItems = $response->getContent();
         if ($dspaceItems) {
             foreach ($dspaceItems as $dspaceItem) {
-                $dspaceResponse = $api->delete('dspace_items', array('id' => $dspaceItem->id()));
+                $dspaceResponse = $api->delete('dspace_items', $dspaceItem->id());
                 if ($dspaceResponse->isError()) {
                 }
 
-                $itemResponse = $api->delete('items', array('id' => $dspaceItem->item()->id()));
+                $itemResponse = $api->delete('items', $dspaceItem->item()->id());
                 if ($itemResponse->isError()) {
                 }
             }
