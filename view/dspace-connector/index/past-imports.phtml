@@ -27,6 +27,7 @@ $escape = $this->plugin('escapeHtml');
         <?php foreach ($imports as $import): ?>
         <?php $job = $import->job(); ?>
         <?php $undone = ! is_null($import->undoJob()) ; ?>
+        <?php $undoJob = $import->undoJob(); ?>
         <tr>
             <td><input type='checkbox' name='jobs[]' value='<?php echo $job->id(); ?>' />
             <td><?php echo $job->id(); ?></td>
@@ -43,7 +44,17 @@ $escape = $this->plugin('escapeHtml');
                 <?php echo $this->translate('Updated: ') . $import->updatedCount(); ?>
             </td>
             <td><?php echo $escape($this->i18n()->dateFormat($job->started())); ?></td>
-            <td><?php echo $undone ? $this->translate('Undone') : $job->status(); ?></td>
+            
+            <td>
+            <?php if ($undoJob) {
+                $status = $this->translate('Undone') . ' ' . $escape($this->i18n()->dateFormat($undoJob->ended()));
+                
+            } else {
+                $status = $job->status();
+            } 
+            ?>
+            <?php echo $status; ?>
+            </td>
             <td><?php echo $this->hyperlink($job->owner()->username(), $this->url('admin/id', array('controller' => 'user', 'action' => 'show', 'id' => $job->owner()->id()))); ?></td>
         </tr>
         <?php endforeach; ?>
