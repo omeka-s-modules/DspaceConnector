@@ -31,6 +31,18 @@ class ImportForm extends AbstractForm
                 'info'  => $translator->translate('If checked, original files will be imported into Omeka. Otherwise, derivates will be displayed when possible, with links back to the original file in the repository.')
             )
         ));
+        
+        $this->add(array(
+            'name' => 'comment',
+            'type' => 'textarea',
+            'options' => array(
+                'label' => $translator->translate('Comment'),
+                'info'  => $translator->translate('A note about the purpose or source of this import.')
+            ),
+            'attributes' => array(
+                'id' => 'comment'
+            )
+        ));
     }
     
 }
