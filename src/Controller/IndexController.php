@@ -72,11 +72,10 @@ class IndexController extends AbstractActionController
             'page'       => $page,
             'sort_by'    => $this->params()->fromQuery('sort_by', 'id'),
             'sort_order' => $this->params()->fromQuery('sort_order', 'desc'),
-            'class' => 'DspaceConnector\Job\Import'
         );
-        $response = $this->api()->search('jobs', $query);
+        $response = $this->api()->search('dspace_imports', $query);
         $this->paginator($response->getTotalResults(), $page);
-        $view->setVariable('jobs', $response->getContent());
+        $view->setVariable('imports', $response->getContent());
         return $view;
     }
     

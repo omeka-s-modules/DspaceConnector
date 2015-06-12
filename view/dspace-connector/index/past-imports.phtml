@@ -16,13 +16,17 @@ $escape = $this->plugin('escapeHtml');
                 <th><?php echo $escape($this->translate('Undo?'));?></th>
                 <th><?php echo $this->sortLink($this->translate('Job ID'), 'id');?></th>
                 <th><?php echo $escape($this->translate('Dspace Collection Link'));?></th>
+                <th><?php echo $escape($this->translate('Comment'));?></th>
+                <th><?php echo $escape($this->translate('Items'));?></th>
                 <th><?php echo $escape($this->translate('Date'));?></th>
                 <th><?php echo $escape($this->translate('Status'));?></th>
                 <th><?php echo $escape($this->translate('Owner'));?></th>
             </tr>
         </thead>
         <tbody>
-        <?php foreach ($jobs as $job): ?>
+        <?php foreach ($imports as $import): ?>
+        <?php $job = $import->job(); ?>
+        <?php $undone = ! is_null($import->undoJob()) ; ?>
         <tr>
             <td><input type='checkbox' name='jobs[]' value='<?php echo $job->id(); ?>' />
             <td><?php echo $job->id(); ?></td>
@@ -31,8 +35,15 @@ $escape = $this->plugin('escapeHtml');
                 echo $args['collection_link'];
                 ?>
             </td>
+            <td>
+                <?php echo $import->comment(); ?>
+            </td>
+            <td>
+                <?php echo $this->translate('Added: ') . $import->addedCount(); ?>
+                <?php echo $this->translate('Updated: ') . $import->updatedCount(); ?>
+            </td>
             <td><?php echo $escape($this->i18n()->dateFormat($job->started())); ?></td>
-            <td><?php echo $job->status(); ?></td>
+            <td><?php echo $undone ? $this->translate('Undone') : $job->status(); ?></td>
             <td><?php echo $this->hyperlink($job->owner()->username(), $this->url('admin/id', array('controller' => 'user', 'action' => 'show', 'id' => $job->owner()->id()))); ?></td>
         </tr>
         <?php endforeach; ?>

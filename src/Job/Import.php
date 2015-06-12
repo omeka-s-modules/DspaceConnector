@@ -17,14 +17,31 @@ class Import extends AbstractJob
     
     protected $termIdMap;
     
+    protected $addedCount;
+    
+    protected $updatedCount;
+    
     public function perform()
     {
         $this->api = $this->getServiceLocator()->get('Omeka\ApiManager');
+        $this->addedCount = 0;
+        $this->updatedCount = 0;
         $this->prepareTermIdMap();
         $this->client = $this->getServiceLocator()->get('Omeka\HttpClient');
         $this->client->setHeaders(array('Accept' => 'application/json'));
         $this->apiUrl = $this->getArg('api_url');
         $this->importCollection($this->getArg('collection_link'));
+        $comment = $this->getArg('comment');
+        $dspaceImportJson = array(
+                            'o:job'         => array('o:id' => $this->job->getId()),
+                            'comment'       => $comment,
+                            'added_count'   => $this->addedCount,
+                            'updated_count' => $this->updatedCount
+                          );
+        $response = $this->api->create('dspace_imports', $dspaceImportJson);
+        if ($response->isError()) {
+            echo 'fail creating dspace import';
+        }
     }
 
     public function importCollection($collectionLink)
@@ -55,6 +72,7 @@ class Import extends AbstractJob
 
     public function importItem($itemLink)
     {
+
         $response = $this->getResponse($itemLink, 'metadata,bitstreams');
         if ($response) {
             $itemArray = json_decode($response->getBody(), true);
@@ -64,7 +82,30 @@ class Import extends AbstractJob
         if ($this->getArg('ingest_files')) {
             $itemJson = $this->processItemBitstreams($itemArray['bitstreams'], $itemJson);
         }
-        $response = $this->api->create('items', $itemJson);
+        $dspaceId = $itemArray['id'];
+        //see if the item has already been imported
+        $response = $this->api->search('dspace_items', 
+                                        array(
+                                              'api_url'   => $this->apiUrl,
+                                              'remote_id' => $dspaceId
+                                        ));
+        $content = $response->getContent();
+        if (empty ($content)) {
+            $dspaceItem = false;
+            $omekaItem = false;
+        } else {
+            $dspaceItem = $content[0];
+            $omekaItem = $dspaceItem->item();
+        }
+        
+        if ($omekaItem) {
+            $response = $this->api->update('items', $omekaItem->id(), $itemJson);
+            $this->updatedCount++;
+        } else {
+            $response = $this->api->create('items', $itemJson);
+            $this->addedCount++;
+        }
+        
         if ($response->isError()) {
             echo 'error';
             print_r( $response->getErrors() );

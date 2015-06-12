@@ -2,7 +2,8 @@
 return array(
     'api_adapters' => array(
         'invokables' => array(
-            'dspace_items' => 'DspaceConnector\Api\Adapter\DspaceItemAdapter',
+            'dspace_items'   => 'DspaceConnector\Api\Adapter\DspaceItemAdapter',
+            'dspace_imports' => 'DspaceConnector\Api\Adapter\DspaceImportAdapter'
         ),
     ),
     'controllers' => array(
