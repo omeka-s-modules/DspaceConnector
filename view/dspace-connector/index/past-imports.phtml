@@ -26,7 +26,6 @@ $escape = $this->plugin('escapeHtml');
         <tbody>
         <?php foreach ($imports as $import): ?>
         <?php $job = $import->job(); ?>
-        <?php $undone = ! is_null($import->undoJob()) ; ?>
         <?php $undoJob = $import->undoJob(); ?>
         <tr>
             <td><input type='checkbox' name='jobs[]' value='<?php echo $job->id(); ?>' />
