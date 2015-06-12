@@ -14,7 +14,7 @@ $escape = $this->plugin('escapeHtml');
         <thead>
             <tr>
                 <th><?php echo $escape($this->translate('Undo?'));?></th>
-                <th><?php echo $escape($this->translate('Job ID'));?></th>
+                <th><?php echo $this->sortLink($this->translate('Job ID'), 'id');?></th>
                 <th><?php echo $escape($this->translate('Dspace Collection Link'));?></th>
                 <th><?php echo $escape($this->translate('Date'));?></th>
                 <th><?php echo $escape($this->translate('Status'));?></th>
