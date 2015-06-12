@@ -25,6 +25,7 @@ $formLabel = $this->plugin('formLabel');
 
     <?php echo $this->formElementErrors($apiElement, array('class' => 'messages')); ?>
     <?php echo $this->formField($form->get('ingest_files')); ?>
+    <?php echo $this->formField($form->get('comment')); ?>
     <?php echo $formElement($form->get('csrf')); ?>
     
     <table id="collections">
