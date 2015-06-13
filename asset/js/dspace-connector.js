@@ -62,7 +62,9 @@
         } else {
             template.find('td.description').html(collectionObj.introductoryText);
         }
-        
+        if (true) {
+            template.addClass('in-community');
+        }
         template.find('input.collection-link').val(collectionObj.link);
         template.find('input.collection-name').val(collectionObj.name);
         $('table#collections tbody').append(template);

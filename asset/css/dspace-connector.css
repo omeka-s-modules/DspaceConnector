@@ -1,3 +1,8 @@
 th.description p {
     margin: 0px;
 }
+
+tr.in-community {
+    position: relative;
+    left: 2%;
+}
