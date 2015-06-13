@@ -15,9 +15,8 @@
                 'type' : 'get',
                 'dataType' : 'json'
             }).done(function(data) {
+                data = JSON.parse(data.data);
                 data.forEach(writeCollection, $('ul.collections.container'));
-                
-
             }).error(function(data) {
                 alert('Something went wrong.');
             });
@@ -38,6 +37,7 @@
                 'type' : 'get',
                 'dataType' : 'json'
             }).done(function(data) {
+                data = JSON.parse(data.data);
                 data.forEach(writeCommunity);
             }).error(function(data) {
                 alert('Something went wrong.');

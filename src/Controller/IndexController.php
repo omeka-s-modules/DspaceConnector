@@ -4,6 +4,7 @@ namespace DspaceConnector\Controller;
 use DspaceConnector\Form\ImportForm;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
+use Zend\View\Model\JsonModel;
 
 class IndexController extends AbstractActionController
 {
@@ -31,7 +32,7 @@ class IndexController extends AbstractActionController
     
     public function fetchAction()
     {
-        $view = new ViewModel;
+        $view = new JsonModel;
         $params = $this->params()->fromQuery();
         $dspaceUrl = $params['dspaceUrl'];
         $link = $params['link'];
@@ -54,7 +55,6 @@ class IndexController extends AbstractActionController
             ));
         }
         $view->setVariable('data', $response->getBody());
-        $view->setTerminal(true);
         return $view;
     }
     

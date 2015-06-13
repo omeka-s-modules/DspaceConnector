@@ -15,6 +15,9 @@ return array(
         'template_path_stack'      => array(
             OMEKA_PATH . '/modules/DspaceConnector/view',
         ),
+        'strategies' => array(
+            'ViewJsonStrategy',
+        ),
     ),
     'entity_manager' => array(
         'mapping_classes_paths' => array(
