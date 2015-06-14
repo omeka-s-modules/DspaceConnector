@@ -254,20 +254,26 @@ class Import extends AbstractJob
         }
     }
     
-    protected function setItemSetId()
+    protected function setItemSetId($collection)
     {
         $itemSetId = $this->getArg('itemSet', false);
         if ($itemSetId == 'new') {
-            $itemSet = $this->createItemSet();
+            $itemSet = $this->createItemSet($collection);
             $this->itemSetId = $itemSet->id();
         } else {
             $this->itemSetId = $itemSetId; 
         }
     }
     
-    protected function createItemSet()
+    protected function createItemSet($collection)
     {
         $itemSetData = array();
+        $titlePropId = $this->termIdMap['dcterms:title'];
+        $descriptionPropId = $this->termIdMap['dcterms:description'];
+        $rightsPropId = $this->termIdMap['dcterms:rights'];
+        $licensePropId = $this->termIdMap['dcterms:license'];
+        $itemSetData[$titlePropId] = array();
+        $itemSetData
         $response = $this->api->create('item_sets', $itemSetData);
         return $response->getContent();
     }
