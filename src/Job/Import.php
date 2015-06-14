@@ -21,6 +21,8 @@ class Import extends AbstractJob
     
     protected $updatedCount;
     
+    protected $itemSetId;
+    
     public function perform()
     {
         $this->api = $this->getServiceLocator()->get('Omeka\ApiManager');
@@ -49,7 +51,9 @@ class Import extends AbstractJob
         $response = $this->getResponse($collectionLink, 'items');
         if ($response) {
             $collection = json_decode($response->getBody(), true);
-
+            //set the item set it. called here so that, if a new item set needs
+            //to be created from the collection data, I have the data to do so
+            $this->setItemSetId($collection);
             foreach ($collection['items'] as $itemData) {
                 $oresponse = $this->api->search('dspace_items', 
                                                 array('remote_id' => $itemData['id'],
@@ -78,6 +82,9 @@ class Import extends AbstractJob
             $itemArray = json_decode($response->getBody(), true);
         }
         $itemJson = array();
+        if ($this->itemSetId) {
+            $itemJson['o:item_set'] = array(array('o:id' => $this->itemSetId));
+        }
         $itemJson = $this->processItemMetadata($itemArray['metadata'], $itemJson);
         if ($this->getArg('ingest_files')) {
             $itemJson = $this->processItemBitstreams($itemArray['bitstreams'], $itemJson);
@@ -244,6 +251,24 @@ class Import extends AbstractJob
         foreach ($properties as $property) {
             $term = "bibo:" . $property->localName();
             $this->termIdMap[$term] = $property->id();
-        }        
+        }
+    }
+    
+    protected function setItemSetId()
+    {
+        $itemSetId = $this->getArg('itemSet', false);
+        if ($itemSetId == 'new') {
+            $itemSet = $this->createItemSet();
+            $this->itemSetId = $itemSet->id();
+        } else {
+            $this->itemSetId = $itemSetId; 
+        }
+    }
+    
+    protected function createItemSet()
+    {
+        $itemSetData = array();
+        $response = $this->api->create('item_sets', $itemSetData);
+        return $response->getContent();
     }
 }

@@ -32,6 +32,37 @@ class ImportForm extends AbstractForm
             )
         ));
         
+        $serviceLocator = $this->getServiceLocator();
+        $auth = $serviceLocator->get('Omeka\AuthenticationService');
+        
+        $itemSetSelect = new ResourceSelect($serviceLocator);
+        
+        
+        $itemSetSelect->setName('itemSet')
+            ->setLabel('Import into')
+            ->setOption('info', $translator->translate('Optional. Import items into this item set.'))
+            ->setEmptyOption('Select Item Set...')
+            ->setResourceValueOptions(
+                'item_sets',
+                array('owner_id' => $auth->getIdentity()),
+                function ($itemSet, $serviceLocator) {
+                    return $itemSet->displayTitle('[no title]');
+                }
+            );
+        //slightly weird resetting of the values to add the create/update item set option to what
+        //ResourceSelect builds for me
+        $valueOptions = $itemSetSelect->getValueOptions();
+        $valueOptions = array('new' => $translator->translate('Create or update from DSpace Collection')) + $valueOptions;
+        $itemSetSelect->setValueOptions($valueOptions);
+
+        $this->add($itemSetSelect);
+        
+        $inputFilter = $this->getInputFilter();
+        $inputFilter->add(array(
+            'name' => 'itemSet',
+            'required' => false,
+        ));
+        
         $this->add(array(
             'name' => 'comment',
             'type' => 'textarea',
