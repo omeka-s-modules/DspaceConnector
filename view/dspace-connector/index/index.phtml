@@ -5,6 +5,8 @@ $form->prepare();
 $escapeHtml = $this->plugin('escapeHtml');
 $formElement = $this->plugin('formElement');
 $formLabel = $this->plugin('formLabel');
+$fetchUrl = $this->url('dspace-connector/default',
+                         array('controller' => 'index',  'action' => 'fetch'));
 ?>
 
 <h1><?php echo $escapeHtml($this->translate('DSpace Connector')); ?></h1>
@@ -19,8 +21,8 @@ $formLabel = $this->plugin('formLabel');
     
     <?php echo $this->formField($apiElement) ; ?>
     <div id='actions'>
-        <a class='button get-collections'><?php echo $this->translate("Get Collections"); ?></a>
-        <a class='button get-communities'><?php echo $this->translate("Get Communities"); ?></a>
+        <a class='button get-collections' data-fetch-url='<?php echo $fetchUrl; ?>'><?php echo $this->translate("Get Collections"); ?></a>
+        <a class='button get-communities' data-fetch-url='<?php echo $fetchUrl; ?>'><?php echo $this->translate("Get Communities"); ?></a>
     </div>
 
     <?php echo $this->formElementErrors($apiElement, array('class' => 'messages')); ?>
@@ -50,10 +52,3 @@ $formLabel = $this->plugin('formLabel');
 
     <?php echo $this->form()->closeTag(); ?>
 </div>
-
-<script type='text/javascript'>
-var fetchUrl = "<?php echo $this->escapeJs($this->url('dspace-connector/default', 
-                             array('controller' => 'index',  'action' => 'fetch'))); ?>";
-
-Omeka.DspaceConnector.prepare(fetchUrl);
-</script>

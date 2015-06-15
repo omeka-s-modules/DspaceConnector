@@ -1,6 +1,4 @@
-Omeka.DspaceConnector = {};
-Omeka.DspaceConnector.prepare = function (fetchUrl) {
-    $ = jQuery;
+(function ($) {
     $(document).ready(function() {
         $('a.get-collections').on('click', function(e) {
             $('ul.container').empty();
@@ -11,11 +9,12 @@ Omeka.DspaceConnector.prepare = function (fetchUrl) {
                 return;
             }
             $.ajax({
-                'url'  : fetchUrl,
+                'url'  : $(this).data('fetch-url'),
                 'data' : {'link' : 'collections', 'dspaceUrl' : dspaceUrl },
                 'type' : 'get',
                 'dataType' : 'json'
             }).done(function(data) {
+                $('table#collections').removeClass('communities');
                 data = JSON.parse(data.data);
                 data.forEach(writeCollection, $('ul.collections.container'));
             }).error(function(data) {
@@ -32,11 +31,12 @@ Omeka.DspaceConnector.prepare = function (fetchUrl) {
                 return;
             }
             $.ajax({
-                'url'  : fetchUrl,
+                'url'  : $(this).data('fetch-url'),
                 'data' : {'link' : 'communities', 'dspaceUrl' : dspaceUrl, 'expand' : 'collections' },
                 'type' : 'get',
                 'dataType' : 'json'
             }).done(function(data) {
+                $('table#collections').addClass('communities');
                 data = JSON.parse(data.data);
                 data.forEach(writeCommunity);
             }).error(function(data) {
@@ -62,7 +62,8 @@ Omeka.DspaceConnector.prepare = function (fetchUrl) {
         } else {
             template.find('td.description').html(collectionObj.introductoryText);
         }
-        if (true) {
+        var inCommunity = $('table#collections').hasClass('communities');
+        if (inCommunity) {
             template.addClass('in-community');
         }
         template.find('input.collection-link').val(collectionObj.link);
@@ -83,4 +84,4 @@ Omeka.DspaceConnector.prepare = function (fetchUrl) {
         communityObj.collections.forEach(writeCollection);
         
     }
-};
+})(jQuery);
