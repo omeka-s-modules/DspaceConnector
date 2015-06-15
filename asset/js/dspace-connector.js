@@ -10,9 +10,8 @@ Omeka.DspaceConnector.prepare = function (fetchUrl) {
                 alert('Try again with the dspace url');
                 return;
             }
-            var url = fetchUrl;
             $.ajax({
-                'url'  : url,
+                'url'  : fetchUrl,
                 'data' : {'link' : 'collections', 'dspaceUrl' : dspaceUrl },
                 'type' : 'get',
                 'dataType' : 'json'
@@ -32,9 +31,8 @@ Omeka.DspaceConnector.prepare = function (fetchUrl) {
                 alert('Try again with the dspace url');
                 return;
             }
-            var url = fetchUrl;
             $.ajax({
-                'url'  : url,
+                'url'  : fetchUrl,
                 'data' : {'link' : 'communities', 'dspaceUrl' : dspaceUrl, 'expand' : 'collections' },
                 'type' : 'get',
                 'dataType' : 'json'
