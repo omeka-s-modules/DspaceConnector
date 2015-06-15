@@ -1,4 +1,6 @@
-(function($) {
+Omeka.DspaceConnector = {};
+Omeka.DspaceConnector.prepare = function (fetchUrl) {
+    $ = jQuery;
     $(document).ready(function() {
         $('a.get-collections').on('click', function(e) {
             $('ul.container').empty();
@@ -8,7 +10,7 @@
                 alert('Try again with the dspace url');
                 return;
             }
-            var url = dspaceConnectorFetchUrl();
+            var url = fetchUrl;
             $.ajax({
                 'url'  : url,
                 'data' : {'link' : 'collections', 'dspaceUrl' : dspaceUrl },
@@ -30,7 +32,7 @@
                 alert('Try again with the dspace url');
                 return;
             }
-            var url = dspaceConnectorFetchUrl();
+            var url = fetchUrl;
             $.ajax({
                 'url'  : url,
                 'data' : {'link' : 'communities', 'dspaceUrl' : dspaceUrl, 'expand' : 'collections' },
@@ -83,4 +85,4 @@
         communityObj.collections.forEach(writeCollection);
         
     }
-})(jQuery);
+};

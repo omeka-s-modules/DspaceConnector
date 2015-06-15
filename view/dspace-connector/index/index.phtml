@@ -52,10 +52,8 @@ $formLabel = $this->plugin('formLabel');
 </div>
 
 <script type='text/javascript'>
-function dspaceConnectorFetchUrl() {
-    var url = "<?php echo $this->escapeJs($this->url('dspace-connector/default', 
-                                 array('controller' => 'index',  'action' => 'fetch'))); ?>";
+var fetchUrl = "<?php echo $this->escapeJs($this->url('dspace-connector/default', 
+                             array('controller' => 'index',  'action' => 'fetch'))); ?>";
 
-    return url;
-}
+Omeka.DspaceConnector.prepare(fetchUrl);
 </script>
