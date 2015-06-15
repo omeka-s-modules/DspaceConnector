@@ -8,7 +8,7 @@
                 alert('Try again with the dspace url');
                 return;
             }
-            var url = 'dspace-connector/index/fetch';
+            var url = dspaceConnectorFetchUrl();
             $.ajax({
                 'url'  : url,
                 'data' : {'link' : 'collections', 'dspaceUrl' : dspaceUrl },
@@ -30,7 +30,7 @@
                 alert('Try again with the dspace url');
                 return;
             }
-            var url = 'dspace-connector/index/fetch';
+            var url = dspaceConnectorFetchUrl();
             $.ajax({
                 'url'  : url,
                 'data' : {'link' : 'communities', 'dspaceUrl' : dspaceUrl, 'expand' : 'collections' },
