@@ -54,7 +54,7 @@ $escape = $this->plugin('escapeHtml');
             ?>
             <?php echo $status; ?>
             </td>
-            <td><?php echo $this->hyperlink($job->owner()->username(), $this->url('admin/id', array('controller' => 'user', 'action' => 'show', 'id' => $job->owner()->id()))); ?></td>
+            <td><?php echo $this->hyperlink($job->owner()->name(), $this->url('admin/id', array('controller' => 'user', 'action' => 'show', 'id' => $job->owner()->id()))); ?></td>
         </tr>
         <?php endforeach; ?>
         </tbody>
