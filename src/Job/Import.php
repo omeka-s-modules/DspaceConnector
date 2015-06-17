@@ -43,7 +43,9 @@ class Import extends AbstractJob
         $response = $this->api->create('dspace_imports', $dspaceImportJson);
         if ($response->isError()) {
             echo 'fail creating dspace import';
+            throw new \Exception('fail creating dspace import');
         }
+        
     }
 
     public function importCollection($collectionLink)
@@ -60,16 +62,7 @@ class Import extends AbstractJob
                                                       'api_url' => $this->apiUrl
                                                 ));
                 $content = $oresponse->getContent();
-                if (count($content) == 0) {
-                    $this->importItem($itemData['link']);
-                } else {
-                    //for now, just update the lastModified on the DspaceItem
-                    //that will give dates to compare if the Omeka Item has lagged
-                    //behind, either in 'created' or, if not null, 'modified'
-                    $dspaceItemId = $content[0]->id();
-                    $updateJson = array('last_modified' => new \DateTime($itemData['lastModified']));
-                    $updateResponse = $this->api->update('dspace_items', $dspaceItemId, $updateJson);
-                }
+                $this->importItem($itemData['link']);
             }
         }
     }
@@ -118,6 +111,7 @@ class Import extends AbstractJob
             print_r( $response->getErrors() );
             throw new Exception\RuntimeException('There was an error during item creation.');
         }
+        
         $itemId = $response->getContent()->id();
         $dspaceItemJson = array(
                             'o:job'     => array('o:id' => $this->job->getId()),
@@ -127,7 +121,13 @@ class Import extends AbstractJob
                             'handle'    => $itemArray['handle'],
                             'last_modified' => new \DateTime($itemArray['lastModified'])
                         );
-        $response = $this->api->create('dspace_items', $dspaceItemJson);
+        
+        if ($dspaceItem) {
+            $response = $this->api->update('dspace_items', $dspaceItem->id(), $dspaceItemJson);
+        } else {
+            $response = $this->api->create('dspace_items', $dspaceItemJson);
+        }
+        
         if ($response->isError()) {
             throw new Exception\RuntimeException('There was an error during dspace item creation.');
         }
@@ -272,8 +272,8 @@ class Import extends AbstractJob
         $descriptionPropId = $this->termIdMap['dcterms:description'];
         $rightsPropId = $this->termIdMap['dcterms:rights'];
         $licensePropId = $this->termIdMap['dcterms:license'];
-        $itemSetData[$titlePropId] = array();
-        $itemSetData
+        //$itemSetData[$titlePropId] = array();
+        
         $response = $this->api->create('item_sets', $itemSetData);
         return $response->getContent();
     }
