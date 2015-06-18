@@ -97,7 +97,7 @@ class Import extends AbstractJob
             $dspaceItem = $content[0];
             $omekaItem = $dspaceItem->item();
         }
-        
+        print_r($itemJson);
         if ($omekaItem) {
             $response = $this->api->update('items', $omekaItem->id(), $itemJson);
             $this->updatedCount++;
@@ -272,8 +272,27 @@ class Import extends AbstractJob
         $descriptionPropId = $this->termIdMap['dcterms:description'];
         $rightsPropId = $this->termIdMap['dcterms:rights'];
         $licensePropId = $this->termIdMap['dcterms:license'];
-        //$itemSetData[$titlePropId] = array();
+        $itemSetData['dcterms:title'] = array(
+                array('@value' => $collection['name'], 
+                      'property_id' => $this->termIdMap['dcterms:title']
+                ));
+        $itemSetData['dcterms:license'] = array(
+                array('@value' => $collection['license'], 
+                      'property_id' => $this->termIdMap['dcterms:license']
+                ));
         
+        $itemSetData['dcterms:rights'] = array(
+                array('@value' => $collection['copyrightText'], 
+                      'property_id' => $this->termIdMap['dcterms:rights']
+                ));
+        
+        $itemSetData['dcterms:description'] = array(
+                array('@value' => $collection['shortDescription'], 
+                      'property_id' => $this->termIdMap['dcterms:description']
+                ),
+                array('@value' => $collection['introductoryText'], 
+                      'property_id' => $this->termIdMap['dcterms:description']
+                ));
         $response = $this->api->create('item_sets', $itemSetData);
         return $response->getContent();
     }
