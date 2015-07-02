@@ -28,17 +28,17 @@ return array(
         'admin' => array(
             array(
                 'label'      => 'Dspace Connector',
-                'route'      => 'dspace-connector',
+                'route'      => 'admin/dspace-connector',
                 'resource'   => 'DspaceConnector\Controller\Index',
                 'pages'      => array(
                     array(
                         'label'      => 'Import',
-                        'route'      => 'dspace-connector/default',
+                        'route'      => 'admin/dspace-connector',
                         'resource'   => 'DspaceConnector\Controller\Index',
                     ),
                     array(
                         'label'      => 'Past Imports',
-                        'route'      => 'dspace-connector/default',
+                        'route'      => 'admin/dspace-connector/past-imports',
                         'controller' => 'Index',
                         'action'     => 'past-imports',
                         'resource'   => 'DspaceConnector\Controller\Index',
@@ -49,39 +49,41 @@ return array(
     ),
     'router' => array(
         'routes' => array(
-            'dspace-connector' => array(
-                'type' => 'Literal',
-                'options' => array(
-                    'route' => '/admin/dspace-connector',
-                    'defaults' => array(
-                        '__NAMESPACE__' => 'DspaceConnector\Controller',
-                        'controller'    => 'Index',
-                        'action'        => 'index',
-                    ),
-                ),
-                'may_terminate' => true,
+            'admin' => array(
                 'child_routes' => array(
-                    'default' => array(
-                        'type' => 'Segment',
+                    'dspace-connector' => array(
+                        'type'    => 'Literal',
                         'options' => array(
-                            'route' => '/[:controller[/:action]]',
-                            'constraints' => array(
-                                'controller' => '[a-zA-Z][a-zA-Z0-9_-]*',
-                                'action'     => '[a-zA-Z][a-zA-Z0-9_-]*',
+                            'route'    => '/dspace-connector',
+                            'defaults' => array(
+                                '__NAMESPACE__' => 'DspaceConnector\Controller',
+                                'controller'    => 'Index',
+                                'action'        => 'index',
                             ),
                         ),
-                    ),
-                    'id' => array(
-                        'type' => 'Segment',
-                        'options' => array(
-                            'route' => '/:controller/:id[/[:action]]',
-                            'constraints' => array(
-                                'controller' => '[a-zA-Z][a-zA-Z0-9_-]*',
-                                'action'     => '[a-zA-Z][a-zA-Z0-9_-]*',
-                                'id'         => '\d+',
+                        'may_terminate' => true,
+                        'child_routes' => array(
+                            'past-imports' => array(
+                                'type'    => 'Literal',
+                                'options' => array(
+                                    'route' => '/past-imports',
+                                    'defaults' => array(
+                                        '__NAMESPACE__' => 'DspaceConnector\Controller',
+                                        'controller'    => 'Index',
+                                        'action'        => 'past-imports',
+                                    ),
+                                )
                             ),
-                            'defaults' => array(
-                                'action' => 'show',
+                            'fetch' => array(
+                                'type'    => 'Literal',
+                                'options' => array(
+                                    'route' => '/fetch',
+                                    'defaults' => array(
+                                        '__NAMESPACE__' => 'DspaceConnector\Controller',
+                                        'controller'    => 'Index',
+                                        'action'        => 'fetch',
+                                    ),
+                                )
                             ),
                         ),
                     ),
