@@ -7,20 +7,15 @@ class DspaceImportRepresentation extends AbstractEntityRepresentation
 {
     public function getJsonLd()
     {
+        if($this->undoJob()) {
+            $undo_job = $this->undoJob()->getReference();
+        }
         return array(
-            'added_count' => $this->getData()->getAddedCount(),
-            'updated_count' => $this->getData()->getUpdatedCount(),
-            'comment'        => $this->getData()->getComment(),
-            'o:job'          => $this->getReference(
-                null,
-                $this->getData()->getJob(),
-                $this->getAdapter('jobs')
-            ),
-            'o:undo_job'     => $this->getReference(
-                null,
-                $this->getData()->getUndoJob(),
-                $this->getAdapter('jobs')
-            ),
+            'added_count' => $this->addedCount(),
+            'updated_count' => $this->updatedCount(),
+            'comment'        => $this->comment(),
+            'o:job'          => $this->getReference(),
+            'o:undo_job'     => $undo_job
         );
     }
     
