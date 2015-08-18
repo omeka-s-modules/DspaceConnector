@@ -53,22 +53,34 @@ class Import extends AbstractJob
         $response = $this->getResponse($collectionLink, 'items');
         if ($response) {
             $collection = json_decode($response->getBody(), true);
-            //set the item set it. called here so that, if a new item set needs
+            //set the item set id. called here so that, if a new item set needs
             //to be created from the collection data, I have the data to do so
             $this->setItemSetId($collection);
+            $toCreate = array();
+            $toUpdate = array();
             foreach ($collection['items'] as $itemData) {
+                $resourceJson = $this->buildResourceJson($itemData['link']);
+                
                 $oresponse = $this->api->search('dspace_items', 
                                                 array('remote_id' => $itemData['id'],
                                                       'api_url' => $this->apiUrl
                                                 ));
                 $content = $oresponse->getContent();
-                $this->importItem($itemData['link']);
+                
+                if( empty($content)) {
+                    $toCreate[$itemData['id']] = $resourceJson;
+                } else {
+                    $importedItemId = $content[0]->item()->id();
+                    $toUpdate[$importedItemId] = $resourceJson;
+                }
             }
-        }
-    }
+            $this->createItems($toCreate);
+            $this->updateItems($toUpdate);
+         }
+     }
 
-    public function importItem($itemLink)
-    {
+      public function buildResourceJson($itemLink)
+      {
 
         $response = $this->getResponse($itemLink, 'metadata,bitstreams');
         if ($response) {
@@ -79,58 +91,16 @@ class Import extends AbstractJob
             $itemJson['o:item_set'] = array(array('o:id' => $this->itemSetId));
         }
         $itemJson = $this->processItemMetadata($itemArray['metadata'], $itemJson);
+        //stuff some data that's not relevant to Omeka onto the JSON array
+        //for later reuse during create and update operations
+        $itemJson['remote_id'] = $itemArray['id'];
+        $itemJson['handle'] = $itemArray['handle'];
+        $itemJson['lastModified'] = $itemArray['lastModified'];
+        
         if ($this->getArg('ingest_files')) {
             $itemJson = $this->processItemBitstreams($itemArray['bitstreams'], $itemJson);
         }
-        $dspaceId = $itemArray['id'];
-        //see if the item has already been imported
-        $response = $this->api->search('dspace_items', 
-                                        array(
-                                              'api_url'   => $this->apiUrl,
-                                              'remote_id' => $dspaceId
-                                        ));
-        $content = $response->getContent();
-        if (empty ($content)) {
-            $dspaceItem = false;
-            $omekaItem = false;
-        } else {
-            $dspaceItem = $content[0];
-            $omekaItem = $dspaceItem->item();
-        }
-        print_r($itemJson);
-        if ($omekaItem) {
-            $response = $this->api->update('items', $omekaItem->id(), $itemJson);
-            $this->updatedCount++;
-        } else {
-            $response = $this->api->create('items', $itemJson);
-            $this->addedCount++;
-        }
-        
-        if ($response->isError()) {
-            echo 'error';
-            print_r( $response->getErrors() );
-            throw new Exception\RuntimeException('There was an error during item creation.');
-        }
-        
-        $itemId = $response->getContent()->id();
-        $dspaceItemJson = array(
-                            'o:job'     => array('o:id' => $this->job->getId()),
-                            'o:item'    => array('o:id' => $itemId),
-                            'api_url'   => $this->apiUrl,
-                            'remote_id' => $itemArray['id'],
-                            'handle'    => $itemArray['handle'],
-                            'last_modified' => new \DateTime($itemArray['lastModified'])
-                        );
-        
-        if ($dspaceItem) {
-            $response = $this->api->update('dspace_items', $dspaceItem->id(), $dspaceItemJson);
-        } else {
-            $response = $this->api->create('dspace_items', $dspaceItemJson);
-        }
-        
-        if ($response->isError()) {
-            throw new Exception\RuntimeException('There was an error during dspace item creation.');
-        }
+        return $itemJson;
     }
     
     public function processItemMetadata($itemMetadataArray, $itemJson)
@@ -295,5 +265,50 @@ class Import extends AbstractJob
                 ));
         $response = $this->api->create('item_sets', $itemSetData);
         return $response->getContent();
+    }
+    
+    protected function createItems($toCreate) 
+    {
+        $createResponse = $this->api->batchCreate('items', $toCreate, array(), true);
+        $this->addedCount = $this->addedCount + count($createResponse);
+        
+
+        $createImportRecordsJson = array();
+        $createContent = $createResponse->getContent();
+        foreach($createContent as $id=>$resourceReference) {
+            //get the original data used for individual item creation
+            $toCreateData = $toCreate[$id];
+            
+            $dspaceItemJson = array(
+                            'o:job'     => array('o:id' => $this->job->getId()),
+                            'o:item'    => array('o:id' => $resourceReference->id()),
+                            'api_url'   => $this->apiUrl,
+                            'remote_id' => $toCreateData['remote_id'],
+                            'handle'    => $toCreateData['handle'],
+                            'last_modified' => new \DateTime($toCreateData['lastModified'])
+                        );
+            $createImportRecordsJson[] = $dspaceItemJson;
+        }
+        
+        $createImportRecordResponse = $this->api->batchCreate('dspace_items', $createImportRecordsJson, array(), true);
+    }
+    
+    protected function updateItems($toUpdate) 
+    {
+        //  batchUpdate would be nice, but complexities abound. See https://github.com/omeka/omeka-s/issues/326
+        $updateResponses = array();
+        foreach ($toUpdate as $importRecordId=>$itemJson) {
+            $updateResponses[$importRecordId] = $this->api->update('items', $itemJson['id'], $itemJson)[0];
+        }
+        
+        foreach ($updateResponses as $importRecordId => $resourceReference) {
+            $toUpdateData = $toUpdate[$importRecordId];
+            $dspaceItemJson = array(
+                            'o:job'     => array('o:id' => $this->job->getId()),
+                            'remote_id' => $toCreateData['remote_id'],
+                            'last_modified' => new \DateTime($toUpdateData['lastModified'])
+                        );
+            $updateImportRecordResponse = $this->api->update('dspace_items', $importRecordId, $importRecordUpdateJson);
+        }
     }
 }
