@@ -40,7 +40,7 @@
                 data = JSON.parse(data.data);
                 data.forEach(writeCommunity);
             }).error(function(data) {
-                alert('Something went wrong.');
+                alert('Something went wrong. One possibility is that the DSpace instance is not using version 4 or higher.');
             });
         });
 

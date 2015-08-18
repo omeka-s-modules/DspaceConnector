@@ -16,7 +16,7 @@ class ImportForm extends AbstractForm
             'type' => 'text',
             'options' => array(
                 'label' => $translator->translate('DSpace site URL'),
-                'info'  => $translator->translate('The URL of the repository you want to connect to. Fill this in, then click "Get Collections" or "Get Communities" below to browse what you want to import.')
+                'info'  => $translator->translate('The URL of the repository you want to connect to. (DSpace 4.x or higher) Fill this in, then click "Get Collections" or "Get Communities" below to browse what you want to import.')
             ),
             'attributes' => array(
                 'id' => 'api-url'
