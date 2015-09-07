@@ -1,5 +1,14 @@
 (function ($) {
     $(document).ready(function() {
+        
+        //disable hitting enter submitting the form
+        $(window).keydown(function(event){
+            if(event.keyCode == 13) {
+              event.preventDefault();
+              return false;
+            }
+        });
+        
         $('a.get-collections').on('click', function(e) {
             $('ul.container').empty();
             e.preventDefault();
@@ -18,6 +27,7 @@
                 data = JSON.parse(data.data);
                 data.forEach(writeCollection, $('ul.collections.container'));
             }).error(function(data) {
+                console.log(data);
                 alert('Something went wrong.');
             });
         });
