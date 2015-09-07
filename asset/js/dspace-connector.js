@@ -1,6 +1,5 @@
 (function ($) {
     $(document).ready(function() {
-        
         //disable hitting enter submitting the form
         $(window).keydown(function(event){
             if(event.keyCode == 13) {
@@ -8,7 +7,7 @@
               return false;
             }
         });
-        
+
         $('a.get-collections').on('click', function(e) {
             $('ul.container').empty();
             e.preventDefault();
@@ -92,6 +91,5 @@
         }
         $('table#collections tbody').append(template);
         communityObj.collections.forEach(writeCollection);
-        
     }
 })(jQuery);
