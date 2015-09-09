@@ -21,7 +21,7 @@ class DspaceItem extends AbstractEntity
     
     /**
      * @OneToOne(targetEntity="Omeka\Entity\Item")
-     * @JoinColumn(nullable=false)
+     * @JoinColumn(nullable=false, onDelete="CASCADE")
      * @var int
      */
     protected $item;
