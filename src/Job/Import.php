@@ -132,7 +132,7 @@ class Import extends AbstractJob
     {
         foreach($bitstreamsArray as $bitstream) {
             $itemJson['o:media'][] = array(
-                'o:type'     => 'url',
+                'o:ingester'     => 'url',
                 'o:data'     => json_encode($bitstream),
                 'o:source'   => $this->apiUrl . $bitstream['link'],
                 'ingest_url' => $this->apiUrl . '/rest' . $bitstream['retrieveLink'],
