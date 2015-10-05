@@ -16,6 +16,11 @@ class DspaceItemRepresentation extends AbstractEntityRepresentation
             'o:job'         => $this->getReference()
         );
     }
+    
+    public function getJsonLdType()
+    {
+        return 'o:DspaceItem';
+    }
 
     public function lastModified()
     {

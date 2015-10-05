@@ -19,6 +19,11 @@ class DspaceImportRepresentation extends AbstractEntityRepresentation
         );
     }
     
+    public function getJsonLdType()
+    {
+        return 'o:DspaceImport';
+    }
+    
     public function job()
     {
         return $this->getAdapter('jobs')
