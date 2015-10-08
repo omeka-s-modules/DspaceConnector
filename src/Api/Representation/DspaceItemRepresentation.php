@@ -24,37 +24,33 @@ class DspaceItemRepresentation extends AbstractEntityRepresentation
 
     public function lastModified()
     {
-        return $this->getData()->getlastModified();
+        return $this-resource->getlastModified();
     }
     
     public function apiUrl()
     {
-        return $this->getData()->getApiUrl();
+        return $this-resource->getApiUrl();
     }
     
     public function remoteId()
     {
-        return $this->getData()->getRemoteId();
+        return $this-resource->getRemoteId();
     }
     
     public function handle()
     {
-        return $this->getData()->getHandle();
+        return $this-resource->getHandle();
     }
 
     public function item()
     {
         return $this->getAdapter('items')
-            ->getRepresentation(null, $this->getData()->getItem());
+            ->getRepresentation($this-resource->getItem());
     }
     
     public function job()
     {
         return $this->getAdapter('jobs')
-            ->getRepresentation(null, $this->getData()->getJob());
+            ->getRepresentation($this-resource->getJob());
     }
 }
-
-
-
-
