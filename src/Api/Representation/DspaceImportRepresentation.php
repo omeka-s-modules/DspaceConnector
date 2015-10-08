@@ -27,27 +27,27 @@ class DspaceImportRepresentation extends AbstractEntityRepresentation
     public function job()
     {
         return $this->getAdapter('jobs')
-            ->getRepresentation($this-resource->getJob());
+            ->getRepresentation($this->resource->getJob());
     }
     
     public function undoJob()
     {
         return $this->getAdapter('jobs')
-            ->getRepresentation($this-resource->getUndoJob());
+            ->getRepresentation($this->resource->getUndoJob());
     }
     
     public function comment()
     {
-        return $this-resource->getComment();
+        return $this->resource->getComment();
     }
     
     public function addedCount()
     {
-        return $this-resource->getAddedCount();
+        return $this->resource->getAddedCount();
     }
     
     public function updatedCount()
     {
-        return $this-resource->getUpdatedCount();
+        return $this->resource->getUpdatedCount();
     }
 }
