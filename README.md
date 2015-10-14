@@ -6,9 +6,7 @@ Information about the original item and a link back to it will be included on th
 
 ## Installation
 
-Download the released zip file, or pull the master branch into Omeka S's `modules` directory.
-
-From the Modules page, install the module.
+See general end user documentation for [Installing a module](https://github.com/omeka/omeka-s-enduser/blob/master/modules/modules.md#installing-modules)
 
 ## Usage
 
