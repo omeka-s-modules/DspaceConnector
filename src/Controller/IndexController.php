@@ -19,7 +19,7 @@ class IndexController extends AbstractActionController
                 $dispatcher = $this->getServiceLocator()->get('Omeka\JobDispatcher');
                 $job = $dispatcher->dispatch('DspaceConnector\Job\Import', $data);
                 $view->setVariable('job', $job);
-                $view->setVariable('collectionName', $data['collection_name']);
+                $this->messenger()->addSuccess('Importing ' . $data['collection_name'] .  ' in Job ID ' . $job->getId());
             } else {
                 $this->messenger()->addError('There was an error during validation');
             }

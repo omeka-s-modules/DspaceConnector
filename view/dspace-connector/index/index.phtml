@@ -11,9 +11,6 @@ $fetchUrl = $this->url('admin/dspace-connector/fetch',
 
 <h1><?php echo $escapeHtml($this->translate('DSpace Connector')); ?></h1>
 
-<?php if (isset($job)): ?>
-<p>Importing <?php echo $collectionName; ?> in job <?php echo $job->getId(); ?></p>
-<?php endif; ?>
 <div id="import" class="section active">
     <?php echo $this->form()->openTag($form); ?>
     
