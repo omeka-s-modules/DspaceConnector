@@ -16,16 +16,16 @@ $fetchUrl = $this->url('admin/dspace-connector/fetch',
     
     <?php $apiElement = $form->get('api_url'); ?>
     
-    <?php echo $this->formField($apiElement) ; ?>
+    <?php echo $this->formRow($apiElement) ; ?>
     <div id='actions'>
         <a class='button get-collections' data-fetch-url='<?php echo $fetchUrl; ?>'><?php echo $this->translate("Get Collections"); ?></a>
         <a class='button get-communities' data-fetch-url='<?php echo $fetchUrl; ?>'><?php echo $this->translate("Get Communities"); ?></a>
     </div>
 
     <?php echo $this->formElementErrors($apiElement, array('class' => 'messages')); ?>
-    <?php echo $this->formField($form->get('ingest_files')); ?>
-    <?php echo $this->formField($form->get('itemSet')); ?>
-    <?php echo $this->formField($form->get('comment')); ?>
+    <?php echo $this->formRow($form->get('ingest_files')); ?>
+    <?php echo $this->formRow($form->get('itemSet')); ?>
+    <?php echo $this->formRow($form->get('comment')); ?>
     <?php echo $formElement($form->get('csrf')); ?>
     
     <table id="collections">
