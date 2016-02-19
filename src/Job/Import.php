@@ -114,11 +114,13 @@ class Import extends AbstractJob
                     $valueArray = array();
                     if ($term == 'bibo:uri') {
                         $valueArray['@id'] = $metadataEntry['value'];
+                        $valueArray['type'] = 'uri';
                     } else {
                         $valueArray['@value'] = $metadataEntry['value'];
                         if (isset($metadataEntry['language'])) {
                             $valueArray['@language'] = $metadataEntry['language'];
                         }
+                        $valueArray['type'] = 'literal';
                     }
                     $valueArray['property_id'] = $this->termIdMap[$term];
                     $itemJson[$term][] = $valueArray;
