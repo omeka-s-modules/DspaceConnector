@@ -34,7 +34,7 @@ class IndexController extends AbstractActionController
     {
         $view = new JsonModel;
         $params = $this->params()->fromQuery();
-        $dspaceUrl = $params['dspaceUrl'];
+        $dspaceUrl = rtrim($params['dspaceUrl'], '/');
         $link = $params['link'];
         if (isset($params['expand'])) {
             $expand = $params['expand'];
@@ -45,6 +45,7 @@ class IndexController extends AbstractActionController
         
         $client = $this->getServiceLocator()->get('Omeka\HttpClient');
         $client->setHeaders(array('Accept' => 'application/json'));
+        
         $client->setUri($dspaceUrl . '/rest/' . $link);
         $client->setParameterGet(array('expand' => $expand));
         
