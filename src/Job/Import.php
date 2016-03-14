@@ -30,6 +30,14 @@ class Import extends AbstractJob
         $this->updatedCount = 0;
         $this->prepareTermIdMap();
         $this->client = $this->getServiceLocator()->get('Omeka\HttpClient');
+        $clientConfig = array(
+            'adapter' => 'Zend\Http\Client\Adapter\Curl',
+            'curloptions' => array(
+                CURLOPT_FOLLOWLOCATION => TRUE,
+                CURLOPT_SSL_VERIFYPEER => FALSE
+            ),
+        );
+        $this->client->setOptions($clientConfig);
         $this->client->setHeaders(array('Accept' => 'application/json'));
         $this->apiUrl = $this->getArg('api_url');
         $this->importCollection($this->getArg('collection_link'));
@@ -114,11 +122,13 @@ class Import extends AbstractJob
                     $valueArray = array();
                     if ($term == 'bibo:uri') {
                         $valueArray['@id'] = $metadataEntry['value'];
+                        $valueArray['type'] = 'uri';
                     } else {
                         $valueArray['@value'] = $metadataEntry['value'];
                         if (isset($metadataEntry['language'])) {
                             $valueArray['@language'] = $metadataEntry['language'];
                         }
+                        $valueArray['type'] = 'literal';
                     }
                     $valueArray['property_id'] = $this->termIdMap[$term];
                     $itemJson[$term][] = $valueArray;

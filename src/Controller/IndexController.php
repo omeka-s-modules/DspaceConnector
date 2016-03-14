@@ -32,9 +32,11 @@ class IndexController extends AbstractActionController
     
     public function fetchAction()
     {
+        
+        $logger = $this->getServiceLocator()->get('Omeka\Logger');
         $view = new JsonModel;
         $params = $this->params()->fromQuery();
-        $dspaceUrl = $params['dspaceUrl'];
+        $dspaceUrl = rtrim($params['dspaceUrl'], '/');
         $link = $params['link'];
         if (isset($params['expand'])) {
             $expand = $params['expand'];
@@ -42,14 +44,25 @@ class IndexController extends AbstractActionController
             $expand = 'all';
         }
         
-        
         $client = $this->getServiceLocator()->get('Omeka\HttpClient');
+        
+        $clientConfig = array(
+            'adapter' => 'Zend\Http\Client\Adapter\Curl',
+            'curloptions' => array(
+                CURLOPT_FOLLOWLOCATION => TRUE,
+                CURLOPT_SSL_VERIFYPEER => FALSE
+            ),
+        );
+        
+        $client->setOptions($clientConfig);
+        
         $client->setHeaders(array('Accept' => 'application/json'));
         $client->setUri($dspaceUrl . '/rest/' . $link);
         $client->setParameterGet(array('expand' => $expand));
         
         $response = $client->send();
         if (!$response->isSuccess()) {
+            $logger->err('no response');
             throw new \RuntimeException(sprintf(
                 'Requested "%s" got "%s".', $dspaceUrl . '/rest/' . $link, $response->renderStatusLine()
             ));
