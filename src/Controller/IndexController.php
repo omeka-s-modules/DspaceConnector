@@ -34,7 +34,6 @@ class IndexController extends AbstractActionController
     {
         
         $logger = $this->getServiceLocator()->get('Omeka\Logger');
-        $logger->err('fetch!');
         $view = new JsonModel;
         $params = $this->params()->fromQuery();
         $dspaceUrl = rtrim($params['dspaceUrl'], '/');
@@ -45,9 +44,7 @@ class IndexController extends AbstractActionController
             $expand = 'all';
         }
         
-        $logger->debug('get client');
         $client = $this->getServiceLocator()->get('Omeka\HttpClient');
-        
         
         $clientConfig = array(
             'adapter' => 'Zend\Http\Client\Adapter\Curl',
@@ -60,7 +57,6 @@ class IndexController extends AbstractActionController
         $client->setOptions($clientConfig);
         
         $client->setHeaders(array('Accept' => 'application/json'));
-        
         $client->setUri($dspaceUrl . '/rest/' . $link);
         $client->setParameterGet(array('expand' => $expand));
         
