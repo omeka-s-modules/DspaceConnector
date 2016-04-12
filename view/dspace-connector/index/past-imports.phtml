@@ -4,6 +4,10 @@ $escape = $this->plugin('escapeHtml');
 ?>
 
 <h1><?php echo $escape($this->translate('Past DSpace Imports')); ?></h1>
+
+<?php if(empty($imports)): ?>
+
+<?php else: ?>
 <?php echo $this->pagination(); ?>
 
 <form method='POST'>
@@ -60,3 +64,4 @@ $escape = $this->plugin('escapeHtml');
         </tbody>
     </table>
 </form>
+<?php endif; ?>
