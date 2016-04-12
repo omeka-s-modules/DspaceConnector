@@ -37,10 +37,11 @@ $fetchUrl = $this->url('admin/dspace-connector/fetch',
             
             <tr class="collection template">
                 <td class="name">
+                    <button class='import-collection'><?php echo $this->escapeHtml($this->translate('Import Collection')); ?></button>
                     <span class="name"></span>
                     <input type='hidden' name='collection_link' class='collection-link' value='' />
                     <input type='hidden' name='collection_name' class='collection-name' value='' />
-                    <button class='import-collection'><?php echo $this->escapeHtml($this->translate('Import Collection')); ?></button>
+                    
                 </td>
                 <td class="description"></td>
             </tr>
