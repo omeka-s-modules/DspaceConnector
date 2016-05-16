@@ -1,0 +1,38 @@
+<?php
+$form->prepare();
+
+$escapeHtml = $this->plugin('escapeHtml');
+$this->headScript()->appendFile($this->assetUrl('js/csvimport.js', 'CSVImport'));
+$this->headLink()->appendStylesheet($this->assetUrl('css/csvimport.css', 'CSVImport'));
+?>
+
+<?php echo $this->pageTitle($this->translate('Choose · DSpace Connector')); ?>
+
+
+<?php echo $this->form()->openTag($form); ?>
+<fieldset id='page-actions'>
+    <button type="submit"><?php echo $this->translate('Import'); ?></button>
+</fieldset>
+<nav class="section-nav">
+    <ul>
+        <li class="active"><a href="#basic-settings"><?php echo $this->translate('Basic Import Settings'); ?></a></li>
+        <li><a href="#collections"><?php echo $this->translate('Collections'); ?></a></li>
+        <li><a href="#communities"><?php echo $this->translate('Communities'); ?></a></li>
+    </ul>
+</nav>
+<?php echo $this->form()->openTag($form); ?>
+<fieldset id="basic-settings" class="section active">
+    <?php echo $this->formCollection($form, false); ?>
+</fieldset>
+
+<fieldset id="collections" class="section">
+
+</fieldset>
+
+<fieldset id="communities" class="section">
+
+</fieldset>
+
+
+<?php echo $this->form()->closeTag($form); ?>
+

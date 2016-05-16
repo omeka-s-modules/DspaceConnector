@@ -74,14 +74,14 @@ return array(
                                     ),
                                 )
                             ),
-                            'fetch' => array(
+                            'import' => array(
                                 'type'    => 'Literal',
                                 'options' => array(
-                                    'route' => '/fetch',
+                                    'route' => '/import',
                                     'defaults' => array(
                                         '__NAMESPACE__' => 'DspaceConnector\Controller',
                                         'controller'    => 'Index',
-                                        'action'        => 'fetch',
+                                        'action'        => 'import',
                                     ),
                                 )
                             ),

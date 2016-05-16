@@ -2,6 +2,7 @@
 namespace DspaceConnector\Controller;
 
 use DspaceConnector\Form\ImportForm;
+use DspaceConnector\Form\UrlForm;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 use Zend\View\Model\JsonModel;
@@ -11,7 +12,7 @@ class IndexController extends AbstractActionController
     public function indexAction()
     {
         $view = new ViewModel;
-        $form = new ImportForm($this->getServiceLocator());
+        $form = new UrlForm($this->getServiceLocator());
         if ($this->getRequest()->isPost()) {
             $data = $this->params()->fromPost();
             $form->setData($data);
@@ -30,14 +31,30 @@ class IndexController extends AbstractActionController
 
     }
     
-    public function fetchAction()
+    public function importAction()
+    {
+        $view = new ViewModel;
+        //$logger = $this->getServiceLocator()->get('Omeka\Logger');
+        $form = new ImportForm($this->getServiceLocator());
+        $params = $this->params()->fromPost();
+        $communities = $this->fetchData('communities');
+        $collections = $this->fetchData('collections');
+        $view->setVariable('form', $form);
+        return $view;
+    }
+    
+    /**
+     * 
+     * @param string $link either 'collections' or 'communities'
+     * @throws \RuntimeException
+     */
+    protected function fetchData($link)
     {
         
         $logger = $this->getServiceLocator()->get('Omeka\Logger');
         $view = new JsonModel;
         $params = $this->params()->fromQuery();
         $dspaceUrl = rtrim($params['dspaceUrl'], '/');
-        $link = $params['link'];
         if (isset($params['expand'])) {
             $expand = $params['expand'];
         } else {
