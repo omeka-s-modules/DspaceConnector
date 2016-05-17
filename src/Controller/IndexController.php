@@ -34,11 +34,25 @@ class IndexController extends AbstractActionController
     public function importAction()
     {
         $view = new ViewModel;
-        //$logger = $this->getServiceLocator()->get('Omeka\Logger');
+        $logger = $this->getServiceLocator()->get('Omeka\Logger');
         $form = new ImportForm($this->getServiceLocator());
         $params = $this->params()->fromPost();
-        $communities = $this->fetchData('communities');
-        $collections = $this->fetchData('collections');
+        $dspaceUrl = rtrim($params['api_url'], '/');
+        if (isset($params['expand'])) {
+            $expand = $params['expand'];
+        } else {
+            $expand = 'all';
+        }
+
+        try {
+            $communities = $this->fetchData($dspaceUrl . '/rest/communities', $expand);
+            $collections = $this->fetchData($dspaceUrl . '/rest/collections', $expand);
+        } catch (Exception $e) {
+            $logger->err('Error importing data');
+            $logger->err($e);
+        }
+        $view->setVariable('collections', $collections);
+        $view->setVariable('communities', $communities);
         $view->setVariable('form', $form);
         return $view;
     }
@@ -48,19 +62,10 @@ class IndexController extends AbstractActionController
      * @param string $link either 'collections' or 'communities'
      * @throws \RuntimeException
      */
-    protected function fetchData($link)
+    protected function fetchData($endpoint, $expand)
     {
         
         $logger = $this->getServiceLocator()->get('Omeka\Logger');
-        $view = new JsonModel;
-        $params = $this->params()->fromQuery();
-        $dspaceUrl = rtrim($params['dspaceUrl'], '/');
-        if (isset($params['expand'])) {
-            $expand = $params['expand'];
-        } else {
-            $expand = 'all';
-        }
-        
         $client = $this->getServiceLocator()->get('Omeka\HttpClient');
         
         $clientConfig = array(
@@ -73,8 +78,8 @@ class IndexController extends AbstractActionController
         
         $client->setOptions($clientConfig);
         
-        $client->setHeaders(array('Accept' => 'application/json'));
-        $client->setUri($dspaceUrl . '/rest/' . $link);
+        //$client->setHeaders(array('Accept' => 'application/json'));
+        $client->setUri($endpoint);
         $client->setParameterGet(array('expand' => $expand));
         
         $response = $client->send();
@@ -84,8 +89,7 @@ class IndexController extends AbstractActionController
                 'Requested "%s" got "%s".', $dspaceUrl . '/rest/' . $link, $response->renderStatusLine()
             ));
         }
-        $view->setVariable('data', $response->getBody());
-        return $view;
+        return json_decode($response->getBody(), true);
     }
     
     public function pastImportsAction()

@@ -26,11 +26,58 @@ $this->headLink()->appendStylesheet($this->assetUrl('css/csvimport.css', 'CSVImp
 </fieldset>
 
 <fieldset id="collections" class="section">
-
+    <table id="collections">
+        <tbody>
+            <?php foreach($collections as $collection): ?>
+            <tr class="collection">
+                <td class="name">
+                    <button class='import-collection'><?php echo $this->escapeHtml($this->translate('Import Collection')); ?></button>
+                    <span class="name"><?php echo $collection['name']; ?></span>
+                    <input type='hidden' name='collection_link' class='collection-link' value='<?php echo $collection['link']; ?>' />
+                    <input type='hidden' name='collection_name' class='collection-name' value='<?php echo $collection['name']; ?>' />
+                </td>
+                <?php if (isset($collection['description'])): ?>
+                <td class="description"><?php echo $collection['description']; ?></td>
+                <?php else: ?>
+                <td class="description"><?php echo $this->translate('[No description given]'); ?></td>
+                <?php endif; ?>
+            </tr>
+            <?php endforeach; ?>
+        </tbody>
+    </table>
 </fieldset>
 
 <fieldset id="communities" class="section">
-
+    <table id="collections">
+        <tbody>
+            <?php foreach($communities as $community): ?>
+            <tr class="community">
+                <th class="name"><?php echo($community['name']); ?></th>
+                <?php if(isset($community['description'])): ?>
+                <th class="description"><?php echo($community['description']);?></th>
+                <?php else: ?>
+                <th class="description"><?php echo $this->translate('[No description given]'); ?></th>
+                <?php endif;?>
+            </tr>
+                
+                <?php foreach($community['collections'] as $collection): ?>
+                <tr class="collection">
+                    <td class="name">
+                        <button class='import-collection'><?php echo $this->escapeHtml($this->translate('Import Collection')); ?></button>
+                        <span class="name"><?php echo $collection['name']; ?></span>
+                        <input type='hidden' name='collection_link' class='collection-link' value='<?php echo $collection['link']; ?>' />
+                        <input type='hidden' name='collection_name' class='collection-name' value='<?php echo $collection['name']; ?>' />
+                    </td>
+                    <?php if (isset($collection['description'])): ?>
+                    <td class="description"><?php echo $collection['description']; ?></td>
+                    <?php else: ?>
+                    <td class="description"><?php echo $this->translate('[No description given]'); ?></td>
+                    <?php endif; ?>
+                </tr>
+                <?php endforeach; ?>
+            <?php endforeach; ?>
+        </tbody>
+    </table>
 </fieldset>
 
 
