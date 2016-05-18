@@ -10,9 +10,6 @@ $this->headLink()->appendStylesheet($this->assetUrl('css/csvimport.css', 'CSVImp
 
 
 <?php echo $this->form()->openTag($form); ?>
-<fieldset id='page-actions'>
-    <button type="submit"><?php echo $this->translate('Import'); ?></button>
-</fieldset>
 <nav class="section-nav">
     <ul>
         <li class="active"><a href="#basic-settings"><?php echo $this->translate('Basic Import Settings'); ?></a></li>
@@ -31,10 +28,8 @@ $this->headLink()->appendStylesheet($this->assetUrl('css/csvimport.css', 'CSVImp
             <?php foreach($collections as $collection): ?>
             <tr class="collection">
                 <td class="name">
-                    <button class='import-collection'><?php echo $this->escapeHtml($this->translate('Import Collection')); ?></button>
+                    <button class='import-collection' name='collection_link' value='<?php echo $collection['link']; ?>'><?php echo $this->escapeHtml($this->translate('Import Collection')); ?></button>
                     <span class="name"><?php echo $collection['name']; ?></span>
-                    <input type='hidden' name='collection_link' class='collection-link' value='<?php echo $collection['link']; ?>' />
-                    <input type='hidden' name='collection_name' class='collection-name' value='<?php echo $collection['name']; ?>' />
                 </td>
                 <?php if (isset($collection['description'])): ?>
                 <td class="description"><?php echo $collection['description']; ?></td>
@@ -63,10 +58,8 @@ $this->headLink()->appendStylesheet($this->assetUrl('css/csvimport.css', 'CSVImp
                 <?php foreach($community['collections'] as $collection): ?>
                 <tr class="collection">
                     <td class="name">
-                        <button class='import-collection'><?php echo $this->escapeHtml($this->translate('Import Collection')); ?></button>
+                        <button class='import-collection' name='collection_link' value='<?php echo $collection['link']; ?>'><?php echo $this->escapeHtml($this->translate('Import Collection')); ?></button>
                         <span class="name"><?php echo $collection['name']; ?></span>
-                        <input type='hidden' name='collection_link' class='collection-link' value='<?php echo $collection['link']; ?>' />
-                        <input type='hidden' name='collection_name' class='collection-name' value='<?php echo $collection['name']; ?>' />
                     </td>
                     <?php if (isset($collection['description'])): ?>
                     <td class="description"><?php echo $collection['description']; ?></td>

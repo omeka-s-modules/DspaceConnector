@@ -13,61 +13,65 @@ class IndexController extends AbstractActionController
     {
         $view = new ViewModel;
         $form = new UrlForm($this->getServiceLocator());
-        if ($this->getRequest()->isPost()) {
-            $data = $this->params()->fromPost();
-            $form->setData($data);
-            if ($form->isValid()) {
-                $dispatcher = $this->getServiceLocator()->get('Omeka\JobDispatcher');
-                $job = $dispatcher->dispatch('DspaceConnector\Job\Import', $data);
-                $view->setVariable('job', $job);
-                $this->messenger()->addSuccess('Importing ' . $data['collection_name'] .  ' in Job ID ' . $job->getId());
-            } else {
-                $this->messenger()->addError('There was an error during validation');
-            }
-        }
-        
         $view->setVariable('form', $form);
         return $view;
-
     }
-    
+
     public function importAction()
     {
         $view = new ViewModel;
         $logger = $this->getServiceLocator()->get('Omeka\Logger');
-        $form = new ImportForm($this->getServiceLocator());
         $params = $this->params()->fromPost();
-        $dspaceUrl = rtrim($params['api_url'], '/');
-        if (isset($params['expand'])) {
-            $expand = $params['expand'];
-        } else {
-            $expand = 'all';
-        }
 
-        try {
-            $communities = $this->fetchData($dspaceUrl . '/rest/communities', $expand);
-            $collections = $this->fetchData($dspaceUrl . '/rest/collections', $expand);
-        } catch (Exception $e) {
-            $logger->err('Error importing data');
-            $logger->err($e);
+        if (isset($params['collection_link'])) {
+            //coming from the import page, do the import
+            $inputForm = new ImportForm($this->getServiceLocator());
+            $inputForm->setData($params);
+            if (! $inputForm->isValid()) {
+                $this->messenger()->addError('There was an error during validation');
+            }
+
+            $dispatcher = $this->getServiceLocator()->get('Omeka\JobDispatcher');
+            $job = $dispatcher->dispatch('DspaceConnector\Job\Import', $data);
+            $view->setVariable('job', $job);
+            $this->messenger()->addSuccess('Importing in Job ID ' . $job->getId());
+            return $this->redirect()->toRoute('admin/dspace-connector/past-imports');
+
+        } else {
+            //coming from the index page, dig up data from the endpoint url
+            $urlForm = new UrlForm($this->getServiceLocator());
+            $urlForm->setData($params);
+            if (! $urlForm->isValid()) {
+                $this->messenger()->addError('There was an error during validation');
+                return $this->redirect()->toRoute('admin/dspace-connector');
+            }
+
+            $inputForm = new ImportForm($this->getServiceLocator());
+            $dspaceUrl = rtrim($params['api_url'], '/');
+
+            try {
+                $communities = $this->fetchData($dspaceUrl . '/rest/communities', 'collections');
+                $collections = $this->fetchData($dspaceUrl . '/rest/collections');
+            } catch (Exception $e) {
+                $logger->err('Error importing data');
+                $logger->err($e);
+            }
+            $view->setVariable('collections', $collections);
+            $view->setVariable('communities', $communities);
+            $view->setVariable('form', $inputForm);
+            return $view;
         }
-        $view->setVariable('collections', $collections);
-        $view->setVariable('communities', $communities);
-        $view->setVariable('form', $form);
-        return $view;
     }
-    
+
     /**
      * 
      * @param string $link either 'collections' or 'communities'
      * @throws \RuntimeException
      */
-    protected function fetchData($endpoint, $expand)
+    protected function fetchData($endpoint, $expand = null)
     {
-        
         $logger = $this->getServiceLocator()->get('Omeka\Logger');
         $client = $this->getServiceLocator()->get('Omeka\HttpClient');
-        
         $clientConfig = array(
             'adapter' => 'Zend\Http\Client\Adapter\Curl',
             'curloptions' => array(
@@ -75,13 +79,11 @@ class IndexController extends AbstractActionController
                 CURLOPT_SSL_VERIFYPEER => FALSE
             ),
         );
-        
         $client->setOptions($clientConfig);
-        
-        //$client->setHeaders(array('Accept' => 'application/json'));
+        $client->setHeaders(array('Accept' => 'application/json'));
         $client->setUri($endpoint);
         $client->setParameterGet(array('expand' => $expand));
-        
+
         $response = $client->send();
         if (!$response->isSuccess()) {
             $logger->err('no response');
@@ -91,7 +93,7 @@ class IndexController extends AbstractActionController
         }
         return json_decode($response->getBody(), true);
     }
-    
+
     public function pastImportsAction()
     {
         if ($this->getRequest()->isPost()) {
@@ -112,7 +114,7 @@ class IndexController extends AbstractActionController
         $view->setVariable('imports', $response->getContent());
         return $view;
     }
-    
+
     protected function undoJob($jobId) {
         $response = $this->api()->search('dspace_imports', array('job_id' => $jobId));
         if ($response->isError()) {

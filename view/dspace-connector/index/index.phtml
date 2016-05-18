@@ -11,8 +11,7 @@ $formLabel = $this->plugin('formLabel');
 <div id="import" class="section active">
     <?php echo $this->form()->openTag($form); ?>
     <fieldset id='page-actions'>
-        <button name='target' value='collections'><?php echo $this->translate("Get Collections"); ?></button>
-        <button name='target' value='communities'><?php echo $this->translate("Get Communities"); ?></button>
+        <button><?php echo $this->translate("Get Collections And Communities"); ?></button>
     </fieldset>
     <?php $apiElement = $form->get('api_url'); ?>
     
@@ -20,9 +19,6 @@ $formLabel = $this->plugin('formLabel');
 
 
     <?php echo $this->formElementErrors($apiElement, array('class' => 'messages')); ?>
-    <?php // echo $this->formRow($form->get('ingest_files')); ?>
-    <?php //echo $this->formRow($form->get('itemSet')); ?>
-    <?php //echo $this->formRow($form->get('comment')); ?>
     <?php echo $formElement($form->get('csrf')); ?>
     
     <table id="collections">
