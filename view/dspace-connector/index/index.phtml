@@ -14,32 +14,8 @@ $formLabel = $this->plugin('formLabel');
         <button><?php echo $this->translate("Get Collections And Communities"); ?></button>
     </fieldset>
     <?php $apiElement = $form->get('api_url'); ?>
-    
     <?php echo $this->formRow($apiElement) ; ?>
-
-
     <?php echo $this->formElementErrors($apiElement, array('class' => 'messages')); ?>
     <?php echo $formElement($form->get('csrf')); ?>
-    
-    <table id="collections">
-        <tbody>
-            <tr class="community template">
-                <th class="name"></th>
-                <th class="description"></th>
-            </tr>
-            
-            <tr class="collection template">
-                <td class="name">
-                    <button class='import-collection'><?php echo $this->escapeHtml($this->translate('Import Collection')); ?></button>
-                    <span class="name"></span>
-                    <input type='hidden' name='collection_link' class='collection-link' value='' />
-                    <input type='hidden' name='collection_name' class='collection-name' value='' />
-                    
-                </td>
-                <td class="description"></td>
-            </tr>
-        </tbody>
-    </table>
-
     <?php echo $this->form()->closeTag(); ?>
 </div>

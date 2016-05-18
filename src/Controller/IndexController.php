@@ -22,13 +22,13 @@ class IndexController extends AbstractActionController
         $view = new ViewModel;
         $logger = $this->getServiceLocator()->get('Omeka\Logger');
         $params = $this->params()->fromPost();
-
         if (isset($params['collection_link'])) {
             //coming from the import page, do the import
             $inputForm = new ImportForm($this->getServiceLocator());
             $inputForm->setData($params);
             if (! $inputForm->isValid()) {
                 $this->messenger()->addError('There was an error during validation');
+                return $view;
             }
 
             $dispatcher = $this->getServiceLocator()->get('Omeka\JobDispatcher');
@@ -46,7 +46,7 @@ class IndexController extends AbstractActionController
                 return $this->redirect()->toRoute('admin/dspace-connector');
             }
 
-            $inputForm = new ImportForm($this->getServiceLocator());
+            $importForm = new ImportForm($this->getServiceLocator());
             $dspaceUrl = rtrim($params['api_url'], '/');
 
             try {
@@ -56,9 +56,10 @@ class IndexController extends AbstractActionController
                 $logger->err('Error importing data');
                 $logger->err($e);
             }
+            $logger->debug('got data');
             $view->setVariable('collections', $collections);
             $view->setVariable('communities', $communities);
-            $view->setVariable('form', $inputForm);
+            $view->setVariable('form', $importForm);
             return $view;
         }
     }
