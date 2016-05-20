@@ -69,18 +69,20 @@ class Import extends AbstractJob
             foreach ($collection['items'] as $itemData) {
                 $resourceJson = $this->buildResourceJson($itemData['link']);
                 
-                $oresponse = $this->api->search('dspace_items', 
-                                                array('remote_id' => $itemData['id'],
-                                                      'api_url' => $this->apiUrl
-                                                ));
-                $content = $oresponse->getContent();
-                
-                if( empty($content)) {
-                    $toCreate[$itemData['id']] = $resourceJson;
+                $importRecord = $this->importRecord($resourceJson['remote_id'], $this->apiUrl);
+                //separate the items to create from those to update
+                if ($importRecord) {
+                    //add the Omeka S item id to the itemJson
+                    //and key by the importRecordid for reuse
+                    //in both updating the item itself, and the importRecord
+                    $resourceJson['id'] = $importRecord->item()->id(); 
+                    $toUpdate[$importRecord->id()] = $resourceJson;
                 } else {
-                    $importedItemId = $content[0]->item()->id();
-                    $toUpdate[$importedItemId] = $resourceJson;
+                    //key by the remote id for batchCreate
+                    $toCreate[$resourceJson['id']] = $resourceJson;
                 }
+                
+                
             }
             $this->createItems($toCreate);
             $this->updateItems($toUpdate);
@@ -280,11 +282,12 @@ class Import extends AbstractJob
     protected function createItems($toCreate) 
     {
         $createResponse = $this->api->batchCreate('items', $toCreate, array(), true);
-        $this->addedCount = $this->addedCount + count($createResponse);
+        $this->addedCount = $this->addedCount + count($createResponse->getContent());
         
 
         $createImportRecordsJson = array();
         $createContent = $createResponse->getContent();
+        
         foreach($createContent as $id=>$resourceReference) {
             //get the original data used for individual item creation
             $toCreateData = $toCreate[$id];
@@ -303,22 +306,37 @@ class Import extends AbstractJob
         $createImportRecordResponse = $this->api->batchCreate('dspace_items', $createImportRecordsJson, array(), true);
     }
     
-    protected function updateItems($toUpdate) 
+    protected function updateItems($toUpdate)
     {
         //  batchUpdate would be nice, but complexities abound. See https://github.com/omeka/omeka-s/issues/326
         $updateResponses = array();
         foreach ($toUpdate as $importRecordId=>$itemJson) {
-            $updateResponses[$importRecordId] = $this->api->update('items', $itemJson['id'], $itemJson)[0];
+            $this->updatedCount = $this->updatedCount + 1;
+            $updateResponses[$importRecordId] = $this->api->update('items', $itemJson['id'], $itemJson);
         }
         
         foreach ($updateResponses as $importRecordId => $resourceReference) {
-            $toUpdateData = $toUpdate[$importRecordId];
+            $toUpdateData = $toUpdate[$index];
             $dspaceItemJson = array(
                             'o:job'     => array('o:id' => $this->job->getId()),
-                            'remote_id' => $toCreateData['remote_id'],
+                            'remote_id' => $toUpdateData['remote_id'],
                             'last_modified' => new \DateTime($toUpdateData['lastModified'])
                         );
-            $updateImportRecordResponse = $this->api->update('dspace_items', $importRecordId, $importRecordUpdateJson);
+            $updateImportRecordResponse = $this->api->update('dspace_items', $importRecordId, $dspaceItemJson);
         }
+    }
+    
+    protected function importRecord($remoteId, $apiUrl)
+    {
+        //see if the item has already been imported
+        $response = $this->api->search('dspace_items',
+                                        array('remote_id' => $remoteId,
+                                              'api_url'   => $apiUrl
+                                            ));
+        $content = $response->getContent();
+        if (empty($content)) {
+            return false;
+        }
+        return $content[0];
     }
 }

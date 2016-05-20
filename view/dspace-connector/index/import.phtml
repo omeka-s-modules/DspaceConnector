@@ -73,6 +73,6 @@ $this->headLink()->appendStylesheet($this->assetUrl('css/csvimport.css', 'CSVImp
     </table>
 </fieldset>
 
-
+<input type='hidden' name='api_url' value='<?php echo $dspace_url; ?>' ></input>
 <?php echo $this->form()->closeTag($form); ?>
 

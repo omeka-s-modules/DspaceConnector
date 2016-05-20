@@ -32,7 +32,7 @@ class IndexController extends AbstractActionController
             }
 
             $dispatcher = $this->getServiceLocator()->get('Omeka\JobDispatcher');
-            $job = $dispatcher->dispatch('DspaceConnector\Job\Import', $data);
+            $job = $dispatcher->dispatch('DspaceConnector\Job\Import', $params);
             $view->setVariable('job', $job);
             $this->messenger()->addSuccess('Importing in Job ID ' . $job->getId());
             return $this->redirect()->toRoute('admin/dspace-connector/past-imports');
@@ -56,9 +56,9 @@ class IndexController extends AbstractActionController
                 $logger->err('Error importing data');
                 $logger->err($e);
             }
-            $logger->debug('got data');
             $view->setVariable('collections', $collections);
             $view->setVariable('communities', $communities);
+            $view->setVariable('dspace_url', $dspaceUrl);
             $view->setVariable('form', $importForm);
             return $view;
         }
