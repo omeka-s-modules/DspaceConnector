@@ -25,7 +25,7 @@ return array(
         ),
     ),
     'navigation' => array(
-        'AdminGlobal' => array(
+        'AdminModule' => array(
             array(
                 'label'      => 'Dspace Connector',
                 'route'      => 'admin/dspace-connector',
