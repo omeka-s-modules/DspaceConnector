@@ -19,6 +19,12 @@ return array(
             'ViewJsonStrategy',
         ),
     ),
+    'form_elements' => [
+        'factories' => [
+            'DspaceConnector\Form\ImportForm' => 'DspaceConnector\Service\Form\ImportFormFactory',
+            'DspaceConnector\Form\UrlForm' => 'DspaceConnector\Service\Form\UrlFormFactory',
+        ],
+    ],
     'entity_manager' => array(
         'mapping_classes_paths' => array(
             OMEKA_PATH . '/modules/DspaceConnector/src/Entity',

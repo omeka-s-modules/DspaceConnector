@@ -1,13 +1,16 @@
 <?php
 namespace DspaceConnector\Form;
 
-use Omeka\Form\AbstractForm;
 use Omeka\Form\Element\ResourceSelect;
+use Zend\Form\Form;
 use Zend\Validator\Callback;
 
-class ImportForm extends AbstractForm
+class ImportForm extends Form
 {
-    public function buildForm()
+
+    protected $owner;
+
+    public function init()
     {
         $this->add(array(
             'name' => 'ingest_files',
@@ -18,30 +21,47 @@ class ImportForm extends AbstractForm
             )
         ));
         
-        $serviceLocator = $this->getServiceLocator();
-        $auth = $serviceLocator->get('Omeka\AuthenticationService');
+        //$serviceLocator = $this->getServiceLocator();
+        //$auth = $serviceLocator->get('Omeka\AuthenticationService');
         
-        $itemSetSelect = new ResourceSelect($serviceLocator);
+        //$itemSetSelect = new ResourceSelect($serviceLocator);
         
-        
+        $this->add([
+                'name'    => 'itemSet',
+                'type'    => ResourceSelect::class,
+                'options' => [
+                    'info' => 'Optional. Import items into this item set.', // @translate
+                    'empty_option' => 'Select Item Set', // @translate
+                    'resource_value_options' => [
+                        'resource' => 'item_sets',
+                        'query' => [],
+                        'option_text_callback' => function ($itemSet) {
+                            return $itemSet->displayTitle();
+                        },
+                    ],
+                ],
+        ]);
+        $itemSetSelect = $this->get('itemSet');
+        /*
         $itemSetSelect->setName('itemSet')
             ->setLabel('Import into')
             ->setOption('info', 'Optional. Import items into this item set.') // @translate
             ->setEmptyOption('Select Item Set...') // @translate
             ->setResourceValueOptions(
                 'item_sets',
-                array('owner_id' => $auth->getIdentity()),
+                array('owner_id' => $this->getOwner()),
                 function ($itemSet, $serviceLocator) {
                     return $itemSet->displayTitle('[no title]'); // @translate
                 }
             );
+            */
         //slightly weird resetting of the values to add the create/update item set option to what
         //ResourceSelect builds for me
         $valueOptions = $itemSetSelect->getValueOptions();
         $valueOptions = array('new' => 'Create or update from DSpace Collection') + $valueOptions; // @translate
         $itemSetSelect->setValueOptions($valueOptions);
 
-        $this->add($itemSetSelect);
+        //$this->add($itemSetSelect);
         
         $inputFilter = $this->getInputFilter();
         $inputFilter->add(array(
@@ -60,5 +80,15 @@ class ImportForm extends AbstractForm
                 'id' => 'comment'
             )
         ));
+    }
+    
+    public function setOwner($identity)
+    {
+        $this->owner = $identity;
+    }
+    
+    public function getOwner()
+    {
+        return $this->owner;
     }
 }

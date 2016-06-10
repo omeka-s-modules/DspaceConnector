@@ -12,7 +12,7 @@ class IndexController extends AbstractActionController
     public function indexAction()
     {
         $view = new ViewModel;
-        $form = new UrlForm($this->getServiceLocator());
+        $form = $this->getForm(UrlForm::class);
         $view->setVariable('form', $form);
         return $view;
     }
@@ -39,14 +39,14 @@ class IndexController extends AbstractActionController
 
         } else {
             //coming from the index page, dig up data from the endpoint url
-            $urlForm = new UrlForm($this->getServiceLocator());
+            $urlForm = $this->getForm(UrlForm::class);
             $urlForm->setData($params);
             if (! $urlForm->isValid()) {
                 $this->messenger()->addError('There was an error during validation');
                 return $this->redirect()->toRoute('admin/dspace-connector');
             }
 
-            $importForm = new ImportForm($this->getServiceLocator());
+            $importForm = $this->getForm(ImportForm::class);
             $dspaceUrl = rtrim($params['api_url'], '/');
 
             try {
