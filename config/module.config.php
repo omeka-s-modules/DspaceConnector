@@ -7,8 +7,8 @@ return array(
         ),
     ),
     'controllers' => array(
-        'invokables' => array(
-            'DspaceConnector\Controller\Index' => 'DspaceConnector\Controller\IndexController',
+        'factories' => array(
+            'DspaceConnector\Controller\Index' => 'DspaceConnector\Service\Controller\IndexControllerFactory',
         ),
     ),
     'view_manager' => array(

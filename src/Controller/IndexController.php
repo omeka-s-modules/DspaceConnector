@@ -9,6 +9,20 @@ use Zend\View\Model\JsonModel;
 
 class IndexController extends AbstractActionController
 {
+    
+    protected $logger;
+    
+    protected $jobDispatcher;
+    
+    protected $client;
+    
+    public function __construct($logger, $jobDispatcher, $client)
+    {
+        $this->logger = $logger;
+        $this->jobDispatcher = $jobDispatcher;
+        $this->client = $client;
+    }
+    
     public function indexAction()
     {
         $view = new ViewModel;
@@ -20,19 +34,17 @@ class IndexController extends AbstractActionController
     public function importAction()
     {
         $view = new ViewModel;
-        $logger = $this->getServiceLocator()->get('Omeka\Logger');
         $params = $this->params()->fromPost();
         if (isset($params['collection_link'])) {
             //coming from the import page, do the import
-            $inputForm = new ImportForm($this->getServiceLocator());
-            $inputForm->setData($params);
-            if (! $inputForm->isValid()) {
+            $importForm = $this->getForm(ImportForm::class);
+            $importForm->setData($params);
+            if (! $importForm->isValid()) {
                 $this->messenger()->addError('There was an error during validation');
                 return $view;
             }
 
-            $dispatcher = $this->getServiceLocator()->get('Omeka\JobDispatcher');
-            $job = $dispatcher->dispatch('DspaceConnector\Job\Import', $params);
+            $job = $this->jobDispatcher->dispatch('DspaceConnector\Job\Import', $params);
             $view->setVariable('job', $job);
             $this->messenger()->addSuccess('Importing in Job ID ' . $job->getId());
             return $this->redirect()->toRoute('admin/dspace-connector/past-imports');
@@ -53,8 +65,8 @@ class IndexController extends AbstractActionController
                 $communities = $this->fetchData($dspaceUrl . '/rest/communities', 'collections');
                 $collections = $this->fetchData($dspaceUrl . '/rest/collections');
             } catch (Exception $e) {
-                $logger->err('Error importing data');
-                $logger->err($e);
+                $this->logger->err('Error importing data');
+                $this->logger->err($e);
             }
             $view->setVariable('collections', $collections);
             $view->setVariable('communities', $communities);
@@ -71,8 +83,6 @@ class IndexController extends AbstractActionController
      */
     protected function fetchData($endpoint, $expand = null)
     {
-        $logger = $this->getServiceLocator()->get('Omeka\Logger');
-        $client = $this->getServiceLocator()->get('Omeka\HttpClient');
         $clientConfig = array(
             'adapter' => 'Zend\Http\Client\Adapter\Curl',
             'curloptions' => array(
@@ -80,14 +90,14 @@ class IndexController extends AbstractActionController
                 CURLOPT_SSL_VERIFYPEER => FALSE
             ),
         );
-        $client->setOptions($clientConfig);
-        $client->setHeaders(array('Accept' => 'application/json'));
-        $client->setUri($endpoint);
-        $client->setParameterGet(array('expand' => $expand));
+        $this->client->setOptions($clientConfig);
+        $this->client->setHeaders(array('Accept' => 'application/json'));
+        $this->client->setUri($endpoint);
+        $this->client->setParameterGet(array('expand' => $expand));
 
-        $response = $client->send();
+        $response = $this->client->send();
         if (!$response->isSuccess()) {
-            $logger->err('no response');
+            $this->logger->err('no response');
             throw new \RuntimeException(sprintf(
                 'Requested "%s" got "%s".', $dspaceUrl . '/rest/' . $link, $response->renderStatusLine()
             ));
@@ -122,8 +132,7 @@ class IndexController extends AbstractActionController
 
         }
         $dspaceImport = $response->getContent()[0];
-        $dispatcher = $this->getServiceLocator()->get('Omeka\JobDispatcher');
-        $job = $dispatcher->dispatch('DspaceConnector\Job\Undo', array('jobId' => $jobId));
+        $job = $this->jobDispatcher->dispatch('DspaceConnector\Job\Undo', array('jobId' => $jobId));
         $response = $this->api()->update('dspace_imports', 
                 $dspaceImport->id(), 
                 array(
