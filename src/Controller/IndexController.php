@@ -16,10 +16,10 @@ class IndexController extends AbstractActionController
     
     protected $client;
     
-    public function __construct($logger, $jobDispatcher, $client)
+    public function __construct($client)
     {
-        $this->logger = $logger;
-        $this->jobDispatcher = $jobDispatcher;
+        $this->logger = $this->logger();
+        $this->jobDispatcher = $this->jobDispatcher();
         $this->client = $client;
     }
     
