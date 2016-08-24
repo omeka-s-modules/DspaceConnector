@@ -10,16 +10,10 @@ use Zend\View\Model\JsonModel;
 class IndexController extends AbstractActionController
 {
     
-    protected $logger;
-    
-    protected $jobDispatcher;
-    
     protected $client;
     
     public function __construct($client)
     {
-        $this->logger = $this->logger();
-        $this->jobDispatcher = $this->jobDispatcher();
         $this->client = $client;
     }
     
@@ -44,7 +38,7 @@ class IndexController extends AbstractActionController
                 return $view;
             }
 
-            $job = $this->jobDispatcher->dispatch('DspaceConnector\Job\Import', $params);
+            $job = $this->jobDispatcher()->dispatch('DspaceConnector\Job\Import', $params);
             $view->setVariable('job', $job);
             $this->messenger()->addSuccess('Importing in Job ID ' . $job->getId());
             return $this->redirect()->toRoute('admin/dspace-connector/past-imports');
@@ -65,8 +59,8 @@ class IndexController extends AbstractActionController
                 $communities = $this->fetchData($dspaceUrl . '/rest/communities', 'collections');
                 $collections = $this->fetchData($dspaceUrl . '/rest/collections');
             } catch (Exception $e) {
-                $this->logger->err('Error importing data');
-                $this->logger->err($e);
+                $this->logger()->err('Error importing data');
+                $this->logger()->err($e);
             }
             $view->setVariable('collections', $collections);
             $view->setVariable('communities', $communities);
@@ -97,7 +91,7 @@ class IndexController extends AbstractActionController
 
         $response = $this->client->send();
         if (!$response->isSuccess()) {
-            $this->logger->err('no response');
+            $this->logger()->err('no response');
             throw new \RuntimeException(sprintf(
                 'Requested "%s" got "%s".', $dspaceUrl . '/rest/' . $link, $response->renderStatusLine()
             ));
@@ -132,7 +126,7 @@ class IndexController extends AbstractActionController
 
         }
         $dspaceImport = $response->getContent()[0];
-        $job = $this->jobDispatcher->dispatch('DspaceConnector\Job\Undo', array('jobId' => $jobId));
+        $job = $this->jobDispatcher()->dispatch('DspaceConnector\Job\Undo', array('jobId' => $jobId));
         $response = $this->api()->update('dspace_imports', 
                 $dspaceImport->id(), 
                 array(
