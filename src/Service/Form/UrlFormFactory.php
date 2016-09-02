@@ -2,16 +2,14 @@
 namespace DspaceConnector\Service\Form;
 
 use DspaceConnector\Form\UrlForm;
-use Zend\ServiceManager\FactoryInterface;
-use Zend\ServiceManager\ServiceLocatorInterface;
+use Zend\ServiceManager\Factory\FactoryInterface;
+use Interop\Container\ContainerInterface;
 
 class UrlFormFactory implements FactoryInterface
 {
-    protected $options = [];
-
-    public function createService(ServiceLocatorInterface $elements)
+    public function __invoke(ContainerInterface $services, $requestedName, array $options = null)
     {
-        $form = new UrlForm(null, $this->options);
+        $form = new UrlForm(null, $options);
         return $form;
     }
 }

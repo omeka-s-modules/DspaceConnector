@@ -2,14 +2,13 @@
 namespace DspaceConnector\Service\Controller;
 
 use DspaceConnector\Controller\IndexController;
-use Zend\ServiceManager\FactoryInterface;
-use Zend\ServiceManager\ServiceLocatorInterface;
+use Zend\ServiceManager\Factory\FactoryInterface;
+use Interop\Container\ContainerInterface;
 
 class IndexControllerFactory implements FactoryInterface
 {
-    public function createService(ServiceLocatorInterface $serviceLocator)
+    public function __invoke(ContainerInterface $serviceLocator, $requestedName, array $options = null)
     {
-        $serviceLocator = $serviceLocator->getServiceLocator();
         $client = $serviceLocator->get('Omeka\HttpClient');
         $indexController = new IndexController($client);
         return $indexController;
