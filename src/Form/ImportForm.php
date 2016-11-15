@@ -20,16 +20,17 @@ class ImportForm extends Form
                 'info'  => 'If checked, original files will be imported into Omeka. Otherwise, derivates will be displayed when possible, with links back to the original file in the repository.' // @translate
             )
         ));
-        
+
         //$serviceLocator = $this->getServiceLocator();
         //$auth = $serviceLocator->get('Omeka\AuthenticationService');
-        
+
         //$itemSetSelect = new ResourceSelect($serviceLocator);
-        
+
         $this->add([
                 'name'    => 'itemSet',
                 'type'    => ResourceSelect::class,
                 'options' => [
+                    'label' => 'Item Set', // @translate
                     'info' => 'Optional. Import items into this item set.', // @translate
                     'empty_option' => 'Select Item Set', // @translate
                     'resource_value_options' => [
@@ -62,13 +63,13 @@ class ImportForm extends Form
         $itemSetSelect->setValueOptions($valueOptions);
 
         //$this->add($itemSetSelect);
-        
+
         $inputFilter = $this->getInputFilter();
         $inputFilter->add(array(
             'name' => 'itemSet',
             'required' => false,
         ));
-        
+
         $this->add(array(
             'name' => 'comment',
             'type' => 'textarea',
@@ -81,12 +82,12 @@ class ImportForm extends Form
             )
         ));
     }
-    
+
     public function setOwner($identity)
     {
         $this->owner = $identity;
     }
-    
+
     public function getOwner()
     {
         return $this->owner;

@@ -2,8 +2,7 @@
 $form->prepare();
 
 $escapeHtml = $this->plugin('escapeHtml');
-$this->headScript()->appendFile($this->assetUrl('js/csvimport.js', 'CSVImport'));
-$this->headLink()->appendStylesheet($this->assetUrl('css/csvimport.css', 'CSVImport'));
+$this->headLink()->appendStylesheet($this->assetUrl('css/dspace-connector.css', 'DspaceConnector'));
 ?>
 
 <?php echo $this->pageTitle($this->translate('Choose · DSpace Connector')); ?>
@@ -54,7 +53,7 @@ $this->headLink()->appendStylesheet($this->assetUrl('css/csvimport.css', 'CSVImp
                 <th class="description"><?php echo $this->translate('[No description given]'); ?></th>
                 <?php endif;?>
             </tr>
-                
+
                 <?php foreach($community['collections'] as $collection): ?>
                 <tr class="collection">
                     <td class="name">
