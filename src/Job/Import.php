@@ -30,14 +30,6 @@ class Import extends AbstractJob
         $this->updatedCount = 0;
         $this->prepareTermIdMap();
         $this->client = $this->getServiceLocator()->get('Omeka\HttpClient');
-        $clientConfig = array(
-            'adapter' => 'Zend\Http\Client\Adapter\Curl',
-            'curloptions' => array(
-                CURLOPT_FOLLOWLOCATION => TRUE,
-                CURLOPT_SSL_VERIFYPEER => FALSE
-            ),
-        );
-        $this->client->setOptions($clientConfig);
         $this->client->setHeaders(array('Accept' => 'application/json'));
         $this->apiUrl = $this->getArg('api_url');
         $this->importCollection($this->getArg('collection_link'));

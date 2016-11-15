@@ -77,24 +77,14 @@ class IndexController extends AbstractActionController
      */
     protected function fetchData($endpoint, $expand = null)
     {
-        $clientConfig = array(
-            'adapter' => 'Zend\Http\Client\Adapter\Curl',
-            'curloptions' => array(
-                CURLOPT_FOLLOWLOCATION => TRUE,
-                CURLOPT_SSL_VERIFYPEER => FALSE
-            ),
-        );
-        $this->client->setOptions($clientConfig);
         $this->client->setHeaders(array('Accept' => 'application/json'));
         $this->client->setUri($endpoint);
         $this->client->setParameterGet(array('expand' => $expand));
 
         $response = $this->client->send();
         if (!$response->isSuccess()) {
-            $this->logger()->err('no response');
-            throw new \RuntimeException(sprintf(
-                'Requested "%s" got "%s".', $dspaceUrl . '/rest/' . $link, $response->renderStatusLine()
-            ));
+            $this->logger()->err(sprintf('Requested "%s" got "%s".', $endpoint, $response->renderStatusLine()));
+            $this->messenger()->addError('There was an error retrieving data. Please try again.');
         }
         return json_decode($response->getBody(), true);
     }
