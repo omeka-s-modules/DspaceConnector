@@ -115,9 +115,6 @@ class IndexController extends AbstractActionController
 
     protected function undoJob($jobId) {
         $response = $this->api()->search('dspace_imports', array('job_id' => $jobId));
-        if ($response->isError()) {
-
-        }
         $dspaceImport = $response->getContent()[0];
         $job = $this->jobDispatcher()->dispatch('DspaceConnector\Job\Undo', array('jobId' => $jobId));
         $response = $this->api()->update('dspace_imports', 

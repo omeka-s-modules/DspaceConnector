@@ -15,12 +15,7 @@ class Undo extends AbstractJob
         if ($dspaceItems) {
             foreach ($dspaceItems as $dspaceItem) {
                 $dspaceResponse = $api->delete('dspace_items', $dspaceItem->id());
-                if ($dspaceResponse->isError()) {
-                }
-
                 $itemResponse = $api->delete('items', $dspaceItem->item()->id());
-                if ($itemResponse->isError()) {
-                }
             }
         }
     }

@@ -53,9 +53,6 @@ class Module extends AbstractModule
         $item = $view->item;
         $api = $this->getServiceLocator()->get('Omeka\ApiManager');
         $response = $api->search('dspace_items', array('item_id' => $item->id()));
-        if ($response->isError()) {
-
-        }
         $dspaceItems = $response->getContent();
         if ($dspaceItems) {
             $dspaceItem = $dspaceItems[0];

@@ -41,11 +41,6 @@ class Import extends AbstractJob
                             'updated_count' => $this->updatedCount
                           );
         $response = $this->api->create('dspace_imports', $dspaceImportJson);
-        if ($response->isError()) {
-            echo 'fail creating dspace import';
-            throw new \Exception('fail creating dspace import');
-        }
-        
     }
 
     public function importCollection($collectionLink)
