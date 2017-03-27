@@ -268,7 +268,7 @@ class Import extends AbstractJob
     
     protected function createItems($toCreate) 
     {
-        $createResponse = $this->api->batchCreate('items', $toCreate, array(), true);
+        $createResponse = $this->api->batchCreate('items', $toCreate, array(), ['continueOnError' => true]);
         $this->addedCount = $this->addedCount + count($createResponse->getContent());
         
 
@@ -290,7 +290,7 @@ class Import extends AbstractJob
             $createImportRecordsJson[] = $dspaceItemJson;
         }
         
-        $createImportRecordResponse = $this->api->batchCreate('dspace_items', $createImportRecordsJson, array(), true);
+        $createImportRecordResponse = $this->api->batchCreate('dspace_items', $createImportRecordsJson, array(), ['continueOnError' => true]);
     }
     
     protected function updateItems($toUpdate)
