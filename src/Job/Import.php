@@ -90,7 +90,7 @@ class Import extends AbstractJob
         $itemJson = $this->processItemMetadata($itemArray['metadata'], $itemJson);
         //stuff some data that's not relevant to Omeka onto the JSON array
         //for later reuse during create and update operations
-        $itemJson['remote_id'] = $itemArray['id'];
+        $itemJson['remote_id'] = $itemArray['uuid'];
         $itemJson['handle'] = $itemArray['handle'];
         $itemJson['lastModified'] = $itemArray['lastModified'];
         
@@ -134,7 +134,7 @@ class Import extends AbstractJob
                 'o:ingester'     => 'url',
                 'o:data'     => json_encode($bitstream),
                 'o:source'   => $this->apiUrl . $bitstream['link'],
-                'ingest_url' => $this->apiUrl . '/rest' . $bitstream['retrieveLink'],
+                'ingest_url' => $this->apiUrl . '/' . $bitstream['retrieveLink'],
                 'dcterms:title' => array(
                     array(
                         '@value' => $bitstream['name'],
@@ -268,7 +268,7 @@ class Import extends AbstractJob
     
     protected function createItems($toCreate) 
     {
-        $createResponse = $this->api->batchCreate('items', $toCreate, array(), ['continueOnError' => true]);
+        $createResponse = $this->api->batchCreate('items', $toCreate, array(), ['continueOnError' => false]);
         $this->addedCount = $this->addedCount + count($createResponse->getContent());
         
 
