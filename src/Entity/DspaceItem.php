@@ -39,7 +39,7 @@ class DspaceItem extends AbstractEntity
     protected $apiUrl;
     
     /**
-     * @Column(type="integer")
+     * @Column(type="string", length=36)
      * @var int
      */
     protected $remoteId;
