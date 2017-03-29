@@ -53,7 +53,7 @@ class Import extends AbstractJob
             $this->setItemSetId($collection);
             $toCreate = array();
             $toUpdate = array();
-            foreach ($collection['items'] as $itemData) {
+            foreach ($collection['items'] as $index => $itemData) {
                 $resourceJson = $this->buildResourceJson($itemData['link']);
                 
                 $importRecord = $this->importRecord($resourceJson['remote_id'], $this->apiUrl);
@@ -65,11 +65,8 @@ class Import extends AbstractJob
                     $resourceJson['id'] = $importRecord->item()->id(); 
                     $toUpdate[$importRecord->id()] = $resourceJson;
                 } else {
-                    //key by the remote id for batchCreate
-                    $toCreate[$resourceJson['id']] = $resourceJson;
+                    $toCreate["create" . $index] = $resourceJson;
                 }
-                
-                
             }
             $this->createItems($toCreate);
             $this->updateItems($toUpdate);
@@ -268,6 +265,9 @@ class Import extends AbstractJob
     
     protected function createItems($toCreate) 
     {
+        // @todo what's the structure of the return value of batchCreate? is it still a keyed
+        // array of it newly created OmekaS ids?
+        
         $createResponse = $this->api->batchCreate('items', $toCreate, array(), ['continueOnError' => true]);
         $this->addedCount = $this->addedCount + count($createResponse->getContent());
         
