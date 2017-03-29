@@ -87,7 +87,11 @@ class Import extends AbstractJob
         $itemJson = $this->processItemMetadata($itemArray['metadata'], $itemJson);
         //stuff some data that's not relevant to Omeka onto the JSON array
         //for later reuse during create and update operations
-        $itemJson['remote_id'] = $itemArray['uuid'];
+        if (isset($itemArray['uuid'])) {
+            $itemJson['remote_id'] = $itemArray['uuid'];
+        } elseif (isset($itemArray['id'])) {
+            $itemJson['remote_id'] = $itemArray['id'];
+        }
         $itemJson['handle'] = $itemArray['handle'];
         $itemJson['lastModified'] = $itemArray['lastModified'];
         
