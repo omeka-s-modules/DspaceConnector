@@ -45,31 +45,42 @@ class Import extends AbstractJob
 
     public function importCollection($collectionLink)
     {
-        $response = $this->getResponse($collectionLink, 'items');
-        if ($response) {
-            $collection = json_decode($response->getBody(), true);
-            //set the item set id. called here so that, if a new item set needs
-            //to be created from the collection data, I have the data to do so
-            $this->setItemSetId($collection);
-            $toCreate = array();
-            $toUpdate = array();
-            foreach ($collection['items'] as $index => $itemData) {
-                $resourceJson = $this->buildResourceJson($itemData['link']);
-                
-                $importRecord = $this->importRecord($resourceJson['remote_id'], $this->apiUrl);
-                //separate the items to create from those to update
-                if ($importRecord) {
-                    //add the Omeka S item id to the itemJson
-                    //and key by the importRecordid for reuse
-                    //in both updating the item itself, and the importRecord
-                    $resourceJson['id'] = $importRecord->item()->id(); 
-                    $toUpdate[$importRecord->id()] = $resourceJson;
-                } else {
-                    $toCreate["create" . $index] = $resourceJson;
+        $offset = 0;
+        $hasNext = true;
+        while ($hasNext) {
+            $response = $this->getResponse($collectionLink, 'items', $offset);
+            if ($response) {
+                $collection = json_decode($response->getBody(), true);
+                //set the item set id. called here so that, if a new item set needs
+                //to be created from the collection data, I have the data to do so
+                $this->setItemSetId($collection);
+                $toCreate = array();
+                $toUpdate = array();
+                if (empty($collection['items'])) {
+                    // not a good way to really check, this just see if the last query
+                    // got nothing
+                    $hasNext = false;
                 }
+                foreach ($collection['items'] as $index => $itemData) {
+                    $resourceJson = $this->buildResourceJson($itemData['link']);
+                    $importRecord = $this->importRecord($resourceJson['remote_id'], $this->apiUrl);
+                    //separate the items to create from those to update
+                    if ($importRecord) {
+                        //add the Omeka S item id to the itemJson
+                        //and key by the importRecordid for reuse
+                        //in both updating the item itself, and the importRecord
+                        $resourceJson['id'] = $importRecord->item()->id(); 
+                        $toUpdate[$importRecord->id()] = $resourceJson;
+                    } else {
+                        $toCreate["create" . $index] = $resourceJson;
+                    }
+                }
+                $this->createItems($toCreate);
+                $this->updateItems($toUpdate);
+                
+                // limit is hardcoded at 50, so bump to next page
+                $offset = $offset + 50;
             }
-            $this->createItems($toCreate);
-            $this->updateItems($toUpdate);
          }
      }
 
@@ -143,14 +154,15 @@ class Import extends AbstractJob
         return $itemJson;
     }
 
-    public function getResponse($link, $expand = 'all')
+    public function getResponse($link, $expand = 'all', $offset = 0)
     {
-        
         //work around some dspace api versions reporting RESTapi instead of rest in the link
         $link = str_replace('RESTapi', 'rest', $link);
         $this->client->setUri($this->apiUrl . $link);
-        $this->client->setParameterGet(array('expand' => $expand));
-        
+        $this->client->setParameterGet(['expand' => $expand,
+                                        'limit'  => 50,
+                                        'offset' => $offset
+                                       ]);
         $response = $this->client->send();
         if (!$response->isSuccess()) {
             throw new Exception\RuntimeException(sprintf(
