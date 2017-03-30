@@ -146,7 +146,7 @@ class Import extends AbstractJob
                 'o:ingester'     => 'url',
                 'o:data'     => json_encode($bitstream),
                 'o:source'   => $this->apiUrl . $bitstream['link'],
-                'ingest_url' => $this->apiUrl . '/' . $bitstream['retrieveLink'],
+                'ingest_url' => $this->apiUrl . $bitstream['link'] . '/retrieve',
                 'dcterms:title' => array(
                     array(
                         '@value' => $bitstream['name'],
