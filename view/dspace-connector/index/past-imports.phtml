@@ -36,7 +36,7 @@ $escape = $this->plugin('escapeHtml');
             <td><?php echo $job->link($escape($job->id())); ?></td>
             <td>
                 <?php $args = $job->args();
-                echo $args['collection_link'];
+                echo $args['api_url'] . $args['collection_link'];
                 ?>
             </td>
             <td>
