@@ -43,7 +43,7 @@ class Module extends AbstractModule
     {
         if (Comparator::lessThan($oldVersion, '1.4.0-alpha')) {
             $connection = $serviceLocator->get('Omeka\Connection');
-            $connection->exec("ALTER TABLE `dspace_item` CHANGE `remote_id` `remote_id` CHAR(36) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL;");
+            $connection->exec("ALTER TABLE `dspace_item` CHANGE `remote_id` `remote_id` VARCHAR(36) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL;");
         }
     }
     
