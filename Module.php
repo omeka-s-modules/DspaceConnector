@@ -41,7 +41,7 @@ class Module extends AbstractModule
     
     public function upgrade($oldVersion, $newVersion, $serviceLocator)
     {
-        if (Comparator::lessThan($oldVersion, '1.4.0-alpha')) {
+        if (Comparator::lessThan($oldVersion, '0.4.0-beta')) {
             $connection = $serviceLocator->get('Omeka\Connection');
             $connection->exec("ALTER TABLE `dspace_item` CHANGE `remote_id` `remote_id` VARCHAR(36) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL;");
         }
