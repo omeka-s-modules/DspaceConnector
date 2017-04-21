@@ -1,6 +1,6 @@
 <?php
 $form->prepare();
-
+$this->htmlElement('body')->appendAttribute('class', 'no-section-hashes');
 $escapeHtml = $this->plugin('escapeHtml');
 $this->headLink()->appendStylesheet($this->assetUrl('css/dspace-connector.css', 'DspaceConnector'));
 ?>
@@ -8,7 +8,6 @@ $this->headLink()->appendStylesheet($this->assetUrl('css/dspace-connector.css', 
 <?php echo $this->pageTitle($this->translate('Choose · DSpace Connector')); ?>
 
 
-<?php echo $this->form()->openTag($form); ?>
 <nav class="section-nav">
     <ul>
         <li class="active"><a href="#basic-settings"><?php echo $this->translate('Basic Import Settings'); ?></a></li>
