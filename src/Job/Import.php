@@ -282,7 +282,6 @@ class Import extends AbstractJob
                       'type' => 'literal'
                 ));
         
-$logger->debug($itemSetData);
         $response = $this->api->create('item_sets', $itemSetData);
         return $response->getContent();
     }
