@@ -255,26 +255,34 @@ class Import extends AbstractJob
         $rightsPropId = $this->termIdMap['dcterms:rights'];
         $licensePropId = $this->termIdMap['dcterms:license'];
         $itemSetData['dcterms:title'] = array(
-                array('@value' => $collection['name'], 
-                      'property_id' => $this->termIdMap['dcterms:title']
+                array('@value' => $collection['name'],
+                      'property_id' => $this->termIdMap['dcterms:title'],
+                      'type' => 'literal'
                 ));
+        
         $itemSetData['dcterms:license'] = array(
                 array('@value' => $collection['license'], 
-                      'property_id' => $this->termIdMap['dcterms:license']
+                      'property_id' => $this->termIdMap['dcterms:license'],
+                      'type' => 'literal'
                 ));
         
         $itemSetData['dcterms:rights'] = array(
                 array('@value' => $collection['copyrightText'], 
-                      'property_id' => $this->termIdMap['dcterms:rights']
+                      'property_id' => $this->termIdMap['dcterms:rights'],
+                       'type' => 'literal'
                 ));
         
         $itemSetData['dcterms:description'] = array(
                 array('@value' => $collection['shortDescription'], 
-                      'property_id' => $this->termIdMap['dcterms:description']
+                      'property_id' => $this->termIdMap['dcterms:description'],
+                      'type' => 'literal'
                 ),
                 array('@value' => $collection['introductoryText'], 
-                      'property_id' => $this->termIdMap['dcterms:description']
+                      'property_id' => $this->termIdMap['dcterms:description'],
+                      'type' => 'literal'
                 ));
+        
+$logger->debug($itemSetData);
         $response = $this->api->create('item_sets', $itemSetData);
         return $response->getContent();
     }
