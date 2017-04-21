@@ -21,11 +21,6 @@ class ImportForm extends Form
             )
         ));
 
-        //$serviceLocator = $this->getServiceLocator();
-        //$auth = $serviceLocator->get('Omeka\AuthenticationService');
-
-        //$itemSetSelect = new ResourceSelect($serviceLocator);
-
         $this->add([
                 'name'    => 'itemSet',
                 'type'    => ResourceSelect::class,
@@ -43,19 +38,7 @@ class ImportForm extends Form
                 ],
         ]);
         $itemSetSelect = $this->get('itemSet');
-        /*
-        $itemSetSelect->setName('itemSet')
-            ->setLabel('Import into')
-            ->setOption('info', 'Optional. Import items into this item set.') // @translate
-            ->setEmptyOption('Select Item Set...') // @translate
-            ->setResourceValueOptions(
-                'item_sets',
-                array('owner_id' => $this->getOwner()),
-                function ($itemSet, $serviceLocator) {
-                    return $itemSet->displayTitle('[no title]'); // @translate
-                }
-            );
-            */
+
         //slightly weird resetting of the values to add the create/update item set option to what
         //ResourceSelect builds for me
         $valueOptions = $itemSetSelect->getValueOptions();
