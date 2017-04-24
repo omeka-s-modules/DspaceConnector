@@ -238,6 +238,9 @@ class Import extends AbstractJob
     
     protected function setItemSetId($collection)
     {
+        if (! is_null($this->itemSetId)) {
+            return;
+        }
         $itemSetId = $this->getArg('itemSet', false);
         if ($itemSetId == 'new') {
             $itemSet = $this->createItemSet($collection);
@@ -250,10 +253,6 @@ class Import extends AbstractJob
     protected function createItemSet($collection)
     {
         $itemSetData = array();
-        $titlePropId = $this->termIdMap['dcterms:title'];
-        $descriptionPropId = $this->termIdMap['dcterms:description'];
-        $rightsPropId = $this->termIdMap['dcterms:rights'];
-        $licensePropId = $this->termIdMap['dcterms:license'];
         $itemSetData['dcterms:title'] = array(
                 array('@value' => $collection['name'],
                       'property_id' => $this->termIdMap['dcterms:title'],
