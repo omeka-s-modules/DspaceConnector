@@ -39,7 +39,7 @@ class Module extends AbstractModule
         $connection->exec('DROP TABLE dspace_import');
     }
     
-    public function upgrade($oldVersion, $newVersion, $serviceLocator)
+    public function upgrade($oldVersion, $newVersion, ServiceLocatorInterface $serviceLocator)
     {
         if (Comparator::lessThan($oldVersion, '0.4.0-alpha')) {
             $connection = $serviceLocator->get('Omeka\Connection');
