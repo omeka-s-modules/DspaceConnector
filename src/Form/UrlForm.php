@@ -3,9 +3,7 @@ namespace DspaceConnector\Form;
 
 use Zend\Form\Form;
 use Zend\Form\Element\Url;
-use Omeka\Form\Element\ResourceSelect;
-use Zend\Validator\Callback;
-
+use Zend\Form\Element\Text;
 
 class UrlForm extends Form
 {
@@ -17,12 +15,26 @@ class UrlForm extends Form
             'type' => Url::class,
             'options' => array(
                 'label' => 'DSpace site URL', // @translate
-                'info'  => 'The URL of the repository you want to connect to. (DSpace 4.x or higher) Fill this in, then click "Get Collections" or "Get Communities" below to browse what you want to import.' // @translate
+                'info'  => 'The URL of the repository you want to connect to. (DSpace 5.6 or higher) Fill this in, then click "Get Collections" or "Get Communities" below to browse what you want to import.' // @translate
             ),
             'attributes' => array(
                 'id' => 'api-url',
                 'required' => 'true'
             )
         ));
+        
+        $this->add([
+            'name' => 'endpoint',
+            'type' => Text::class,
+            'options' => [
+                'label' => 'Endpoint', // @translate
+                'info'  => 'The endpoint for the API', // @translate
+            ],
+            'attributes' => [
+                'id'       => 'endpoint',
+                'required' => 'false',
+                'value'    => 'rest'
+            ],
+        ]);
     }
 }

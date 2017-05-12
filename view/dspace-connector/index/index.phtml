@@ -16,6 +16,9 @@ $formLabel = $this->plugin('formLabel');
     <?php $apiElement = $form->get('api_url'); ?>
     <?php echo $this->formRow($apiElement) ; ?>
     <?php echo $this->formElementErrors($apiElement, array('class' => 'messages')); ?>
+    <?php $endpointElement = $form->get('endpoint'); ?>
+    <?php echo $this->formRow($endpointElement) ; ?>
+    <?php echo $this->formElementErrors($endpointElement, array('class' => 'messages')); ?>
     <?php echo $formElement($form->get('csrf')); ?>
     <?php echo $this->form()->closeTag(); ?>
 </div>
