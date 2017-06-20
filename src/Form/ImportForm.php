@@ -16,8 +16,8 @@ class ImportForm extends Form
             'name' => 'ingest_files',
             'type' => 'checkbox',
             'options' => array(
-                'label' => 'Import files into Omeka', // @translate
-                'info'  => 'If checked, original files will be imported into Omeka. Otherwise, derivates will be displayed when possible, with links back to the original file in the repository.' // @translate
+                'label' => 'Import files into Omeka S', // @translate
+                'info'  => 'If checked, original files will be imported into Omeka S. Otherwise, derivates will be displayed when possible, with links back to the original file in the DSpace repository.' // @translate
             )
         ));
 
@@ -27,7 +27,7 @@ class ImportForm extends Form
                 'options' => [
                     'label' => 'Item Set', // @translate
                     'info' => 'Optional. Import items into this item set.', // @translate
-                    'empty_option' => 'Select Item Set', // @translate
+                    'empty_option' => 'Select item set', // @translate
                     'resource_value_options' => [
                         'resource' => 'item_sets',
                         'query' => [],
@@ -42,7 +42,7 @@ class ImportForm extends Form
         //slightly weird resetting of the values to add the create/update item set option to what
         //ResourceSelect builds for me
         $valueOptions = $itemSetSelect->getValueOptions();
-        $valueOptions = array('new' => 'Create or update from DSpace Collection') + $valueOptions; // @translate
+        $valueOptions = array('new' => 'Create or update from DSpace collection') + $valueOptions; // @translate
         $itemSetSelect->setValueOptions($valueOptions);
 
         //$this->add($itemSetSelect);
@@ -58,7 +58,7 @@ class ImportForm extends Form
             'type' => 'textarea',
             'options' => array(
                 'label' => 'Comment', // @translate
-                'info'  => 'A note about the purpose or source of this import.' // @translate
+                'info'  => 'A note about the purpose or source of this import' // @translate
             ),
             'attributes' => array(
                 'id' => 'comment'

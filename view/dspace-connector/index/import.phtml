@@ -10,7 +10,7 @@ $this->headLink()->appendStylesheet($this->assetUrl('css/dspace-connector.css', 
 
 <nav class="section-nav">
     <ul>
-        <li class="active"><a href="#basic-settings"><?php echo $this->translate('Basic Import Settings'); ?></a></li>
+        <li class="active"><a href="#basic-settings"><?php echo $this->translate('Basic import settings'); ?></a></li>
         <li><a href="#collections"><?php echo $this->translate('Collections'); ?></a></li>
         <li><a href="#communities"><?php echo $this->translate('Communities'); ?></a></li>
     </ul>
@@ -26,7 +26,7 @@ $this->headLink()->appendStylesheet($this->assetUrl('css/dspace-connector.css', 
             <?php foreach($collections as $collection): ?>
             <tr class="collection">
                 <td class="name">
-                    <button class='import-collection' name='collection_link' value='<?php echo $collection['link']; ?>'><?php echo $this->escapeHtml($this->translate('Import Collection')); ?></button>
+                    <button class='import-collection' name='collection_link' value='<?php echo $collection['link']; ?>'><?php echo $this->escapeHtml($this->translate('Import collection')); ?></button>
                     <span class="name"><?php echo $collection['name']; ?></span>
                 </td>
                 <?php if (isset($collection['description'])): ?>
@@ -56,7 +56,7 @@ $this->headLink()->appendStylesheet($this->assetUrl('css/dspace-connector.css', 
                 <?php foreach($community['collections'] as $collection): ?>
                 <tr class="collection">
                     <td class="name">
-                        <button class='import-collection' name='collection_link' value='<?php echo $collection['link']; ?>'><?php echo $this->escapeHtml($this->translate('Import Collection')); ?></button>
+                        <button class='import-collection' name='collection_link' value='<?php echo $collection['link']; ?>'><?php echo $this->escapeHtml($this->translate('Import collection')); ?></button>
                         <span class="name"><?php echo $collection['name']; ?></span>
                     </td>
                     <?php if (isset($collection['description'])): ?>
