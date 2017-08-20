@@ -1,100 +1,110 @@
 <?php
-return array(
-    'api_adapters' => array(
-        'invokables' => array(
+return [
+    'translator' => [
+        'translation_file_patterns' => [
+            [
+                'type' => 'gettext',
+                'base_dir' => OMEKA_PATH . '/modules/DscpaceConnector/language',
+                'pattern' => '%s.mo',
+                'text_domain' => null,
+            ],
+        ],
+    ],
+    'api_adapters' => [
+        'invokables' => [
             'dspace_items'   => 'DspaceConnector\Api\Adapter\DspaceItemAdapter',
             'dspace_imports' => 'DspaceConnector\Api\Adapter\DspaceImportAdapter'
-        ),
-    ),
-    'controllers' => array(
-        'factories' => array(
+        ],
+    ],
+    'controllers' => [
+        'factories' => [
             'DspaceConnector\Controller\Index' => 'DspaceConnector\Service\Controller\IndexControllerFactory',
-        ),
-    ),
-    'view_manager' => array(
-        'template_path_stack'      => array(
+        ],
+    ],
+    'view_manager' => [
+        'template_path_stack' => [
             OMEKA_PATH . '/modules/DspaceConnector/view',
-        ),
-        'strategies' => array(
+        ],
+        'strategies' => [
             'ViewJsonStrategy',
-        ),
-    ),
+        ],
+    ],
     'form_elements' => [
         'factories' => [
             'DspaceConnector\Form\ImportForm' => 'DspaceConnector\Service\Form\ImportFormFactory',
             'DspaceConnector\Form\UrlForm' => 'DspaceConnector\Service\Form\UrlFormFactory',
         ],
     ],
-    'entity_manager' => array(
-        'mapping_classes_paths' => array(
+    'entity_manager' => [
+        'mapping_classes_paths' => [
             OMEKA_PATH . '/modules/DspaceConnector/src/Entity',
-        ),
-    ),
-    'navigation' => array(
-        'AdminModule' => array(
-            array(
+        ],
+    ],
+    'navigation' => [
+        'AdminModule' => [
+            [
                 'label'      => 'Dspace Connector',
                 'route'      => 'admin/dspace-connector',
                 'resource'   => 'DspaceConnector\Controller\Index',
-                'pages'      => array(
-                    array(
+                'pages'      => [
+                    [
                         'label'      => 'Import',
                         'route'      => 'admin/dspace-connector',
                         'resource'   => 'DspaceConnector\Controller\Index',
-                    ),
-                    array(
+                    ],
+                    [
                         'label'      => 'Past Imports',
                         'route'      => 'admin/dspace-connector/past-imports',
                         'controller' => 'Index',
                         'action'     => 'past-imports',
                         'resource'   => 'DspaceConnector\Controller\Index',
-                    ),
-                ),
-            ),
-        ),
-    ),
-    'router' => array(
-        'routes' => array(
-            'admin' => array(
-                'child_routes' => array(
-                    'dspace-connector' => array(
+                    ],
+                ],
+            ],
+        ],
+    ],
+    'router' => [
+        'routes' => [
+            'admin' => [
+                'child_routes' => [
+                    'dspace-connector' => [
                         'type'    => 'Literal',
-                        'options' => array(
+                        'options' => [
                             'route'    => '/dspace-connector',
-                            'defaults' => array(
+                            'defaults' => [
                                 '__NAMESPACE__' => 'DspaceConnector\Controller',
                                 'controller'    => 'Index',
                                 'action'        => 'index',
-                            ),
-                        ),
+                            ],
+                        ],
                         'may_terminate' => true,
-                        'child_routes' => array(
-                            'past-imports' => array(
+                        'child_routes' => [
+                            'past-imports' => [
                                 'type'    => 'Literal',
-                                'options' => array(
+                                'options' => [
                                     'route' => '/past-imports',
-                                    'defaults' => array(
+                                    'defaults' => [
                                         '__NAMESPACE__' => 'DspaceConnector\Controller',
                                         'controller'    => 'Index',
                                         'action'        => 'past-imports',
-                                    ),
-                                )
-                            ),
-                            'import' => array(
+                                    ],
+                                ]
+                            ],
+                            'import' => [
                                 'type'    => 'Literal',
-                                'options' => array(
+                                'options' => [
                                     'route' => '/import',
-                                    'defaults' => array(
+                                    'defaults' => [
                                         '__NAMESPACE__' => 'DspaceConnector\Controller',
                                         'controller'    => 'Index',
                                         'action'        => 'import',
-                                    ),
-                                )
-                            ),
-                        ),
-                    ),
-                ),
-            ),
-        ),
-    ),
-);
+                                    ],
+                                ]
+                            ],
+                        ],
+                    ],
+                ],
+            ],
+        ],
+    ],
+];
