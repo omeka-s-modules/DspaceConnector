@@ -53,7 +53,7 @@ $escape = $this->plugin('escapeHtml');
                 $status = $this->translate('Undone') . ' ' . $escape($this->i18n()->dateFormat($undoJob->ended()));
                 
             } else {
-                $status = $job->status();
+                $status = $this->translate($job->status());
             } 
             ?>
             <?php echo $status; ?>

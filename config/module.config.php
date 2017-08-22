@@ -10,6 +10,16 @@ return [
             ],
         ],
     ],
+    'translator' => [
+        'translation_file_patterns' => [
+            [
+                'type' => 'gettext',
+                'base_dir' => OMEKA_PATH . '/modules/DspaceConnector/language',
+                'pattern' => '%s.mo',
+                'text_domain' => null,
+            ],
+        ],
+    ],
     'api_adapters' => [
         'invokables' => [
             'dspace_items'   => 'DspaceConnector\Api\Adapter\DspaceItemAdapter',
@@ -43,17 +53,17 @@ return [
     'navigation' => [
         'AdminModule' => [
             [
-                'label'      => 'Dspace Connector',
+                'label'      => 'Dspace Connector', // @translate
                 'route'      => 'admin/dspace-connector',
                 'resource'   => 'DspaceConnector\Controller\Index',
                 'pages'      => [
                     [
-                        'label'      => 'Import',
+                        'label'      => 'Import', // @translate
                         'route'      => 'admin/dspace-connector',
                         'resource'   => 'DspaceConnector\Controller\Index',
                     ],
                     [
-                        'label'      => 'Past Imports',
+                        'label'      => 'Past Imports', // @translate
                         'route'      => 'admin/dspace-connector/past-imports',
                         'controller' => 'Index',
                         'action'     => 'past-imports',
