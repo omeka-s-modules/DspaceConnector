@@ -5,18 +5,16 @@ use DspaceConnector\Form\ImportForm;
 use DspaceConnector\Form\UrlForm;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
-use Zend\View\Model\JsonModel;
 
 class IndexController extends AbstractActionController
 {
-    
     protected $client;
-    
+
     public function __construct($client)
     {
         $this->client = $client;
     }
-    
+
     public function indexAction()
     {
         $view = new ViewModel;
@@ -42,7 +40,6 @@ class IndexController extends AbstractActionController
             $view->setVariable('job', $job);
             $this->messenger()->addSuccess('Importing in Job ID ' . $job->getId());
             return $this->redirect()->toRoute('admin/dspace-connector/past-imports');
-
         } else {
             //coming from the index page, dig up data from the endpoint url
             $urlForm = $this->getForm(UrlForm::class);
@@ -71,15 +68,14 @@ class IndexController extends AbstractActionController
     }
 
     /**
-     * 
      * @param string $link either 'collections' or 'communities'
      * @throws \RuntimeException
      */
     protected function fetchData($endpoint, $expand = null)
     {
-        $this->client->setHeaders(array('Accept' => 'application/json'));
+        $this->client->setHeaders(['Accept' => 'application/json']);
         $this->client->setUri($endpoint);
-        $this->client->setParameterGet(array('expand' => $expand));
+        $this->client->setParameterGet(['expand' => $expand]);
 
         $response = $this->client->send();
         if (!$response->isSuccess()) {
@@ -102,26 +98,27 @@ class IndexController extends AbstractActionController
         }
         $view = new ViewModel;
         $page = $this->params()->fromQuery('page', 1);
-        $query = $this->params()->fromQuery() + array(
-            'page'       => $page,
-            'sort_by'    => $this->params()->fromQuery('sort_by', 'id'),
+        $query = $this->params()->fromQuery() + [
+            'page' => $page,
+            'sort_by' => $this->params()->fromQuery('sort_by', 'id'),
             'sort_order' => $this->params()->fromQuery('sort_order', 'desc'),
-        );
+        ];
         $response = $this->api()->search('dspace_imports', $query);
         $this->paginator($response->getTotalResults(), $page);
         $view->setVariable('imports', $response->getContent());
         return $view;
     }
 
-    protected function undoJob($jobId) {
-        $response = $this->api()->search('dspace_imports', array('job_id' => $jobId));
+    protected function undoJob($jobId)
+    {
+        $response = $this->api()->search('dspace_imports', ['job_id' => $jobId]);
         $dspaceImport = $response->getContent()[0];
-        $job = $this->jobDispatcher()->dispatch('DspaceConnector\Job\Undo', array('jobId' => $jobId));
-        $response = $this->api()->update('dspace_imports', 
-                $dspaceImport->id(), 
-                array(
-                    'o:undo_job' => array('o:id' => $job->getId() )
-                )
+        $job = $this->jobDispatcher()->dispatch('DspaceConnector\Job\Undo', ['jobId' => $jobId]);
+        $response = $this->api()->update('dspace_imports',
+                $dspaceImport->id(),
+                [
+                    'o:undo_job' => ['o:id' => $job->getId() ],
+                ]
             );
         return $job;
     }

@@ -13,17 +13,17 @@ class DspaceImportAdapter extends AbstractEntityAdapter
     {
         return 'DspaceConnector\Entity\DspaceImport';
     }
-    
+
     public function getResourceName()
     {
         return 'dspace_imports';
     }
-    
+
     public function getRepresentationClass()
     {
         return 'DspaceConnector\Api\Representation\DspaceImportRepresentation';
     }
-    
+
     public function hydrate(Request $request, EntityInterface $entity,
         ErrorStore $errorStore
     ) {
@@ -49,7 +49,7 @@ class DspaceImportAdapter extends AbstractEntityAdapter
             $entity->setComment($data['comment']);
         }
     }
-    
+
     public function buildQuery(QueryBuilder $qb, array $query)
     {
         if (isset($query['job_id'])) {

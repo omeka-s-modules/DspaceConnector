@@ -3,27 +3,25 @@ namespace DspaceConnector\Form;
 
 use Omeka\Form\Element\ResourceSelect;
 use Zend\Form\Form;
-use Zend\Validator\Callback;
 
 class ImportForm extends Form
 {
-
     protected $owner;
 
     public function init()
     {
-        $this->add(array(
+        $this->add([
             'name' => 'ingest_files',
             'type' => 'checkbox',
-            'options' => array(
+            'options' => [
                 'label' => 'Import files into Omeka S', // @translate
-                'info'  => 'If checked, original files will be imported into Omeka S. Otherwise, derivates will be displayed when possible, with links back to the original file in the DSpace repository.' // @translate
-            )
-        ));
+                'info' => 'If checked, original files will be imported into Omeka S. Otherwise, derivates will be displayed when possible, with links back to the original file in the DSpace repository.', // @translate
+            ],
+        ]);
 
         $this->add([
-                'name'    => 'itemSet',
-                'type'    => ResourceSelect::class,
+                'name' => 'itemSet',
+                'type' => ResourceSelect::class,
                 'options' => [
                     'label' => 'Item Set', // @translate
                     'info' => 'Optional. Import items into this item set.', // @translate
@@ -42,28 +40,28 @@ class ImportForm extends Form
         //slightly weird resetting of the values to add the create/update item set option to what
         //ResourceSelect builds for me
         $valueOptions = $itemSetSelect->getValueOptions();
-        $valueOptions = array('new' => 'Create or update from DSpace collection') + $valueOptions; // @translate
+        $valueOptions = ['new' => 'Create or update from DSpace collection'] + $valueOptions; // @translate
         $itemSetSelect->setValueOptions($valueOptions);
 
         //$this->add($itemSetSelect);
 
         $inputFilter = $this->getInputFilter();
-        $inputFilter->add(array(
+        $inputFilter->add([
             'name' => 'itemSet',
             'required' => false,
-        ));
+        ]);
 
-        $this->add(array(
+        $this->add([
             'name' => 'comment',
             'type' => 'textarea',
-            'options' => array(
+            'options' => [
                 'label' => 'Comment', // @translate
-                'info'  => 'A note about the purpose or source of this import' // @translate
-            ),
-            'attributes' => array(
-                'id' => 'comment'
-            )
-        ));
+                'info' => 'A note about the purpose or source of this import', // @translate
+            ],
+            'attributes' => [
+                'id' => 'comment',
+            ],
+        ]);
     }
 
     public function setOwner($identity)

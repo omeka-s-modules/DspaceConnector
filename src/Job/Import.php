@@ -3,26 +3,23 @@ namespace DspaceConnector\Job;
 
 use Omeka\Job\AbstractJob;
 use Omeka\Job\Exception;
-use DspaceConnector\Entity\DspaceItem;
-use Zend\Http\Client;
-use SimpleXMLElement;
 
 class Import extends AbstractJob
 {
     protected $client;
-    
+
     protected $apiUrl;
-    
+
     protected $api;
-    
+
     protected $termIdMap;
-    
+
     protected $addedCount;
-    
+
     protected $updatedCount;
-    
+
     protected $itemSetId;
-    
+
     public function perform()
     {
         $this->api = $this->getServiceLocator()->get('Omeka\ApiManager');
@@ -30,25 +27,25 @@ class Import extends AbstractJob
         $this->updatedCount = 0;
         $this->prepareTermIdMap();
         $this->client = $this->getServiceLocator()->get('Omeka\HttpClient');
-        $this->client->setHeaders(array('Accept' => 'application/json'));
+        $this->client->setHeaders(['Accept' => 'application/json']);
         $this->apiUrl = $this->getArg('api_url');
-        
-        $dspaceImportJson = array(
-            'o:job'         => array('o:id' => $this->job->getId()),
-            'comment'       => $comment,
-            'added_count'   => $this->addedCount,
-            'updated_count' => $this->updatedCount
-        );
+
+        $dspaceImportJson = [
+            'o:job' => ['o:id' => $this->job->getId()],
+            'comment' => $comment,
+            'added_count' => $this->addedCount,
+            'updated_count' => $this->updatedCount,
+        ];
         $response = $this->api->create('dspace_imports', $dspaceImportJson);
         $importRecordId = $response->getContent()->id();
         $this->importCollection($this->getArg('collection_link'));
         $comment = $this->getArg('comment');
-        $dspaceImportJson = array(
-            'o:job'         => array('o:id' => $this->job->getId()),
-            'comment'       => $comment,
-            'added_count'   => $this->addedCount,
-            'updated_count' => $this->updatedCount
-        );
+        $dspaceImportJson = [
+            'o:job' => ['o:id' => $this->job->getId()],
+            'comment' => $comment,
+            'added_count' => $this->addedCount,
+            'updated_count' => $this->updatedCount,
+        ];
         $response = $this->api->update('dspace_imports', $importRecordId, $dspaceImportJson);
     }
 
@@ -63,8 +60,8 @@ class Import extends AbstractJob
                 //set the item set id. called here so that, if a new item set needs
                 //to be created from the collection data, I have the data to do so
                 $this->setItemSetId($collection);
-                $toCreate = array();
-                $toUpdate = array();
+                $toCreate = [];
+                $toUpdate = [];
                 if (empty($collection['items'])) {
                     // not a good way to really check, this just see if the last query
                     // got nothing
@@ -78,7 +75,7 @@ class Import extends AbstractJob
                         //add the Omeka S item id to the itemJson
                         //and key by the importRecordid for reuse
                         //in both updating the item itself, and the importRecord
-                        $resourceJson['id'] = $importRecord->item()->id(); 
+                        $resourceJson['id'] = $importRecord->item()->id();
                         $toUpdate[$importRecord->id()] = $resourceJson;
                     } else {
                         $toCreate["create" . $index] = $resourceJson;
@@ -86,23 +83,22 @@ class Import extends AbstractJob
                 }
                 $this->createItems($toCreate);
                 $this->updateItems($toUpdate);
-                
+
                 // limit is hardcoded at 50, so bump to next page
                 $offset = $offset + 50;
             }
-         }
-     }
+        }
+    }
 
-      public function buildResourceJson($itemLink)
-      {
-
+    public function buildResourceJson($itemLink)
+    {
         $response = $this->getResponse($itemLink, 'metadata,bitstreams');
         if ($response) {
             $itemArray = json_decode($response->getBody(), true);
         }
-        $itemJson = array();
+        $itemJson = [];
         if ($this->itemSetId) {
-            $itemJson['o:item_set'] = array(array('o:id' => $this->itemSetId));
+            $itemJson['o:item_set'] = [['o:id' => $this->itemSetId]];
         }
         $itemJson = $this->processItemMetadata($itemArray['metadata'], $itemJson);
         //stuff some data that's not relevant to Omeka onto the JSON array
@@ -114,13 +110,13 @@ class Import extends AbstractJob
         }
         $itemJson['handle'] = $itemArray['handle'];
         $itemJson['lastModified'] = $itemArray['lastModified'];
-        
+
         if ($this->getArg('ingest_files')) {
             $itemJson = $this->processItemBitstreams($itemArray['bitstreams'], $itemJson);
         }
         return $itemJson;
     }
-    
+
     public function processItemMetadata($itemMetadataArray, $itemJson)
     {
         foreach ($itemMetadataArray as $metadataEntry) {
@@ -129,7 +125,7 @@ class Import extends AbstractJob
             foreach ($terms as $term) {
                 //skip non-understood or mis-written terms
                 if (isset($this->termIdMap[$term])) {
-                    $valueArray = array();
+                    $valueArray = [];
                     if ($term == 'bibo:uri') {
                         $valueArray['@id'] = $metadataEntry['value'];
                         $valueArray['type'] = 'uri';
@@ -147,22 +143,22 @@ class Import extends AbstractJob
         }
         return $itemJson;
     }
-    
+
     public function processItemBitstreams($bitstreamsArray, $itemJson)
     {
-        foreach($bitstreamsArray as $bitstream) {
-            $itemJson['o:media'][] = array(
-                'o:ingester'     => 'url',
-                'o:data'     => json_encode($bitstream),
-                'o:source'   => $this->apiUrl . $bitstream['link'],
+        foreach ($bitstreamsArray as $bitstream) {
+            $itemJson['o:media'][] = [
+                'o:ingester' => 'url',
+                'o:data' => json_encode($bitstream),
+                'o:source' => $this->apiUrl . $bitstream['link'],
                 'ingest_url' => $this->apiUrl . $bitstream['link'] . '/retrieve',
-                'dcterms:title' => array(
-                    array(
+                'dcterms:title' => [
+                    [
                         '@value' => $bitstream['name'],
-                        'property_id' => $this->termIdMap['dcterms:title']
-                    ),
-                ),
-            );
+                        'property_id' => $this->termIdMap['dcterms:title'],
+                    ],
+                ],
+            ];
         }
         return $itemJson;
     }
@@ -173,8 +169,8 @@ class Import extends AbstractJob
         $link = str_replace('RESTapi', 'rest', $link);
         $this->client->setUri($this->apiUrl . $link);
         $this->client->setParameterGet(['expand' => $expand,
-                                        'limit'  => 50,
-                                        'offset' => $offset
+                                        'limit' => 50,
+                                        'offset' => $offset,
                                        ]);
         $response = $this->client->send();
         if (!$response->isSuccess()) {
@@ -191,60 +187,60 @@ class Import extends AbstractJob
         //only using dc. Don't know if DSpace ever emits anything else
         //(except for the subproperties listed below that aren't actually in dcterms
         if ($parts[0] != 'dc') {
-            return array();
+            return [];
         }
-        
+
         if (count($parts) == 2) {
-            return array('dcterms:' . $parts[1]);
+            return ['dcterms:' . $parts[1]];
         }
-        
+
         if (count($parts) == 3) {
             //liberal mapping onto superproperties by default
-            $termsArray = array('dcterms:' . $parts[1]);
+            $termsArray = ['dcterms:' . $parts[1]];
             //parse out refinements where known
             switch ($parts[2]) {
-                case 'author' :
+                case 'author':
                     $termsArray[] = "dcterms:creator";
                 break;
-                
-                case 'abstract' :
+
+                case 'abstract':
                     $termsArray[] = "dcterms:abstract";
                 break;
-                
-                case 'uri' : 
+
+                case 'uri':
                     $termsArray[] = "bibo:uri";
                 break;
-                case 'iso' : //handled by superproperty dcterms:language
-                case 'editor' : //handled as dcterms:contributor
-                case 'accessioned' : //ignored
+                case 'iso': //handled by superproperty dcterms:language
+                case 'editor': //handled as dcterms:contributor
+                case 'accessioned': //ignored
                 break;
-                default :
-                    $termsArray[] = 'dcterms:' . $parts[2]; 
+                default:
+                    $termsArray[] = 'dcterms:' . $parts[2];
             }
             return $termsArray;
         }
     }
-    
+
     protected function prepareTermIdMap()
     {
-        $this->termIdMap = array();
-        $properties = $this->api->search('properties', array(
-            'vocabulary_namespace_uri' => 'http://purl.org/dc/terms/'
-        ))->getContent();
+        $this->termIdMap = [];
+        $properties = $this->api->search('properties', [
+            'vocabulary_namespace_uri' => 'http://purl.org/dc/terms/',
+        ])->getContent();
         foreach ($properties as $property) {
             $term = "dcterms:" . $property->localName();
             $this->termIdMap[$term] = $property->id();
         }
 
-        $properties = $this->api->search('properties', array(
-            'vocabulary_namespace_uri' => 'http://purl.org/ontology/bibo/'
-        ))->getContent();
+        $properties = $this->api->search('properties', [
+            'vocabulary_namespace_uri' => 'http://purl.org/ontology/bibo/',
+        ])->getContent();
         foreach ($properties as $property) {
             $term = "bibo:" . $property->localName();
             $this->termIdMap[$term] = $property->id();
         }
     }
-    
+
     protected function setItemSetId($collection)
     {
         if (! is_null($this->itemSetId)) {
@@ -255,98 +251,98 @@ class Import extends AbstractJob
             $itemSet = $this->createItemSet($collection);
             $this->itemSetId = $itemSet->id();
         } else {
-            $this->itemSetId = $itemSetId; 
+            $this->itemSetId = $itemSetId;
         }
     }
-    
+
     protected function createItemSet($collection)
     {
-        $itemSetData = array();
-        $itemSetData['dcterms:title'] = array(
-                array('@value' => $collection['name'],
+        $itemSetData = [];
+        $itemSetData['dcterms:title'] = [
+                ['@value' => $collection['name'],
                       'property_id' => $this->termIdMap['dcterms:title'],
-                      'type' => 'literal'
-                ));
-        
-        $itemSetData['dcterms:license'] = array(
-                array('@value' => $collection['license'], 
+                      'type' => 'literal',
+                ], ];
+
+        $itemSetData['dcterms:license'] = [
+                ['@value' => $collection['license'],
                       'property_id' => $this->termIdMap['dcterms:license'],
-                      'type' => 'literal'
-                ));
-        
-        $itemSetData['dcterms:rights'] = array(
-                array('@value' => $collection['copyrightText'], 
+                      'type' => 'literal',
+                ], ];
+
+        $itemSetData['dcterms:rights'] = [
+                ['@value' => $collection['copyrightText'],
                       'property_id' => $this->termIdMap['dcterms:rights'],
-                       'type' => 'literal'
-                ));
-        
-        $itemSetData['dcterms:description'] = array(
-                array('@value' => $collection['shortDescription'], 
+                       'type' => 'literal',
+                ], ];
+
+        $itemSetData['dcterms:description'] = [
+                ['@value' => $collection['shortDescription'],
                       'property_id' => $this->termIdMap['dcterms:description'],
-                      'type' => 'literal'
-                ),
-                array('@value' => $collection['introductoryText'], 
+                      'type' => 'literal',
+                ],
+                ['@value' => $collection['introductoryText'],
                       'property_id' => $this->termIdMap['dcterms:description'],
-                      'type' => 'literal'
-                ));
-        
+                      'type' => 'literal',
+                ], ];
+
         $response = $this->api->create('item_sets', $itemSetData);
         return $response->getContent();
     }
-    
-    protected function createItems($toCreate) 
+
+    protected function createItems($toCreate)
     {
-        $createResponse = $this->api->batchCreate('items', $toCreate, array(), ['continueOnError' => true]);
+        $createResponse = $this->api->batchCreate('items', $toCreate, [], ['continueOnError' => true]);
         $this->addedCount = $this->addedCount + count($createResponse->getContent());
 
-        $createImportRecordsJson = array();
+        $createImportRecordsJson = [];
         $createContent = $createResponse->getContent();
-        
-        foreach($createContent as $id=>$resourceReference) {
+
+        foreach ($createContent as $id => $resourceReference) {
             //get the original data used for individual item creation
             $toCreateData = $toCreate[$id];
-            
-            $dspaceItemJson = array(
-                            'o:job'     => array('o:id' => $this->job->getId()),
-                            'o:item'    => array('o:id' => $resourceReference->id()),
-                            'api_url'   => $this->apiUrl,
+
+            $dspaceItemJson = [
+                            'o:job' => ['o:id' => $this->job->getId()],
+                            'o:item' => ['o:id' => $resourceReference->id()],
+                            'api_url' => $this->apiUrl,
                             'remote_id' => $toCreateData['remote_id'],
-                            'handle'    => $toCreateData['handle'],
-                            'last_modified' => new \DateTime($toCreateData['lastModified'])
-                        );
+                            'handle' => $toCreateData['handle'],
+                            'last_modified' => new \DateTime($toCreateData['lastModified']),
+                        ];
             $createImportRecordsJson[] = $dspaceItemJson;
         }
-        
-        $createImportRecordResponse = $this->api->batchCreate('dspace_items', $createImportRecordsJson, array(), ['continueOnError' => true]);
+
+        $createImportRecordResponse = $this->api->batchCreate('dspace_items', $createImportRecordsJson, [], ['continueOnError' => true]);
     }
-    
+
     protected function updateItems($toUpdate)
     {
         //  batchUpdate would be nice, but complexities abound. See https://github.com/omeka/omeka-s/issues/326
-        $updateResponses = array();
-        foreach ($toUpdate as $importRecordId=>$itemJson) {
+        $updateResponses = [];
+        foreach ($toUpdate as $importRecordId => $itemJson) {
             $this->updatedCount = $this->updatedCount + 1;
             $updateResponses[$importRecordId] = $this->api->update('items', $itemJson['id'], $itemJson);
         }
-        
+
         foreach ($updateResponses as $importRecordId => $resourceReference) {
             $toUpdateData = $toUpdate[$index];
-            $dspaceItemJson = array(
-                            'o:job'     => array('o:id' => $this->job->getId()),
+            $dspaceItemJson = [
+                            'o:job' => ['o:id' => $this->job->getId()],
                             'remote_id' => $toUpdateData['remote_id'],
-                            'last_modified' => new \DateTime($toUpdateData['lastModified'])
-                        );
+                            'last_modified' => new \DateTime($toUpdateData['lastModified']),
+                        ];
             $updateImportRecordResponse = $this->api->update('dspace_items', $importRecordId, $dspaceItemJson);
         }
     }
-    
+
     protected function importRecord($remoteId, $apiUrl)
     {
         //see if the item has already been imported
         $response = $this->api->search('dspace_items',
-                                        array('remote_id' => $remoteId,
-                                              'api_url'   => $apiUrl
-                                            ));
+                                        ['remote_id' => $remoteId,
+                                              'api_url' => $apiUrl,
+                                            ]);
         $content = $response->getContent();
         if (empty($content)) {
             return false;

@@ -10,7 +10,7 @@ class Undo extends AbstractJob
         $jobId = $this->getArg('jobId');
         echo $jobId;
         $api = $this->getServiceLocator()->get('Omeka\ApiManager');
-        $response = $api->search('dspace_items', array('job_id' => $jobId));
+        $response = $api->search('dspace_items', ['job_id' => $jobId]);
         $dspaceItems = $response->getContent();
         if ($dspaceItems) {
             foreach ($dspaceItems as $dspaceItem) {

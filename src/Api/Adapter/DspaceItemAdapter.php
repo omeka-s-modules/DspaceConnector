@@ -13,17 +13,17 @@ class DspaceItemAdapter extends AbstractEntityAdapter
     {
         return 'DspaceConnector\Entity\DspaceItem';
     }
-    
+
     public function getResourceName()
     {
         return 'dspace_items';
     }
-    
+
     public function getRepresentationClass()
     {
         return 'DspaceConnector\Api\Representation\DspaceItemRepresentation';
     }
-    
+
     public function buildQuery(QueryBuilder $qb, array $query)
     {
         if (isset($query['remote_id'])) {
@@ -32,21 +32,21 @@ class DspaceItemAdapter extends AbstractEntityAdapter
                 $this->createNamedParameter($qb, $query['remote_id']))
             );
         }
-        
+
         if (isset($query['api_url'])) {
             $qb->andWhere($qb->expr()->eq(
                 $this->getEntityClass() . '.apiUrl',
                 $this->createNamedParameter($qb, $query['api_url']))
             );
         }
-        
+
         if (isset($query['job_id'])) {
             $qb->andWhere($qb->expr()->eq(
                 $this->getEntityClass() . '.job',
                 $this->createNamedParameter($qb, $query['job_id']))
             );
         }
-        
+
         if (isset($query['item_id'])) {
             $qb->andWhere($qb->expr()->eq(
                 $this->getEntityClass() . '.item',
@@ -54,7 +54,7 @@ class DspaceItemAdapter extends AbstractEntityAdapter
             );
         }
     }
-    
+
     public function hydrate(Request $request, EntityInterface $entity,
         ErrorStore $errorStore
     ) {

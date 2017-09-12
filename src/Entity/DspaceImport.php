@@ -7,26 +7,26 @@ use Omeka\Entity\Job;
 /**
  * @Entity
  */
-class DspaceImport extends AbstractEntity {
-    
+class DspaceImport extends AbstractEntity
+{
     /**
      * @Id
      * @Column(type="integer")
      * @GeneratedValue
      */
     protected $id;
-    
+
     /**
      * @OneToOne(targetEntity="Omeka\Entity\Job")
      * @JoinColumn(nullable=false)
      */
     protected $job;
-    
+
     /**
      * @Column(type="integer")
      */
     protected $addedCount;
-    
+
     /**
      * @Column(type="integer")
      */
@@ -36,17 +36,17 @@ class DspaceImport extends AbstractEntity {
      * @JoinColumn(nullable=true)
      */
     protected $undoJob;
-    
+
     /**
      * @Column(type="string", nullable=true)
      */
     protected $comment;
-    
+
     public function getId()
     {
         return $this->id;
     }
-    
+
     public function setJob(Job $job)
     {
         $this->job = $job;
@@ -56,7 +56,7 @@ class DspaceImport extends AbstractEntity {
     {
         return $this->job;
     }
-    
+
     public function setUndoJob(Job $job)
     {
         $this->undoJob = $job;
@@ -66,12 +66,12 @@ class DspaceImport extends AbstractEntity {
     {
         return $this->undoJob;
     }
-    
+
     public function setAddedCount($count)
     {
         $this->addedCount = $count;
     }
-    
+
     public function getAddedCount()
     {
         return $this->addedCount;
@@ -81,17 +81,17 @@ class DspaceImport extends AbstractEntity {
     {
         $this->updatedCount = $count;
     }
-    
+
     public function getUpdatedCount()
     {
         return $this->updatedCount;
     }
-    
+
     public function setComment($comment)
     {
         $this->comment = $comment;
     }
-    
+
     public function getComment()
     {
         return $this->comment;
