@@ -7,7 +7,7 @@ $formElement = $this->plugin('formElement');
 $formLabel = $this->plugin('formLabel');
 ?>
 
-<h1><?php echo $escapeHtml($this->translate('DSpace Connector')); ?></h1>
+<?php echo $this->pageTitle($this->translate('Dspace Connector'), 1, $this->translate('Import Settings')); ?>
 <div id="import" class="section active">
     <?php echo $this->form()->openTag($form); ?>
     <fieldset id='page-actions'>

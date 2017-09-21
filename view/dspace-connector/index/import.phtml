@@ -5,8 +5,7 @@ $escapeHtml = $this->plugin('escapeHtml');
 $this->headLink()->appendStylesheet($this->assetUrl('css/dspace-connector.css', 'DspaceConnector'));
 ?>
 
-<?php echo $this->pageTitle($this->translate('Choose · DSpace Connector')); ?>
-
+<?php echo $this->pageTitle($this->translate('Dspace Connector'), 1, $this->translate('Import options')); ?>
 
 <nav class="section-nav">
     <ul>

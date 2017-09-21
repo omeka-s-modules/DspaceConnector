@@ -3,7 +3,7 @@ $this->htmlElement('body')->appendAttribute('class', 'dspace jobs undo');
 $escape = $this->plugin('escapeHtml');
 ?>
 
-<h1><?php echo $escape($this->translate('Past DSpace Imports')); ?></h1>
+<?php echo $this->pageTitle($this->translate('Dspace Connector'), 1, $this->translate('Past Imports')); ?>
 
 <?php if(empty($imports)): ?>
 
