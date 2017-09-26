@@ -73,9 +73,9 @@ class IndexController extends AbstractActionController
      */
     protected function fetchData($endpoint, $expand = null)
     {
-        $this->client->setHeaders(['Accept' => 'application/json']);
+        $this->client->setHeaders(array('Accept' => 'application/json'))->setOptions(['timeout' => 60]);
         $this->client->setUri($endpoint);
-        $this->client->setParameterGet(['expand' => $expand]);
+        $this->client->setParameterGet(['expand' => $expand, 'limit'=> 9999]);
 
         $response = $this->client->send();
         if (!$response->isSuccess()) {
