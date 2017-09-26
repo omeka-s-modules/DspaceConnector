@@ -87,8 +87,7 @@ class Import extends AbstractJob
                 $this->createItems($toCreate);
                 $this->updateItems($toUpdate);
 
-                // limit is hardcoded at 50, so bump to next page
-                $offset = $offset + 50;
+                $offset = $offset + $this->limit;
             }
         }
     }
