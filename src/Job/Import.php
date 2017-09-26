@@ -12,6 +12,8 @@ class Import extends AbstractJob
 
     protected $api;
 
+    protected $limit;
+
     protected $termIdMap;
 
     protected $addedCount;
@@ -29,6 +31,7 @@ class Import extends AbstractJob
         $this->client = $this->getServiceLocator()->get('Omeka\HttpClient');
         $this->client->setHeaders(['Accept' => 'application/json']);
         $this->apiUrl = $this->getArg('api_url');
+        $this->limit = $this->getArg('limit');
 
         $dspaceImportJson = [
             'o:job' => ['o:id' => $this->job->getId()],
@@ -169,7 +172,7 @@ class Import extends AbstractJob
         $link = str_replace('RESTapi', 'rest', $link);
         $this->client->setUri($this->apiUrl . $link);
         $this->client->setParameterGet(['expand' => $expand,
-                                        'limit' => 50,
+                                        'limit' => $this->limit,
                                         'offset' => $offset,
                                        ]);
         $response = $this->client->send();
