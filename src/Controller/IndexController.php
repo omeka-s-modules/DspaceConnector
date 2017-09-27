@@ -66,6 +66,7 @@ class IndexController extends AbstractActionController
             $view->setVariable('communities', $communities);
             $view->setVariable('dspace_url', $dspaceUrl);
             $view->setVariable('form', $importForm);
+            $view->setVariable('limit', $this->limit);
             return $view;
         }
     }
@@ -76,7 +77,7 @@ class IndexController extends AbstractActionController
      */
     protected function fetchData($endpoint, $expand = null)
     {
-        $this->client->setHeaders(['Accept' => 'application/json']);
+        $this->client->setHeaders(array('Accept' => 'application/json'))->setOptions(['timeout' => 60]);
         $this->client->setUri($endpoint);
         $offset = 0;
         $limit = $this->limit;
