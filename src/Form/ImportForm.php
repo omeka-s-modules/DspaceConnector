@@ -62,6 +62,7 @@ class ImportForm extends Form
                 'id' => 'comment',
             ],
         ]);
+
     }
 
     public function setOwner($identity)

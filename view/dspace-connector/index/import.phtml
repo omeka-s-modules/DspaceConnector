@@ -75,5 +75,6 @@ $this->headLink()->appendStylesheet($this->assetUrl('css/dspace-connector.css', 
 </fieldset>
 
 <input type='hidden' name='api_url' value='<?php echo $dspace_url; ?>' ></input>
+<input type='hidden' name='limit' value='<?php echo $limit; ?>' ></input>
 <?php echo $this->form()->closeTag($form); ?>
 

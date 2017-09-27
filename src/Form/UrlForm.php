@@ -36,5 +36,19 @@ class UrlForm extends Form
                 'value' => 'rest',
             ],
         ]);
+
+        $this->add([
+            'name' => 'limit',
+            'type' => Text::class,
+            'options' => [
+                'label' => 'Limit', // @translate
+                'info' => 'The maximum number of results to retrieve at once from DSpace. If you notice errors or missing data, try lowering this number. Increasing it might make imports faster.', // @translate
+            ],
+            'attributes' => [
+                'id' => 'limit',
+                'required' => 'false',
+                'value' => '100',
+            ],
+        ]);
     }
 }

@@ -10,6 +10,8 @@ class IndexController extends AbstractActionController
 {
     protected $client;
 
+    protected $limit = 20;
+
     public function __construct($client)
     {
         $this->client = $client;
@@ -27,6 +29,7 @@ class IndexController extends AbstractActionController
     {
         $view = new ViewModel;
         $params = $this->params()->fromPost();
+        $this->limit = $params['limit'];
         if (isset($params['collection_link'])) {
             //coming from the import page, do the import
             $importForm = $this->getForm(ImportForm::class);
@@ -63,6 +66,7 @@ class IndexController extends AbstractActionController
             $view->setVariable('communities', $communities);
             $view->setVariable('dspace_url', $dspaceUrl);
             $view->setVariable('form', $importForm);
+            $view->setVariable('limit', $this->limit);
             return $view;
         }
     }
@@ -75,14 +79,34 @@ class IndexController extends AbstractActionController
     {
         $this->client->setHeaders(array('Accept' => 'application/json'))->setOptions(['timeout' => 60]);
         $this->client->setUri($endpoint);
-        $this->client->setParameterGet(['expand' => $expand, 'limit'=> 9999]);
+        $offset = 0;
+        $limit = $this->limit;
+        $getParams = [
+            'expand' => $expand,
+            'offset' => $offset,
+            'limit' => $limit,
+        ];
+        $this->client->setParameterGet($getParams);
+        $fullResponse = [];
 
-        $response = $this->client->send();
-        if (!$response->isSuccess()) {
-            $this->logger()->err(sprintf('Requested "%s" got "%s".', $endpoint, $response->renderStatusLine()));
-            $this->messenger()->addError('There was an error retrieving data. Please try again.');
+        $hasNext = true;
+        while ($hasNext) {
+            $response = $this->client->send();
+            if (!$response->isSuccess()) {
+                $this->logger()->err(sprintf('Requested "%s" got "%s".', $endpoint, $response->renderStatusLine()));
+                $this->messenger()->addError('There was an error retrieving data. Please try again.');
+            }
+            $responseBody = json_decode($response->getBody(), true);
+            if (empty($responseBody)) {
+                $hasNext = false;
+            } else {
+                $offset = $offset + $limit;
+                $getParams['offset'] = $offset;
+                $this->client->setParameterGet($getParams);
+                $fullResponse = array_merge($responseBody, $fullResponse);
+            }
         }
-        return json_decode($response->getBody(), true);
+        return $fullResponse;
     }
 
     public function pastImportsAction()
