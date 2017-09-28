@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-09-21 14:55-0400\n"
+"POT-Creation-Date: 2017-09-28 11:13-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -23,6 +23,10 @@ msgstr ""
 
 #: Module.php:70
 msgid "Link"
+msgstr ""
+
+#: src/Controller/IndexController.php:62
+msgid "Error importing data"
 msgstr ""
 
 #: view/dspace-connector/index/import.phtml:8
@@ -94,6 +98,14 @@ msgstr ""
 msgid "Undone"
 msgstr ""
 
+#: src/Controller/IndexController.php:38 src/Controller/IndexController.php:51
+msgid "There was an error during validation"
+msgstr ""
+
+#: src/Controller/IndexController.php:97
+msgid "There was an error retrieving data. Please try again."
+msgstr ""
+
 #: src/Form/ImportForm.php:17
 msgid "Import files into Omeka S"
 msgstr ""
@@ -134,4 +146,15 @@ msgstr ""
 
 #: src/Form/UrlForm.php:31
 msgid "The endpoint for the API"
+msgstr ""
+
+#: src/Form/UrlForm.php:44
+msgid "Limit"
+msgstr ""
+
+#: src/Form/UrlForm.php:45
+msgid ""
+"The maximum number of results to retrieve at once from DSpace. If you notice "
+"errors or missing data, try lowering this number. Increasing it might make "
+"imports faster."
 msgstr ""

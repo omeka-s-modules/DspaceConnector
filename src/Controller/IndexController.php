@@ -35,7 +35,7 @@ class IndexController extends AbstractActionController
             $importForm = $this->getForm(ImportForm::class);
             $importForm->setData($params);
             if (! $importForm->isValid()) {
-                $this->messenger()->addError('There was an error during validation');
+                $this->messenger()->addError('There was an error during validation'); // @translate
                 return $view;
             }
 
@@ -48,7 +48,7 @@ class IndexController extends AbstractActionController
             $urlForm = $this->getForm(UrlForm::class);
             $urlForm->setData($params);
             if (! $urlForm->isValid()) {
-                $this->messenger()->addError('There was an error during validation');
+                $this->messenger()->addError('There was an error during validation'); // @translate
                 return $this->redirect()->toRoute('admin/dspace-connector');
             }
 
@@ -59,7 +59,7 @@ class IndexController extends AbstractActionController
                 $communities = $this->fetchData($dspaceUrl . '/' . $params['endpoint'] . '/communities', 'collections');
                 $collections = $this->fetchData($dspaceUrl . '/' . $params['endpoint'] . '/collections');
             } catch (Exception $e) {
-                $this->logger()->err('Error importing data');
+                $this->logger()->err($this->translate('Error importing data'));
                 $this->logger()->err($e);
             }
             $view->setVariable('collections', $collections);
@@ -94,7 +94,7 @@ class IndexController extends AbstractActionController
             $response = $this->client->send();
             if (!$response->isSuccess()) {
                 $this->logger()->err(sprintf('Requested "%s" got "%s".', $endpoint, $response->renderStatusLine()));
-                $this->messenger()->addError('There was an error retrieving data. Please try again.');
+                $this->messenger()->addError('There was an error retrieving data. Please try again.'); // @translate
             }
             $responseBody = json_decode($response->getBody(), true);
             if (empty($responseBody)) {
