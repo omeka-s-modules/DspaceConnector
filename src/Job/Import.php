@@ -328,7 +328,7 @@ class Import extends AbstractJob
         }
 
         foreach ($updateResponses as $importRecordId => $resourceReference) {
-            $toUpdateData = $toUpdate[$index];
+            $toUpdateData = $toUpdate[$importRecordId];
             $dspaceItemJson = [
                             'o:job' => ['o:id' => $this->job->getId()],
                             'remote_id' => $toUpdateData['remote_id'],
