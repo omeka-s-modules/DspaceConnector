@@ -32,11 +32,17 @@ class Import extends AbstractJob
         $this->client->setHeaders(['Accept' => 'application/json']);
         $this->apiUrl = $this->getArg('api_url');
         $this->limit = $this->getArg('limit');
-
+        $comment = $this->getArg('comment');
+        $dspaceImportJson = [
+            'o:job' => ['o:id' => $this->job->getId()],
+            'comment' => $comment,
+            'added_count' => $this->addedCount,
+            'updated_count' => $this->updatedCount,
+        ];
         $response = $this->api->create('dspace_imports', $dspaceImportJson);
         $importRecordId = $response->getContent()->id();
         $this->importCollection($this->getArg('collection_link'));
-        $comment = $this->getArg('comment');
+        
         $dspaceImportJson = [
             'o:job' => ['o:id' => $this->job->getId()],
             'comment' => $comment,
