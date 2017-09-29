@@ -32,7 +32,7 @@ class Import extends AbstractJob
         $this->client->setHeaders(['Accept' => 'application/json']);
         $this->apiUrl = $this->getArg('api_url');
         $this->limit = $this->getArg('limit');
-
+        $comment = $this->getArg('comment');
         $dspaceImportJson = [
             'o:job' => ['o:id' => $this->job->getId()],
             'comment' => $comment,
@@ -42,7 +42,7 @@ class Import extends AbstractJob
         $response = $this->api->create('dspace_imports', $dspaceImportJson);
         $importRecordId = $response->getContent()->id();
         $this->importCollection($this->getArg('collection_link'));
-        $comment = $this->getArg('comment');
+        
         $dspaceImportJson = [
             'o:job' => ['o:id' => $this->job->getId()],
             'comment' => $comment,
@@ -328,7 +328,7 @@ class Import extends AbstractJob
         }
 
         foreach ($updateResponses as $importRecordId => $resourceReference) {
-            $toUpdateData = $toUpdate[$index];
+            $toUpdateData = $toUpdate[$importRecordId];
             $dspaceItemJson = [
                             'o:job' => ['o:id' => $this->job->getId()],
                             'remote_id' => $toUpdateData['remote_id'],
