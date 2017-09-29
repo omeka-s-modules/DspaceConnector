@@ -13,14 +13,6 @@ $formLabel = $this->plugin('formLabel');
     <fieldset id='page-actions'>
         <button><?php echo $this->translate("Get collections and communities"); ?></button>
     </fieldset>
-    <?php $apiElement = $form->get('api_url'); ?>
-    <?php echo $this->formRow($apiElement) ; ?>
-    <?php echo $this->formElementErrors($apiElement, array('class' => 'messages')); ?>
-    <?php $endpointElement = $form->get('endpoint'); ?>
-    <?php echo $this->formRow($endpointElement) ; ?>
-    <?php echo $this->formElementErrors($endpointElement, array('class' => 'messages')); ?>
-    <?php $limitElement = $form->get('limit'); ?>
-    <?php echo $this->formRow($limitElement) ; ?>
-    <?php echo $formElement($form->get('csrf')); ?>
+<?php echo $this->formCollection($form, false); ?>
     <?php echo $this->form()->closeTag(); ?>
 </div>
