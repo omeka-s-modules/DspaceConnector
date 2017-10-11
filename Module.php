@@ -5,6 +5,7 @@ use Omeka\Module\AbstractModule;
 use Omeka\Entity\Job;
 use Zend\ServiceManager\ServiceLocatorInterface;
 use Zend\EventManager\SharedEventManagerInterface;
+use Zend\Mvc\MvcEvent;
 use Composer\Semver\Comparator;
 
 class Module extends AbstractModule
@@ -12,6 +13,17 @@ class Module extends AbstractModule
     public function getConfig()
     {
         return include __DIR__ . '/config/module.config.php';
+    }
+
+    public function onBootstrap(MvcEvent $event)
+    {
+        parent::onBootstrap($event);
+        $acl = $this->getServiceLocator()->get('Omeka\Acl');
+        $acl->allow(
+            null,
+            ['DspaceConnector\Api\Adapter\DspaceItemAdapter'],
+            ['search', 'read']
+            );
     }
 
     public function install(ServiceLocatorInterface $serviceLocator)
