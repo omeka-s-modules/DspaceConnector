@@ -58,7 +58,7 @@ class IndexController extends AbstractActionController
             try {
                 $communities = $this->fetchData($dspaceUrl . '/' . $params['endpoint'] . '/communities', 'collections');
                 $collections = $this->fetchData($dspaceUrl . '/' . $params['endpoint'] . '/collections');
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 $this->logger()->err($this->translate('Error importing data'));
                 $this->logger()->err($e);
             }
