@@ -41,7 +41,9 @@ class IndexController extends AbstractActionController
 
             $job = $this->jobDispatcher()->dispatch('DspaceConnector\Job\Import', $params);
             $view->setVariable('job', $job);
-            $this->messenger()->addSuccess('Importing in Job ID ' . $job->getId()); // @translate
+            $message = new Message('Importing in Job ID %s', // @translate
+                $job->getId);
+            $this->messenger()->addSuccess($message);
             return $this->redirect()->toRoute('admin/dspace-connector/past-imports');
         } else {
             //coming from the index page, dig up data from the endpoint url
@@ -118,7 +120,9 @@ class IndexController extends AbstractActionController
                 $undoJob = $this->undoJob($jobId);
                 $undoJobIds[] = $undoJob->getId();
             }
-            $this->messenger()->addSuccess('Undo in progress in the following jobs: ' . implode(', ', $undoJobIds)); // @translate
+            $message = new Message('Undo in progress in the following jobs: %s'  // @translate
+                , implode(', ', $undoJobIds));
+            $this->messenger()->addSuccess($message);
         }
         $view = new ViewModel;
         $page = $this->params()->fromQuery('page', 1);
