@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-09-28 11:13-0400\n"
+"POT-Creation-Date: 2017-11-07 11:17-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,11 +17,11 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: Module.php:69
+#: Module.php:81
 msgid "Last Modified"
 msgstr ""
 
-#: Module.php:70
+#: Module.php:82
 msgid "Link"
 msgstr ""
 
@@ -102,8 +102,16 @@ msgstr ""
 msgid "There was an error during validation"
 msgstr ""
 
+#: src/Controller/IndexController.php:44
+msgid "Importing in Job ID "
+msgstr ""
+
 #: src/Controller/IndexController.php:97
 msgid "There was an error retrieving data. Please try again."
+msgstr ""
+
+#: src/Controller/IndexController.php:121
+msgid ", "
 msgstr ""
 
 #: src/Form/ImportForm.php:17
