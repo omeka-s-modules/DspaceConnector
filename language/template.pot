@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-11-07 11:17-0500\n"
+"POT-Creation-Date: 2017-11-08 11:41-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -25,7 +25,7 @@ msgstr ""
 msgid "Link"
 msgstr ""
 
-#: src/Controller/IndexController.php:62
+#: src/Controller/IndexController.php:64
 msgid "Error importing data"
 msgstr ""
 
@@ -98,20 +98,22 @@ msgstr ""
 msgid "Undone"
 msgstr ""
 
-#: src/Controller/IndexController.php:38 src/Controller/IndexController.php:51
+#: src/Controller/IndexController.php:38 src/Controller/IndexController.php:53
 msgid "There was an error during validation"
 msgstr ""
 
 #: src/Controller/IndexController.php:44
-msgid "Importing in Job ID "
+#, php-format
+msgid "Importing in Job ID %s"
 msgstr ""
 
-#: src/Controller/IndexController.php:97
+#: src/Controller/IndexController.php:99
 msgid "There was an error retrieving data. Please try again."
 msgstr ""
 
-#: src/Controller/IndexController.php:121
-msgid ", "
+#: src/Controller/IndexController.php:123
+#, php-format
+msgid "Undo in progress in the following jobs: %s"
 msgstr ""
 
 #: src/Form/ImportForm.php:17
