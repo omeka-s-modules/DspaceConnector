@@ -1,10 +1,12 @@
 <?php
 namespace DspaceConnector\Controller;
 
+use Omeka\Stdlib\Message;
 use DspaceConnector\Form\ImportForm;
 use DspaceConnector\Form\UrlForm;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
+
 
 class IndexController extends AbstractActionController
 {
