@@ -44,7 +44,7 @@ class IndexController extends AbstractActionController
             $job = $this->jobDispatcher()->dispatch('DspaceConnector\Job\Import', $params);
             $view->setVariable('job', $job);
             $message = new Message('Importing in Job ID %s', // @translate
-                $job->getId);
+                $job->getId());
             $this->messenger()->addSuccess($message);
             return $this->redirect()->toRoute('admin/dspace-connector/past-imports');
         } else {
