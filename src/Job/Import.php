@@ -149,18 +149,20 @@ class Import extends AbstractJob
     public function processItemBitstreams($bitstreamsArray, $itemJson)
     {
         foreach ($bitstreamsArray as $bitstream) {
-            $itemJson['o:media'][] = [
-                'o:ingester' => 'url',
-                'o:data' => json_encode($bitstream),
-                'o:source' => $this->apiUrl . $bitstream['link'],
-                'ingest_url' => $this->apiUrl . $bitstream['link'] . '/retrieve',
-                'dcterms:title' => [
-                    [
-                        '@value' => $bitstream['name'],
-                        'property_id' => $this->termIdMap['dcterms:title'],
+            if (isset($bitstreamsArray['bundleName']) && $bitstreamsArray['bundleName'] == 'ORIGINAL') {
+                $itemJson['o:media'][] = [
+                    'o:ingester' => 'url',
+                    'o:data' => json_encode($bitstream),
+                    'o:source' => $this->apiUrl . $bitstream['link'],
+                    'ingest_url' => $this->apiUrl . $bitstream['link'] . '/retrieve',
+                    'dcterms:title' => [
+                        [
+                            '@value' => $bitstream['name'],
+                            'property_id' => $this->termIdMap['dcterms:title'],
+                        ],
                     ],
-                ],
-            ];
+                ];
+            }
         }
         return $itemJson;
     }
