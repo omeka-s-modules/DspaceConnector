@@ -49,6 +49,10 @@ class DspaceItem extends AbstractEntity
     protected $handle;
 
     /**
+     * @Column(type="string")
+     */
+    protected $handle_server;
+    /**
      * @Column(type="datetime")
      */
     protected $lastModified;
@@ -107,6 +111,16 @@ class DspaceItem extends AbstractEntity
     public function getHandle()
     {
         return $this->handle;
+    }
+
+    public function setHandleServer($handleServer)
+    {
+        $this->handle_server = $handleServer;
+    }
+
+    public function getHandleServer()
+    {
+        return $this->handle_server;
     }
 
     public function setLastModified(DateTime $lastModified)
