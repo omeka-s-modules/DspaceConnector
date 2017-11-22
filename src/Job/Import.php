@@ -151,8 +151,11 @@ class Import extends AbstractJob
 
     public function processItemBitstreams($bitstreamsArray, $itemJson)
     {
+        $logger = $this->getServiceLocator()->get('Omeka\Logger');
+        
         foreach ($bitstreamsArray as $bitstream) {
             if (isset($bitstream['bundleName']) && $bitstream['bundleName'] == 'ORIGINAL') {
+                $logger->info($this->termIdMap['dcterms:title'] . ": " . $bitstream['name']);
                 $itemJson['o:media'][] = [
                     'o:ingester' => 'url',
                     'o:data' => json_encode($bitstream),
