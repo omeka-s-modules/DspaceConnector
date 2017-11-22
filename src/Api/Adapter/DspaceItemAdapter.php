@@ -76,9 +76,6 @@ class DspaceItemAdapter extends AbstractEntityAdapter
         if (isset($data['handle'])) {
             $entity->setHandle($data['handle']);
         }
-        if (isset($data['handle_server'])) {
-            $entity->setHandleServer($data['handle_server']);
-        }
         if (isset($data['last_modified'])) {
             $entity->setLastModified($data['last_modified']);
         }

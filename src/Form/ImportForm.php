@@ -63,18 +63,6 @@ class ImportForm extends Form
             ],
         ]);
 
-        $this->add([
-            'name' => 'handle_server',
-            'type' => 'text',
-            'options' => [
-                'label' => 'Handle Server', // @translate
-                'info' => 'The URL of handle server (e.g. http://example.org/dspace/handleresolver)', // @translate
-            ],
-            'attributes' => [
-                'value' => 'http://hdl.handle.net',
-                'required' => false,
-            ]
-        ]);
     }
 
     public function setOwner($identity)

@@ -10,8 +10,6 @@ class Import extends AbstractJob
 
     protected $apiUrl;
 
-    protected $handleServer;
-
     protected $api;
 
     protected $limit;
@@ -33,7 +31,6 @@ class Import extends AbstractJob
         $this->client = $this->getServiceLocator()->get('Omeka\HttpClient');
         $this->client->setHeaders(['Accept' => 'application/json']);
         $this->apiUrl = $this->getArg('api_url');
-        $this->handleServer = rtrim($this->getArg('handle_server'), '/');
         $this->limit = $this->getArg('limit');
         $comment = $this->getArg('comment');
         $dspaceImportJson = [
@@ -320,7 +317,6 @@ class Import extends AbstractJob
                             'api_url' => $this->apiUrl,
                             'remote_id' => $toCreateData['remote_id'],
                             'handle' => $toCreateData['handle'],
-                            'handle_server' => $this->handleServer,
                             'last_modified' => new \DateTime($toCreateData['lastModified']),
                         ];
             $createImportRecordsJson[] = $dspaceItemJson;
@@ -343,7 +339,6 @@ class Import extends AbstractJob
             $dspaceItemJson = [
                             'o:job' => ['o:id' => $this->job->getId()],
                             'remote_id' => $toUpdateData['remote_id'],
-                            'handle_server' => $this->handleServer,
                             'last_modified' => new \DateTime($toUpdateData['lastModified']),
                         ];
             $updateImportRecordResponse = $this->api->update('dspace_items', $importRecordId, $dspaceItemJson);

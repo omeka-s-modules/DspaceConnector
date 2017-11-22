@@ -29,7 +29,7 @@ class Module extends AbstractModule
     public function install(ServiceLocatorInterface $serviceLocator)
     {
         $connection = $serviceLocator->get('Omeka\Connection');
-        $connection->exec("CREATE TABLE dspace_item (id INT AUTO_INCREMENT NOT NULL, item_id INT NOT NULL, job_id INT NOT NULL, api_url VARCHAR(255) NOT NULL, remote_id VARCHAR(36) NOT NULL, handle_server VARCHAR(255) NULL, handle VARCHAR(255) NOT NULL, last_modified DATETIME NOT NULL, UNIQUE INDEX UNIQ_1C6D63B4126F525E (item_id), INDEX IDX_1C6D63B4BE04EA9 (job_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE = InnoDB;");
+        $connection->exec("CREATE TABLE dspace_item (id INT AUTO_INCREMENT NOT NULL, item_id INT NOT NULL, job_id INT NOT NULL, api_url VARCHAR(255) NOT NULL, remote_id VARCHAR(36) NOT NULL, handle VARCHAR(255) NOT NULL, last_modified DATETIME NOT NULL, UNIQUE INDEX UNIQ_1C6D63B4126F525E (item_id), INDEX IDX_1C6D63B4BE04EA9 (job_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE = InnoDB;");
         $connection->exec("ALTER TABLE dspace_item ADD CONSTRAINT FK_1C6D63B4126F525E FOREIGN KEY (item_id) REFERENCES item (id) ON DELETE CASCADE;");
         $connection->exec("ALTER TABLE dspace_item ADD CONSTRAINT FK_1C6D63B4BE04EA9 FOREIGN KEY (job_id) REFERENCES job (id);");
 
@@ -56,11 +56,6 @@ class Module extends AbstractModule
             $connection = $serviceLocator->get('Omeka\Connection');
             $connection->exec("ALTER TABLE `dspace_item` CHANGE `remote_id` `remote_id` VARCHAR(36) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL;");
         }
-
-        if (Comparator::lessThan($oldVersion, '1.1.0')) {
-            $connection = $serviceLocator->get('Omeka\Connection');
-            $connection->exec("ALTER TABLE `dspace_item` ADD `handle_server` VARCHAR(255) NULL AFTER `api_url`;");
-        }
     }
 
     public function attachListeners(SharedEventManagerInterface $sharedEventManager)
@@ -81,7 +76,7 @@ class Module extends AbstractModule
         $dspaceItems = $response->getContent();
         if ($dspaceItems) {
             $dspaceItem = $dspaceItems[0];
-            $url = $dspaceItem->handleServer() . '/' . $dspaceItem->handle();
+            $url = $dspaceItem->apiUrl() . '/handle/' . $dspaceItem->handle();
             echo '<h3>' . $view->translate('Original')  . '</h3>';
             echo '<p>' . $view->translate('Last Modified') . ' ' . $view->i18n()->dateFormat($dspaceItem->lastModified()) . '</p>';
             echo '<p><a href="' . $url . '">' . $view->translate('Link') . '</a></p>';

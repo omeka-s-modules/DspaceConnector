@@ -42,11 +42,6 @@ class DspaceItemRepresentation extends AbstractEntityRepresentation
         return $this->resource->getHandle();
     }
 
-    public function handleServer()
-    {
-        return $this->resource->getHandleServer();
-    }
-
     public function item()
     {
         return $this->getAdapter('items')
