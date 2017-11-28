@@ -76,7 +76,7 @@ class Module extends AbstractModule
         $dspaceItems = $response->getContent();
         if ($dspaceItems) {
             $dspaceItem = $dspaceItems[0];
-            $url = $dspaceItem->apiUrl() . '/handle/' . $dspaceItem->handle();
+            $url = 'http://hdl.handle.net/' . $dspaceItem->handle();
             echo '<h3>' . $view->translate('Original')  . '</h3>';
             echo '<p>' . $view->translate('Last Modified') . ' ' . $view->i18n()->dateFormat($dspaceItem->lastModified()) . '</p>';
             echo '<p><a href="' . $url . '">' . $view->translate('Link') . '</a></p>';
