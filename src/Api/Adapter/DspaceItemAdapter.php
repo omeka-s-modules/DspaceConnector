@@ -28,28 +28,28 @@ class DspaceItemAdapter extends AbstractEntityAdapter
     {
         if (isset($query['remote_id'])) {
             $qb->andWhere($qb->expr()->eq(
-                $this->getEntityClass() . '.remoteId',
+                'omeka_root.remoteId',
                 $this->createNamedParameter($qb, $query['remote_id']))
             );
         }
 
         if (isset($query['api_url'])) {
             $qb->andWhere($qb->expr()->eq(
-                $this->getEntityClass() . '.apiUrl',
+                'omeka_root.apiUrl',
                 $this->createNamedParameter($qb, $query['api_url']))
             );
         }
 
         if (isset($query['job_id'])) {
             $qb->andWhere($qb->expr()->eq(
-                $this->getEntityClass() . '.job',
+                'omeka_root.job',
                 $this->createNamedParameter($qb, $query['job_id']))
             );
         }
 
         if (isset($query['item_id'])) {
             $qb->andWhere($qb->expr()->eq(
-                $this->getEntityClass() . '.item',
+                'omeka_root.item',
                 $this->createNamedParameter($qb, $query['item_id']))
             );
         }
