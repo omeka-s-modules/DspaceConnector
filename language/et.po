@@ -1,0 +1,170 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# 
+# Translators:
+# Rivo Zängov <eraser@eraser.ee>, 2018
+# 
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2019-08-08 11:23-0400\n"
+"PO-Revision-Date: 2017-09-14 20:15+0000\n"
+"Last-Translator: Rivo Zängov <eraser@eraser.ee>, 2018\n"
+"Language-Team: Estonian (https://www.transifex.com/omeka/teams/14184/et/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: et\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: Module.php:81
+msgid "Last Modified"
+msgstr "Viimati muudetud"
+
+#: Module.php:82
+msgid "Link"
+msgstr "Link"
+
+#: src/Controller/IndexController.php:66
+msgid "Error importing data"
+msgstr "Tõrge andmete importimisel"
+
+#: view/dspace-connector/index/import.phtml:8
+#: view/dspace-connector/index/index.phtml:10
+#: view/dspace-connector/index/past-imports.phtml:6
+msgid "Dspace Connector"
+msgstr "Dspace ühendaja"
+
+#: view/dspace-connector/index/import.phtml:8
+msgid "Import options"
+msgstr "Importimise valikud"
+
+#: view/dspace-connector/index/import.phtml:12
+msgid "Basic import settings"
+msgstr "Peamised importimise seaded"
+
+#: view/dspace-connector/index/import.phtml:13
+msgid "Collections"
+msgstr "Kogud"
+
+#: view/dspace-connector/index/import.phtml:14
+msgid "Communities"
+msgstr "Kogukonnad"
+
+#: view/dspace-connector/index/import.phtml:28
+#: view/dspace-connector/index/import.phtml:60
+msgid "Import collection"
+msgstr "Impordi kogu"
+
+#: view/dspace-connector/index/import.phtml:36
+#: view/dspace-connector/index/import.phtml:53
+#: view/dspace-connector/index/import.phtml:68
+msgid "[No description given]"
+msgstr "[Kirjeldust pole]"
+
+#: view/dspace-connector/index/index.phtml:10
+msgid "Import Settings"
+msgstr "Importimise seaded"
+
+#: view/dspace-connector/index/index.phtml:14
+msgid "Get collections and communities"
+msgstr "Hangi kogusid ja kogukondasid"
+
+#: view/dspace-connector/index/past-imports.phtml:6
+msgid "Past Imports"
+msgstr "Varasemad importimised"
+
+#: view/dspace-connector/index/past-imports.phtml:20
+msgid "Undo?"
+msgstr "Tühistada?"
+
+#: view/dspace-connector/index/past-imports.phtml:21
+msgid "Job ID"
+msgstr "Töö ID"
+
+#: view/dspace-connector/index/past-imports.phtml:22
+msgid "Dspace collection link"
+msgstr "Dspace ühendaja link"
+
+#: view/dspace-connector/index/past-imports.phtml:46
+msgid "Added: "
+msgstr "Lisatud:"
+
+#: view/dspace-connector/index/past-imports.phtml:47
+msgid "Updated: "
+msgstr "Värskendatud:"
+
+#: view/dspace-connector/index/past-imports.phtml:53
+msgid "Undone"
+msgstr "Tühistati"
+
+#: src/Form/ImportForm.php:17
+msgid "Import files into Omeka S"
+msgstr "Impordi faile Omeka S-i"
+
+#: src/Form/ImportForm.php:18
+msgid ""
+"If checked, original files will be imported into Omeka S. Otherwise, "
+"derivates will be displayed when possible, with links back to the original "
+"file in the DSpace repository."
+msgstr ""
+
+#: src/Form/ImportForm.php:27
+msgid "Optional. Import items into this item set."
+msgstr "Valikuline. Impordi ühikuid sellesse ühikute kogumisse."
+
+#: src/Form/ImportForm.php:43
+msgid "Create or update from DSpace collection"
+msgstr ""
+
+#: src/Form/ImportForm.php:59
+msgid "A note about the purpose or source of this import"
+msgstr ""
+
+#: src/Form/UrlForm.php:17
+msgid "DSpace site URL"
+msgstr "DSpace saidi URL"
+
+#: src/Form/UrlForm.php:18
+msgid ""
+"The URL of the repository you want to connect to (DSpace 5.6 or higher) Fill"
+" this in, then click \"Get collections and communities\" to browse what you "
+"want to import."
+msgstr ""
+
+#: src/Form/UrlForm.php:30
+msgid "Endpoint"
+msgstr "Lõpppunkt"
+
+#: src/Form/UrlForm.php:31
+msgid "The endpoint for the API"
+msgstr ""
+
+#: src/Form/UrlForm.php:45
+msgid ""
+"The maximum number of results to retrieve at once from DSpace. If you notice"
+" errors or missing data, try lowering this number. Increasing it might make "
+"imports faster."
+msgstr ""
+
+#: src/Controller/IndexController.php:40 src/Controller/IndexController.php:55
+msgid "There was an error during validation"
+msgstr "Kontrollimisel tekkis tõrge"
+
+#: src/Controller/IndexController.php:46
+#, php-format
+msgid "Importing in Job ID %s"
+msgstr ""
+
+#: src/Controller/IndexController.php:101
+msgid "There was an error retrieving data. Please try again."
+msgstr "Andmete tõmbamisel tekkis tõrge. Palun proovi uuesti."
+
+#: src/Controller/IndexController.php:125
+#, php-format
+msgid "Undo in progress in the following jobs: %s"
+msgstr ""

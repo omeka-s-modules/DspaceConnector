@@ -1,0 +1,181 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# 
+# Translators:
+# Darío Hereñú, 2019
+# 
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2019-08-08 11:23-0400\n"
+"PO-Revision-Date: 2017-09-14 20:15+0000\n"
+"Last-Translator: Darío Hereñú, 2019\n"
+"Language-Team: Spanish (https://www.transifex.com/omeka/teams/14184/es/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: es\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: Module.php:81
+msgid "Last Modified"
+msgstr "Ultima modificación"
+
+#: Module.php:82
+msgid "Link"
+msgstr "Enlace"
+
+#: src/Controller/IndexController.php:66
+msgid "Error importing data"
+msgstr "Error importando datos"
+
+#: view/dspace-connector/index/import.phtml:8
+#: view/dspace-connector/index/index.phtml:10
+#: view/dspace-connector/index/past-imports.phtml:6
+msgid "Dspace Connector"
+msgstr "Conector Dspace"
+
+#: view/dspace-connector/index/import.phtml:8
+msgid "Import options"
+msgstr "Importar opciones"
+
+#: view/dspace-connector/index/import.phtml:12
+msgid "Basic import settings"
+msgstr "Importación básica de ajustes"
+
+#: view/dspace-connector/index/import.phtml:13
+msgid "Collections"
+msgstr "Colecciones"
+
+#: view/dspace-connector/index/import.phtml:14
+msgid "Communities"
+msgstr "Comunidades"
+
+#: view/dspace-connector/index/import.phtml:28
+#: view/dspace-connector/index/import.phtml:60
+msgid "Import collection"
+msgstr "Importar colección"
+
+#: view/dspace-connector/index/import.phtml:36
+#: view/dspace-connector/index/import.phtml:53
+#: view/dspace-connector/index/import.phtml:68
+msgid "[No description given]"
+msgstr "[Sin descripción suministrada]"
+
+#: view/dspace-connector/index/index.phtml:10
+msgid "Import Settings"
+msgstr "Importar ajustes"
+
+#: view/dspace-connector/index/index.phtml:14
+msgid "Get collections and communities"
+msgstr "Obtener colecciones y comunidades"
+
+#: view/dspace-connector/index/past-imports.phtml:6
+msgid "Past Imports"
+msgstr "Importaciones pasadas"
+
+#: view/dspace-connector/index/past-imports.phtml:20
+msgid "Undo?"
+msgstr "Deshacer?"
+
+#: view/dspace-connector/index/past-imports.phtml:21
+msgid "Job ID"
+msgstr "ID de tarea"
+
+#: view/dspace-connector/index/past-imports.phtml:22
+msgid "Dspace collection link"
+msgstr "Enlace de la colección Dspace"
+
+#: view/dspace-connector/index/past-imports.phtml:46
+msgid "Added: "
+msgstr "Agregado"
+
+#: view/dspace-connector/index/past-imports.phtml:47
+msgid "Updated: "
+msgstr "Actualizado:"
+
+#: view/dspace-connector/index/past-imports.phtml:53
+msgid "Undone"
+msgstr "Deshacer"
+
+#: src/Form/ImportForm.php:17
+msgid "Import files into Omeka S"
+msgstr "Importar archivos en Omeka S"
+
+#: src/Form/ImportForm.php:18
+msgid ""
+"If checked, original files will be imported into Omeka S. Otherwise, "
+"derivates will be displayed when possible, with links back to the original "
+"file in the DSpace repository."
+msgstr ""
+"Si se marca, los archivos originales se importarán en Omeka S. De lo "
+"contrario, los derivados se mostrarán cuando sea posible, con enlaces al "
+"archivo original en el repositorio de DSpace."
+
+#: src/Form/ImportForm.php:27
+msgid "Optional. Import items into this item set."
+msgstr "Opcional. Importar elementos dentro de este conjunto de elementos."
+
+#: src/Form/ImportForm.php:43
+msgid "Create or update from DSpace collection"
+msgstr "Crear o actualizar desde una colección DSpace"
+
+#: src/Form/ImportForm.php:59
+msgid "A note about the purpose or source of this import"
+msgstr "Un memo acerca del propósito o fuente de esta importación"
+
+#: src/Form/UrlForm.php:17
+msgid "DSpace site URL"
+msgstr "URL del sitio DSpace"
+
+#: src/Form/UrlForm.php:18
+msgid ""
+"The URL of the repository you want to connect to (DSpace 5.6 or higher) Fill"
+" this in, then click \"Get collections and communities\" to browse what you "
+"want to import."
+msgstr ""
+"La dirección URL del repositorio que desea conectar (DSpace 5.6 o "
+"posterior). Completelo y luego haga clic en \"Obtener colecciones y "
+"comunidades\" para explorar lo que desea importar. "
+
+#: src/Form/UrlForm.php:30
+msgid "Endpoint"
+msgstr "Parámetro"
+
+#: src/Form/UrlForm.php:31
+msgid "The endpoint for the API"
+msgstr "El parámetro para la API"
+
+#: src/Form/UrlForm.php:45
+msgid ""
+"The maximum number of results to retrieve at once from DSpace. If you notice"
+" errors or missing data, try lowering this number. Increasing it might make "
+"imports faster."
+msgstr ""
+"El número máximo de resultados a recuperar a la vez desde DSpace. Si observa"
+" errores o datos faltantes, intente reducir este número. Incrementarlo "
+"podría hacer que las importaciones sean más rápidas."
+
+#: src/Controller/IndexController.php:40 src/Controller/IndexController.php:55
+msgid "There was an error during validation"
+msgstr "Hubo un error durante la validación"
+
+#: src/Controller/IndexController.php:46
+#, php-format
+msgid "Importing in Job ID %s"
+msgstr "Importando en el ID de tarea %s"
+
+#: src/Controller/IndexController.php:101
+msgid "There was an error retrieving data. Please try again."
+msgstr ""
+"Hubo un error durante la recuperación de datos. Por favor inténtelo "
+"nuevamente."
+
+#: src/Controller/IndexController.php:125
+#, php-format
+msgid "Undo in progress in the following jobs: %s"
+msgstr "Deshacer en progreso en las siguientes tareas: %s"
