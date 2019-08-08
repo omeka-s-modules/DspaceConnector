@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-11-08 11:41-0500\n"
+"POT-Creation-Date: 2019-08-08 11:23-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -25,7 +25,7 @@ msgstr ""
 msgid "Link"
 msgstr ""
 
-#: src/Controller/IndexController.php:64
+#: src/Controller/IndexController.php:66
 msgid "Error importing data"
 msgstr ""
 
@@ -98,24 +98,6 @@ msgstr ""
 msgid "Undone"
 msgstr ""
 
-#: src/Controller/IndexController.php:38 src/Controller/IndexController.php:53
-msgid "There was an error during validation"
-msgstr ""
-
-#: src/Controller/IndexController.php:44
-#, php-format
-msgid "Importing in Job ID %s"
-msgstr ""
-
-#: src/Controller/IndexController.php:99
-msgid "There was an error retrieving data. Please try again."
-msgstr ""
-
-#: src/Controller/IndexController.php:123
-#, php-format
-msgid "Undo in progress in the following jobs: %s"
-msgstr ""
-
 #: src/Form/ImportForm.php:17
 msgid "Import files into Omeka S"
 msgstr ""
@@ -158,13 +140,27 @@ msgstr ""
 msgid "The endpoint for the API"
 msgstr ""
 
-#: src/Form/UrlForm.php:44
-msgid "Limit"
-msgstr ""
-
 #: src/Form/UrlForm.php:45
 msgid ""
 "The maximum number of results to retrieve at once from DSpace. If you notice "
 "errors or missing data, try lowering this number. Increasing it might make "
 "imports faster."
+msgstr ""
+
+#: src/Controller/IndexController.php:40 src/Controller/IndexController.php:55
+msgid "There was an error during validation"
+msgstr ""
+
+#: src/Controller/IndexController.php:46
+#, php-format
+msgid "Importing in Job ID %s"
+msgstr ""
+
+#: src/Controller/IndexController.php:101
+msgid "There was an error retrieving data. Please try again."
+msgstr ""
+
+#: src/Controller/IndexController.php:125
+#, php-format
+msgid "Undo in progress in the following jobs: %s"
 msgstr ""
