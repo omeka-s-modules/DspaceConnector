@@ -122,26 +122,24 @@ class Import extends AbstractJob
     public function processItemMetadata($itemMetadataArray, $itemJson)
     {
         foreach ($itemMetadataArray as $metadataEntry) {
-            $terms = $this->mapKeyToTerm($metadataEntry['key']);
-
-            foreach ($terms as $term) {
-                //skip non-understood or mis-written terms
-                if (isset($this->termIdMap[$term])) {
-                    $valueArray = [];
-                    if ($term == 'bibo:uri') {
-                        $valueArray['@id'] = $metadataEntry['value'];
-                        $valueArray['type'] = 'uri';
-                    } else {
-                        $valueArray['@value'] = $metadataEntry['value'];
-                        if (isset($metadataEntry['language'])) {
-                            $valueArray['@language'] = $metadataEntry['language'];
-                        }
-                        $valueArray['type'] = 'literal';
-                    }
-                    $valueArray['property_id'] = $this->termIdMap[$term];
-                    $itemJson[$term][] = $valueArray;
-                }
+            $termId = $this->mapKeyToTerm($metadataEntry['key']);
+            if (!$termId) {
+                continue;
             }
+
+            $valueArray = [];
+            if ($term == 'bibo:uri') {
+                $valueArray['@id'] = $metadataEntry['value'];
+                $valueArray['type'] = 'uri';
+            } else {
+                $valueArray['@value'] = $metadataEntry['value'];
+                if (isset($metadataEntry['language'])) {
+                    $valueArray['@language'] = $metadataEntry['language'];
+                }
+                $valueArray['type'] = 'literal';
+            }
+            $valueArray['property_id'] = $termId;
+            $itemJson[$term][] = $valueArray;
         }
         return $itemJson;
     }
@@ -190,40 +188,40 @@ class Import extends AbstractJob
     protected function mapKeyToTerm($key)
     {
         $parts = explode('.', $key);
-        //only using dc. Don't know if DSpace ever emits anything else
-        //(except for the subproperties listed below that aren't actually in dcterms
+        // Only attempt to read from Dublin Core elements
         if ($parts[0] != 'dc') {
-            return [];
+            return null;
         }
 
-        if (count($parts) == 2) {
-            return ['dcterms:' . $parts[1]];
-        }
+        switch (count($parts)) {
+            case 3:
+                //parse out refinements where known
+                switch ($parts[2]) {
+                    case 'author':
+                        $term = "dcterms:creator";
+                        break;
 
-        if (count($parts) == 3) {
-            //liberal mapping onto superproperties by default
-            $termsArray = ['dcterms:' . $parts[1]];
-            //parse out refinements where known
-            switch ($parts[2]) {
-                case 'author':
-                    $termsArray[] = "dcterms:creator";
-                break;
+                    case 'uri':
+                        $term = "bibo:uri";
+                        break;
 
-                case 'abstract':
-                    $termsArray[] = "dcterms:abstract";
-                break;
+                    default:
+                        $term = 'dcterms:' . $parts[2];
+                }
 
-                case 'uri':
-                    $termsArray[] = "bibo:uri";
-                break;
-                case 'iso': //handled by superproperty dcterms:language
-                case 'editor': //handled as dcterms:contributor
-                case 'accessioned': //ignored
-                break;
-                default:
-                    $termsArray[] = 'dcterms:' . $parts[2];
-            }
-            return $termsArray;
+                if (isset($this->termIdMap[$term])) {
+                    return $this->termIdMap[$term];
+                }
+
+                // break purposely omitted; falls back to "base" term
+            case 2:
+                $term = 'dcterms:' . $parts[1];
+
+                if (isset($this->termIdMap[$term])) {
+                    return $this->termIdMap[$term];
+                }
+            default:
+                return null;
         }
     }
 
