@@ -22,6 +22,8 @@ class Import extends AbstractJob
 
     protected $itemSetId;
 
+    protected $ignoredFields;
+
     public function perform()
     {
         $this->api = $this->getServiceLocator()->get('Omeka\ApiManager');
@@ -32,6 +34,14 @@ class Import extends AbstractJob
         $this->client->setHeaders(['Accept' => 'application/json']);
         $this->apiUrl = $this->getArg('api_url');
         $this->limit = $this->getArg('limit');
+
+        foreach (explode(',', $this->getArg('ignored_fields')) as $field) {
+            $field = trim($field);
+            if ($field !== '') {
+                $this->ignoredFields[$field] = true;
+            }
+        }
+
         $comment = $this->getArg('comment');
         $dspaceImportJson = [
             'o:job' => ['o:id' => $this->job->getId()],
@@ -187,6 +197,10 @@ class Import extends AbstractJob
 
     protected function mapKeyToTerm($key)
     {
+        if (isset($this->ignoredFields[$key])) {
+            return null;
+        }
+
         $parts = explode('.', $key);
         // Only attempt to read from Dublin Core elements
         if ($parts[0] != 'dc') {
