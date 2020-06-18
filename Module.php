@@ -3,9 +3,9 @@ namespace DspaceConnector;
 
 use Omeka\Module\AbstractModule;
 use Omeka\Entity\Job;
-use Zend\ServiceManager\ServiceLocatorInterface;
-use Zend\EventManager\SharedEventManagerInterface;
-use Zend\Mvc\MvcEvent;
+use Laminas\ServiceManager\ServiceLocatorInterface;
+use Laminas\EventManager\SharedEventManagerInterface;
+use Laminas\Mvc\MvcEvent;
 use Composer\Semver\Comparator;
 
 class Module extends AbstractModule

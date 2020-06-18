@@ -1,9 +1,9 @@
 <?php
 namespace DspaceConnector\Form;
 
-use Zend\Form\Form;
-use Zend\Form\Element\Url;
-use Zend\Form\Element\Text;
+use Laminas\Form\Form;
+use Laminas\Form\Element\Url;
+use Laminas\Form\Element\Text;
 
 class UrlForm extends Form
 {
