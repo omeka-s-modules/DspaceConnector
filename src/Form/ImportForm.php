@@ -52,6 +52,18 @@ class ImportForm extends Form
         ]);
 
         $this->add([
+            'name' => 'ignored_fields',
+            'type' => 'text',
+            'options' => [
+                'label' => 'Ignored fields', // @translate
+                'info' => 'DSpace fields to ignore, separated by commas' // @translate
+            ],
+            'attributes' => [
+                'id' => 'ignored-fields'
+            ],
+        ]);
+
+        $this->add([
             'name' => 'comment',
             'type' => 'textarea',
             'options' => [
