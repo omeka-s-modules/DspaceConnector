@@ -7,7 +7,6 @@ use DspaceConnector\Form\UrlForm;
 use Laminas\Mvc\Controller\AbstractActionController;
 use Laminas\View\Model\ViewModel;
 
-
 class IndexController extends AbstractActionController
 {
     protected $client;
@@ -81,7 +80,7 @@ class IndexController extends AbstractActionController
      */
     protected function fetchData($endpoint, $expand = null)
     {
-        $this->client->setHeaders(array('Accept' => 'application/json'))->setOptions(['timeout' => 60]);
+        $this->client->setHeaders(['Accept' => 'application/json'])->setOptions(['timeout' => 60]);
         $this->client->setUri($endpoint);
         $offset = 0;
         $limit = $this->limit;

@@ -56,10 +56,10 @@ class ImportForm extends Form
             'type' => 'text',
             'options' => [
                 'label' => 'Ignored fields', // @translate
-                'info' => 'DSpace fields to ignore, separated by commas' // @translate
+                'info' => 'DSpace fields to ignore, separated by commas', // @translate
             ],
             'attributes' => [
-                'id' => 'ignored-fields'
+                'id' => 'ignored-fields',
             ],
         ]);
 
@@ -74,7 +74,6 @@ class ImportForm extends Form
                 'id' => 'comment',
             ],
         ]);
-
     }
 
     public function setOwner($identity)

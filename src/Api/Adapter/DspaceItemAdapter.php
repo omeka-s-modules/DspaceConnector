@@ -1,4 +1,4 @@
-<?php 
+<?php
 namespace DspaceConnector\Api\Adapter;
 
 use Doctrine\ORM\QueryBuilder;
