@@ -4,9 +4,8 @@ namespace DspaceConnector\Controller;
 use Omeka\Stdlib\Message;
 use DspaceConnector\Form\ImportForm;
 use DspaceConnector\Form\UrlForm;
-use Zend\Mvc\Controller\AbstractActionController;
-use Zend\View\Model\ViewModel;
-
+use Laminas\Mvc\Controller\AbstractActionController;
+use Laminas\View\Model\ViewModel;
 
 class IndexController extends AbstractActionController
 {
@@ -81,7 +80,7 @@ class IndexController extends AbstractActionController
      */
     protected function fetchData($endpoint, $expand = null)
     {
-        $this->client->setHeaders(array('Accept' => 'application/json'))->setOptions(['timeout' => 60]);
+        $this->client->setHeaders(['Accept' => 'application/json'])->setOptions(['timeout' => 60]);
         $this->client->setUri($endpoint);
         $offset = 0;
         $limit = $this->limit;

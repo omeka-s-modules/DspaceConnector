@@ -22,8 +22,8 @@ return [
     ],
     'api_adapters' => [
         'invokables' => [
-            'dspace_items'   => 'DspaceConnector\Api\Adapter\DspaceItemAdapter',
-            'dspace_imports' => 'DspaceConnector\Api\Adapter\DspaceImportAdapter'
+            'dspace_items' => 'DspaceConnector\Api\Adapter\DspaceItemAdapter',
+            'dspace_imports' => 'DspaceConnector\Api\Adapter\DspaceImportAdapter',
         ],
     ],
     'controllers' => [
@@ -53,21 +53,21 @@ return [
     'navigation' => [
         'AdminModule' => [
             [
-                'label'      => 'Dspace Connector', // @translate
-                'route'      => 'admin/dspace-connector',
-                'resource'   => 'DspaceConnector\Controller\Index',
-                'pages'      => [
+                'label' => 'Dspace Connector', // @translate
+                'route' => 'admin/dspace-connector',
+                'resource' => 'DspaceConnector\Controller\Index',
+                'pages' => [
                     [
-                        'label'      => 'Import', // @translate
-                        'route'      => 'admin/dspace-connector',
-                        'resource'   => 'DspaceConnector\Controller\Index',
+                        'label' => 'Import', // @translate
+                        'route' => 'admin/dspace-connector',
+                        'resource' => 'DspaceConnector\Controller\Index',
                     ],
                     [
-                        'label'      => 'Past Imports', // @translate
-                        'route'      => 'admin/dspace-connector/past-imports',
+                        'label' => 'Past Imports', // @translate
+                        'route' => 'admin/dspace-connector/past-imports',
                         'controller' => 'Index',
-                        'action'     => 'past-imports',
-                        'resource'   => 'DspaceConnector\Controller\Index',
+                        'action' => 'past-imports',
+                        'resource' => 'DspaceConnector\Controller\Index',
                     ],
                 ],
             ],
@@ -78,38 +78,38 @@ return [
             'admin' => [
                 'child_routes' => [
                     'dspace-connector' => [
-                        'type'    => 'Literal',
+                        'type' => 'Literal',
                         'options' => [
-                            'route'    => '/dspace-connector',
+                            'route' => '/dspace-connector',
                             'defaults' => [
                                 '__NAMESPACE__' => 'DspaceConnector\Controller',
-                                'controller'    => 'Index',
-                                'action'        => 'index',
+                                'controller' => 'Index',
+                                'action' => 'index',
                             ],
                         ],
                         'may_terminate' => true,
                         'child_routes' => [
                             'past-imports' => [
-                                'type'    => 'Literal',
+                                'type' => 'Literal',
                                 'options' => [
                                     'route' => '/past-imports',
                                     'defaults' => [
                                         '__NAMESPACE__' => 'DspaceConnector\Controller',
-                                        'controller'    => 'Index',
-                                        'action'        => 'past-imports',
+                                        'controller' => 'Index',
+                                        'action' => 'past-imports',
                                     ],
-                                ]
+                                ],
                             ],
                             'import' => [
-                                'type'    => 'Literal',
+                                'type' => 'Literal',
                                 'options' => [
                                     'route' => '/import',
                                     'defaults' => [
                                         '__NAMESPACE__' => 'DspaceConnector\Controller',
-                                        'controller'    => 'Index',
-                                        'action'        => 'import',
+                                        'controller' => 'Index',
+                                        'action' => 'import',
                                     ],
-                                ]
+                                ],
                             ],
                         ],
                     ],
