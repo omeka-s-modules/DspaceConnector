@@ -1,4 +1,4 @@
-<?php 
+<?php
 namespace DspaceConnector\Api\Representation;
 
 use Omeka\Api\Representation\AbstractEntityRepresentation;

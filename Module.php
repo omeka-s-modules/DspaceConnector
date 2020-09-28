@@ -2,10 +2,9 @@
 namespace DspaceConnector;
 
 use Omeka\Module\AbstractModule;
-use Omeka\Entity\Job;
-use Zend\ServiceManager\ServiceLocatorInterface;
-use Zend\EventManager\SharedEventManagerInterface;
-use Zend\Mvc\MvcEvent;
+use Laminas\ServiceManager\ServiceLocatorInterface;
+use Laminas\EventManager\SharedEventManagerInterface;
+use Laminas\Mvc\MvcEvent;
 use Composer\Semver\Comparator;
 
 class Module extends AbstractModule
@@ -77,7 +76,7 @@ class Module extends AbstractModule
         if ($dspaceItems) {
             $dspaceItem = $dspaceItems[0];
             $url = 'http://hdl.handle.net/' . $dspaceItem->handle();
-            echo '<h3>' . $view->translate('Original')  . '</h3>';
+            echo '<h3>' . $view->translate('Original') . '</h3>';
             echo '<p>' . $view->translate('Last Modified') . ' ' . $view->i18n()->dateFormat($dspaceItem->lastModified()) . '</p>';
             echo '<p><a href="' . $url . '">' . $view->translate('Link') . '</a></p>';
         }

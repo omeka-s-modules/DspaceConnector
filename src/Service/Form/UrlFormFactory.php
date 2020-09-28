@@ -2,7 +2,7 @@
 namespace DspaceConnector\Service\Form;
 
 use DspaceConnector\Form\UrlForm;
-use Zend\ServiceManager\Factory\FactoryInterface;
+use Laminas\ServiceManager\Factory\FactoryInterface;
 use Interop\Container\ContainerInterface;
 
 class UrlFormFactory implements FactoryInterface

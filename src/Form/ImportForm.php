@@ -2,7 +2,7 @@
 namespace DspaceConnector\Form;
 
 use Omeka\Form\Element\ResourceSelect;
-use Zend\Form\Form;
+use Laminas\Form\Form;
 
 class ImportForm extends Form
 {
@@ -56,10 +56,10 @@ class ImportForm extends Form
             'type' => 'text',
             'options' => [
                 'label' => 'Ignored fields', // @translate
-                'info' => 'DSpace fields to ignore, separated by commas' // @translate
+                'info' => 'DSpace fields to ignore, separated by commas', // @translate
             ],
             'attributes' => [
-                'id' => 'ignored-fields'
+                'id' => 'ignored-fields',
             ],
         ]);
 
@@ -74,7 +74,6 @@ class ImportForm extends Form
                 'id' => 'comment',
             ],
         ]);
-
     }
 
     public function setOwner($identity)
