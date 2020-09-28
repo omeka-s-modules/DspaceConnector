@@ -30,8 +30,10 @@ $this->headLink()->appendStylesheet($this->assetUrl('css/dspace-connector.css', 
                 <td>
                     <span class="name"><?php echo $collection['name']; ?></span>
                 </td>
-                <?php if (isset($collection['description'])): ?>
-                <td class="description"><?php echo $collection['description']; ?></td>
+                <?php if (!empty($collection['shortDescription'])): ?>
+                <td class="description"><?php echo $collection['shortDescription']; ?></td>
+                <?php elseif (!empty($collection['introductoryText'])): ?>
+                <td class="description"><?php echo $collection['introductoryText']; ?></td>
                 <?php else: ?>
                 <td class="description"><?php echo $this->translate('[No description given]'); ?></td>
                 <?php endif; ?>
@@ -47,8 +49,10 @@ $this->headLink()->appendStylesheet($this->assetUrl('css/dspace-connector.css', 
             <?php foreach($communities as $community): ?>
             <tr class="community">
                 <th class="name"><?php echo($community['name']); ?></th>
-                <?php if(isset($community['description'])): ?>
-                <th class="description"><?php echo($community['description']);?></th>
+                <?php if (!empty($community['shortDescription'])): ?>
+                <th class="description"><?php echo $community['shortDescription']; ?></th>
+                <?php elseif (!empty($community['introductoryText'])): ?>
+                <th class="description"><?php echo $community['introductoryText']; ?></th>
                 <?php else: ?>
                 <th class="description"><?php echo $this->translate('[No description given]'); ?></th>
                 <?php endif;?>
@@ -62,8 +66,10 @@ $this->headLink()->appendStylesheet($this->assetUrl('css/dspace-connector.css', 
                     <td class="name">
                         <span class="name"><?php echo $collection['name']; ?></span>
                     </td>
-                    <?php if (isset($collection['description'])): ?>
-                    <td class="description"><?php echo $collection['description']; ?></td>
+                    <?php if (!empty($collection['shortDescription'])): ?>
+                    <td class="description"><?php echo $collection['shortDescription']; ?></td>
+                    <?php elseif (!empty($collection['introductoryText'])): ?>
+                    <td class="description"><?php echo $collection['introductoryText']; ?></td>
                     <?php else: ?>
                     <td class="description"><?php echo $this->translate('[No description given]'); ?></td>
                     <?php endif; ?>
@@ -77,4 +83,3 @@ $this->headLink()->appendStylesheet($this->assetUrl('css/dspace-connector.css', 
 <input type='hidden' name='api_url' value='<?php echo $dspace_url; ?>' ></input>
 <input type='hidden' name='limit' value='<?php echo $limit; ?>' ></input>
 <?php echo $this->form()->closeTag($form); ?>
-
