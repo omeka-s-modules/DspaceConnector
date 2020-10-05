@@ -42,7 +42,7 @@ $this->headLink()->appendStylesheet($this->assetUrl('css/dspace-connector.css', 
                 <?php foreach($community['collections'] as $collection): ?>
                 <tr class="collection">
                     <td>
-                        <button class='import-collection' name='collection_link' value='<?php echo $collection['link']; ?>'><?php echo $collection['link']; //echo $this->escapeHtml($this->translate('Import collection')); ?></button>
+                        <button class='import-collection' name='collection_link' value='<?php echo $collection['link']; ?>'><?php echo $this->escapeHtml($this->translate('Import collection')); ?></button>
                     </td>
                     <td class="name">
                         <span class="name"><?php echo $collection['name']; ?></span>
