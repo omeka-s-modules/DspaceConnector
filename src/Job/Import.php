@@ -70,17 +70,24 @@ class Import extends AbstractJob
             $response = $this->getResponse($collectionLink, 'items', $offset);
             if ($response) {
                 $collection = json_decode($response->getBody(), true);
+                if ($collectionLink === '/rest/items'){
+                    //import entire repository
+                    $collectionResponse = $collection;
+                } else {
+                    //import collection
+                    $collectionResponse = $collection['items'];
+                }
                 //set the item set id. called here so that, if a new item set needs
                 //to be created from the collection data, I have the data to do so
                 $this->setItemSetId($collection);
                 $toCreate = [];
                 $toUpdate = [];
-                if (empty($collection['items'])) {
+                if (empty($collectionResponse)) {
                     // not a good way to really check, this just see if the last query
                     // got nothing
                     $hasNext = false;
                 }
-                foreach ($collection['items'] as $index => $itemData) {
+                foreach ($collectionResponse as $index => $itemData) {
                     $resourceJson = $this->buildResourceJson($itemData['link']);
                     $importRecord = $this->importRecord($resourceJson['remote_id'], $this->apiUrl);
                     //separate the items to create from those to update
