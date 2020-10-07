@@ -32,6 +32,7 @@ class Import extends AbstractJob
         $this->prepareTermIdMap();
         $this->client = $this->getServiceLocator()->get('Omeka\HttpClient');
         $this->client->setHeaders(['Accept' => 'application/json']);
+        $this->client->setOptions(['timeout' => 60]);
         $this->apiUrl = $this->getArg('api_url');
         $this->limit = $this->getArg('limit');
 
