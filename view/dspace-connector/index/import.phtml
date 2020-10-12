@@ -22,6 +22,12 @@ $this->headLink()->appendStylesheet($this->assetUrl('css/dspace-connector.css', 
 <fieldset id="collections" class="section">
     <table>
         <tbody>
+            <tr class="repository">
+                <td class="description"><?php echo $this->translate('Import all items in the DSpace repository, without separating by community or collection:'); ?></td>
+                <td>
+                    <button class='import-repository' name='collection_link' value='<?php echo $repository; ?>'><?php echo $this->escapeHtml($this->translate('Import entire repository')); ?></button>
+                </td>
+            </tr>
             <?php foreach($collections as $collection): ?>
             <tr class="collection">
                 <td class="name">
@@ -77,4 +83,3 @@ $this->headLink()->appendStylesheet($this->assetUrl('css/dspace-connector.css', 
 <input type='hidden' name='api_url' value='<?php echo $dspace_url; ?>' ></input>
 <input type='hidden' name='limit' value='<?php echo $limit; ?>' ></input>
 <?php echo $this->form()->closeTag($form); ?>
-

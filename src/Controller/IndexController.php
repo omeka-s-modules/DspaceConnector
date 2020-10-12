@@ -60,13 +60,14 @@ class IndexController extends AbstractActionController
 
             try {
                 $communities = $this->fetchData($dspaceUrl . '/' . $params['endpoint'] . '/communities', 'collections');
-                $collections = $this->fetchData($dspaceUrl . '/' . $params['endpoint'] . '/collections');
+                $repository = '/' . $params['endpoint'] . '/items';
             } catch (\Exception $e) {
                 $this->logger()->err($this->translate('Error importing data'));
                 $this->logger()->err($e);
             }
             $view->setVariable('collections', $collections);
             $view->setVariable('communities', $communities);
+            $view->setVariable('repository', $repository);
             $view->setVariable('dspace_url', $dspaceUrl);
             $view->setVariable('form', $importForm);
             $view->setVariable('limit', $this->limit);
