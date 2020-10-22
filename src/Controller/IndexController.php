@@ -122,8 +122,8 @@ class IndexController extends AbstractActionController
                     $undoJob = $this->undoJob($jobId);
                     $undoJobIds[] = $undoJob->getId();
                 }
-                $message = new Message('Undo in progress in the following jobs: %s', 
-                    implode(', ', $undoJobIds)); // @translate
+                $message = new Message('Undo in progress in the following jobs: %s', // @translate
+                    implode(', ', $undoJobIds));
                 $this->messenger()->addSuccess($message);
             } else {
                 $this->messenger()->addError('Error: no jobs selected to undo'); // @translate
