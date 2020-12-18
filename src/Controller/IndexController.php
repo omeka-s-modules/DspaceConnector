@@ -117,14 +117,18 @@ class IndexController extends AbstractActionController
     {
         if ($this->getRequest()->isPost()) {
             $data = $this->params()->fromPost();
-            $undoJobIds = [];
-            foreach ($data['jobs'] as $jobId) {
-                $undoJob = $this->undoJob($jobId);
-                $undoJobIds[] = $undoJob->getId();
+            if (isset($data['jobs'])) {
+                $undoJobIds = [];
+                foreach ($data['jobs'] as $jobId) {
+                    $undoJob = $this->undoJob($jobId);
+                    $undoJobIds[] = $undoJob->getId();
+                }
+                $message = new Message('Undo in progress in the following jobs: %s', // @translate
+                    implode(', ', $undoJobIds));
+                $this->messenger()->addSuccess($message);
+            } else {
+                $this->messenger()->addError('Error: no jobs selected to undo'); // @translate
             }
-            $message = new Message('Undo in progress in the following jobs: %s'  // @translate
-                , implode(', ', $undoJobIds));
-            $this->messenger()->addSuccess($message);
         }
         $view = new ViewModel;
         $page = $this->params()->fromQuery('page', 1);
