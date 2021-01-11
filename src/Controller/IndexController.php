@@ -65,7 +65,6 @@ class IndexController extends AbstractActionController
                 $this->logger()->err($this->translate('Error importing data'));
                 $this->logger()->err($e);
             }
-            $view->setVariable('collections', $collections);
             $view->setVariable('communities', $communities);
             $view->setVariable('repository', $repository);
             $view->setVariable('dspace_url', $dspaceUrl);
