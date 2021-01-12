@@ -140,13 +140,13 @@ class Import extends AbstractJob
     public function processItemMetadata($itemMetadataArray, $itemJson)
     {
         foreach ($itemMetadataArray as $metadataEntry) {
-            $termId = $this->mapKeyToTerm($metadataEntry['key']);
-            if (!$termId) {
+            $termArray = $this->mapKeyToTerm($metadataEntry['key']);
+            if (!$termArray) {
                 continue;
             }
 
             $valueArray = [];
-            if ($term == 'bibo:uri') {
+            if ($termArray['name'] == 'bibo:uri') {
                 $valueArray['@id'] = $metadataEntry['value'];
                 $valueArray['type'] = 'uri';
             } else {
@@ -156,8 +156,8 @@ class Import extends AbstractJob
                 }
                 $valueArray['type'] = 'literal';
             }
-            $valueArray['property_id'] = $termId;
-            $itemJson[$term][] = $valueArray;
+            $valueArray['property_id'] = $termArray['term_id'];
+            $itemJson[$termArray['name']][] = $valueArray;
         }
         return $itemJson;
     }
@@ -205,6 +205,7 @@ class Import extends AbstractJob
 
     protected function mapKeyToTerm($key)
     {
+        $termArray = [];
         if (isset($this->ignoredFields[$key])) {
             return null;
         }
@@ -232,7 +233,9 @@ class Import extends AbstractJob
                 }
 
                 if (isset($this->termIdMap[$term])) {
-                    return $this->termIdMap[$term];
+                    $termArray['name'] = $term;
+                    $termArray['term_id'] = $this->termIdMap[$term];
+                    return $termArray;
                 }
 
                 // break purposely omitted; falls back to "base" term
@@ -240,7 +243,9 @@ class Import extends AbstractJob
                 $term = 'dcterms:' . $parts[1];
 
                 if (isset($this->termIdMap[$term])) {
-                    return $this->termIdMap[$term];
+                    $termArray['name'] = $term;
+                    $termArray['term_id'] = $this->termIdMap[$term];
+                    return $termArray;
                 }
             default:
                 return null;
