@@ -1,6 +1,8 @@
 <?php
 namespace DspaceConnector\Job;
 
+// ini_set('max_execution_time', '2000');
+
 use Omeka\Job\AbstractJob;
 use Omeka\Job\Exception;
 
@@ -32,7 +34,7 @@ class Import extends AbstractJob
         $this->prepareTermIdMap();
         $this->client = $this->getServiceLocator()->get('Omeka\HttpClient');
         $this->client->setHeaders(['Accept' => 'application/json']);
-        $this->client->setOptions(['timeout' => 60]);
+        $this->client->setOptions(['timeout' => 120]);
         $this->apiUrl = $this->getArg('api_url');
         $this->limit = $this->getArg('limit');
 
@@ -189,6 +191,7 @@ class Import extends AbstractJob
     {
         //work around some dspace api versions reporting RESTapi instead of rest in the link
         $link = str_replace('RESTapi', 'rest', $link);
+
         $this->client->setUri($this->apiUrl . $link);
         $this->client->setParameterGet(['expand' => $expand,
                                         'limit' => $this->limit,
@@ -350,6 +353,7 @@ class Import extends AbstractJob
     protected function updateItems($toUpdate)
     {
         //  batchUpdate would be nice, but complexities abound. See https://github.com/omeka/omeka-s/issues/326
+        $originalIdentityMap = $this->getServiceLocator()->get('Omeka\EntityManager')->getUnitOfWork()->getIdentityMap();
         $updateResponses = [];
         foreach ($toUpdate as $importRecordId => $itemJson) {
             $this->updatedCount = $this->updatedCount + 1;
@@ -365,10 +369,17 @@ class Import extends AbstractJob
                         ];
             $updateImportRecordResponse = $this->api->update('dspace_items', $importRecordId, $dspaceItemJson);
         }
+        $this->detachAllNewEntities($originalIdentityMap);
     }
 
     protected function importRecord($remoteId, $apiUrl)
     {
+        $writer = new \Laminas\Log\Writer\Stream('logs/application.log');
+        $logger = new \Laminas\Log\Logger();
+        $logger->addWriter($writer);
+
+        $logger->info('2 - ' . $remoteId);
+        
         //see if the item has already been imported
         $response = $this->api->search('dspace_items',
                                         ['remote_id' => $remoteId,
@@ -379,5 +390,27 @@ class Import extends AbstractJob
             return false;
         }
         return $content[0];
+    }
+    
+    /**
+     * Given an old copy of the Doctrine identity map, reset
+     * the entity manager to that state by detaching all entities that
+     * did not exist in the prior state.
+     *
+     * @internal This is a copy-paste of the functionality from the abstract entity adapter
+     *
+     * @param array $oldIdentityMap
+     */
+    protected function detachAllNewEntities(array $oldIdentityMap)
+    {
+        $entityManager = $this->getServiceLocator()->get('Omeka\EntityManager');
+        $identityMap = $entityManager->getUnitOfWork()->getIdentityMap();
+        foreach ($identityMap as $entityClass => $entities) {
+            foreach ($entities as $idHash => $entity) {
+                if (!isset($oldIdentityMap[$entityClass][$idHash])) {
+                    $entityManager->detach($entity);
+                }
+            }
+        }
     }
 }
