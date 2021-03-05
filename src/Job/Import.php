@@ -1,8 +1,6 @@
 <?php
 namespace DspaceConnector\Job;
 
-// ini_set('max_execution_time', '2000');
-
 use Omeka\Job\AbstractJob;
 use Omeka\Job\Exception;
 
@@ -25,6 +23,8 @@ class Import extends AbstractJob
     protected $itemSetId;
 
     protected $ignoredFields;
+
+    protected $originalIdentityMap;
 
     public function perform()
     {
@@ -54,6 +54,8 @@ class Import extends AbstractJob
         ];
         $response = $this->api->create('dspace_imports', $dspaceImportJson);
         $importRecordId = $response->getContent()->id();
+
+        $this->originalIdentityMap = $this->getServiceLocator()->get('Omeka\EntityManager')->getUnitOfWork()->getIdentityMap();
         $this->importCollection($this->getArg('collection_link'));
 
         $dspaceImportJson = [
@@ -353,11 +355,11 @@ class Import extends AbstractJob
     protected function updateItems($toUpdate)
     {
         //  batchUpdate would be nice, but complexities abound. See https://github.com/omeka/omeka-s/issues/326
-        $originalIdentityMap = $this->getServiceLocator()->get('Omeka\EntityManager')->getUnitOfWork()->getIdentityMap();
+        $em = $this->getServiceLocator()->get('Omeka\EntityManager');
         $updateResponses = [];
         foreach ($toUpdate as $importRecordId => $itemJson) {
             $this->updatedCount = $this->updatedCount + 1;
-            $updateResponses[$importRecordId] = $this->api->update('items', $itemJson['id'], $itemJson);
+            $updateResponses[$importRecordId] = $this->api->update('items', $itemJson['id'], $itemJson, [], ['flushEntityManager' => false]);
         }
 
         foreach ($updateResponses as $importRecordId => $resourceReference) {
@@ -367,19 +369,14 @@ class Import extends AbstractJob
                             'remote_id' => $toUpdateData['remote_id'],
                             'last_modified' => new \DateTime($toUpdateData['lastModified']),
                         ];
-            $updateImportRecordResponse = $this->api->update('dspace_items', $importRecordId, $dspaceItemJson);
+            $updateImportRecordResponse = $this->api->update('dspace_items', $importRecordId, $dspaceItemJson, [], ['flushEntityManager' => false]);
         }
-        $this->detachAllNewEntities($originalIdentityMap);
+        $em->flush();
+        $this->detachAllNewEntities($this->originalIdentityMap);
     }
 
     protected function importRecord($remoteId, $apiUrl)
     {
-        $writer = new \Laminas\Log\Writer\Stream('logs/application.log');
-        $logger = new \Laminas\Log\Logger();
-        $logger->addWriter($writer);
-
-        $logger->info('2 - ' . $remoteId);
-        
         //see if the item has already been imported
         $response = $this->api->search('dspace_items',
                                         ['remote_id' => $remoteId,
