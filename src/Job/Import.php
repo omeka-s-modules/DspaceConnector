@@ -24,6 +24,8 @@ class Import extends AbstractJob
 
     protected $ignoredFields;
 
+    protected $originalIdentityMap;
+
     public function perform()
     {
         $this->api = $this->getServiceLocator()->get('Omeka\ApiManager');
@@ -32,6 +34,7 @@ class Import extends AbstractJob
         $this->prepareTermIdMap();
         $this->client = $this->getServiceLocator()->get('Omeka\HttpClient');
         $this->client->setHeaders(['Accept' => 'application/json']);
+        $this->client->setOptions(['timeout' => 120]);
         $this->apiUrl = $this->getArg('api_url');
         $this->limit = $this->getArg('limit');
 
@@ -51,6 +54,8 @@ class Import extends AbstractJob
         ];
         $response = $this->api->create('dspace_imports', $dspaceImportJson);
         $importRecordId = $response->getContent()->id();
+
+        $this->originalIdentityMap = $this->getServiceLocator()->get('Omeka\EntityManager')->getUnitOfWork()->getIdentityMap();
         $this->importCollection($this->getArg('collection_link'));
 
         $dspaceImportJson = [
@@ -70,17 +75,24 @@ class Import extends AbstractJob
             $response = $this->getResponse($collectionLink, 'items', $offset);
             if ($response) {
                 $collection = json_decode($response->getBody(), true);
+                if ($collectionLink === '/rest/items'){
+                    //import entire repository
+                    $collectionResponse = $collection;
+                } else {
+                    //import collection
+                    $collectionResponse = $collection['items'];
+                }
                 //set the item set id. called here so that, if a new item set needs
                 //to be created from the collection data, I have the data to do so
                 $this->setItemSetId($collection);
                 $toCreate = [];
                 $toUpdate = [];
-                if (empty($collection['items'])) {
+                if (empty($collectionResponse)) {
                     // not a good way to really check, this just see if the last query
                     // got nothing
                     $hasNext = false;
                 }
-                foreach ($collection['items'] as $index => $itemData) {
+                foreach ($collectionResponse as $index => $itemData) {
                     $resourceJson = $this->buildResourceJson($itemData['link']);
                     $importRecord = $this->importRecord($resourceJson['remote_id'], $this->apiUrl);
                     //separate the items to create from those to update
@@ -132,13 +144,13 @@ class Import extends AbstractJob
     public function processItemMetadata($itemMetadataArray, $itemJson)
     {
         foreach ($itemMetadataArray as $metadataEntry) {
-            $termId = $this->mapKeyToTerm($metadataEntry['key']);
-            if (!$termId) {
+            $termArray = $this->mapKeyToTerm($metadataEntry['key']);
+            if (!$termArray) {
                 continue;
             }
 
             $valueArray = [];
-            if ($term == 'bibo:uri') {
+            if ($termArray['name'] == 'bibo:uri') {
                 $valueArray['@id'] = $metadataEntry['value'];
                 $valueArray['type'] = 'uri';
             } else {
@@ -148,8 +160,8 @@ class Import extends AbstractJob
                 }
                 $valueArray['type'] = 'literal';
             }
-            $valueArray['property_id'] = $termId;
-            $itemJson[$term][] = $valueArray;
+            $valueArray['property_id'] = $termArray['term_id'];
+            $itemJson[$termArray['name']][] = $valueArray;
         }
         return $itemJson;
     }
@@ -181,6 +193,7 @@ class Import extends AbstractJob
     {
         //work around some dspace api versions reporting RESTapi instead of rest in the link
         $link = str_replace('RESTapi', 'rest', $link);
+
         $this->client->setUri($this->apiUrl . $link);
         $this->client->setParameterGet(['expand' => $expand,
                                         'limit' => $this->limit,
@@ -197,6 +210,7 @@ class Import extends AbstractJob
 
     protected function mapKeyToTerm($key)
     {
+        $termArray = [];
         if (isset($this->ignoredFields[$key])) {
             return null;
         }
@@ -224,7 +238,9 @@ class Import extends AbstractJob
                 }
 
                 if (isset($this->termIdMap[$term])) {
-                    return $this->termIdMap[$term];
+                    $termArray['name'] = $term;
+                    $termArray['term_id'] = $this->termIdMap[$term];
+                    return $termArray;
                 }
 
                 // break purposely omitted; falls back to "base" term
@@ -232,7 +248,9 @@ class Import extends AbstractJob
                 $term = 'dcterms:' . $parts[1];
 
                 if (isset($this->termIdMap[$term])) {
-                    return $this->termIdMap[$term];
+                    $termArray['name'] = $term;
+                    $termArray['term_id'] = $this->termIdMap[$term];
+                    return $termArray;
                 }
             default:
                 return null;
@@ -337,10 +355,11 @@ class Import extends AbstractJob
     protected function updateItems($toUpdate)
     {
         //  batchUpdate would be nice, but complexities abound. See https://github.com/omeka/omeka-s/issues/326
+        $em = $this->getServiceLocator()->get('Omeka\EntityManager');
         $updateResponses = [];
         foreach ($toUpdate as $importRecordId => $itemJson) {
             $this->updatedCount = $this->updatedCount + 1;
-            $updateResponses[$importRecordId] = $this->api->update('items', $itemJson['id'], $itemJson);
+            $updateResponses[$importRecordId] = $this->api->update('items', $itemJson['id'], $itemJson, [], ['flushEntityManager' => false]);
         }
 
         foreach ($updateResponses as $importRecordId => $resourceReference) {
@@ -350,8 +369,10 @@ class Import extends AbstractJob
                             'remote_id' => $toUpdateData['remote_id'],
                             'last_modified' => new \DateTime($toUpdateData['lastModified']),
                         ];
-            $updateImportRecordResponse = $this->api->update('dspace_items', $importRecordId, $dspaceItemJson);
+            $updateImportRecordResponse = $this->api->update('dspace_items', $importRecordId, $dspaceItemJson, [], ['flushEntityManager' => false]);
         }
+        $em->flush();
+        $this->detachAllNewEntities($this->originalIdentityMap);
     }
 
     protected function importRecord($remoteId, $apiUrl)
@@ -366,5 +387,27 @@ class Import extends AbstractJob
             return false;
         }
         return $content[0];
+    }
+    
+    /**
+     * Given an old copy of the Doctrine identity map, reset
+     * the entity manager to that state by detaching all entities that
+     * did not exist in the prior state.
+     *
+     * @internal This is a copy-paste of the functionality from the abstract entity adapter
+     *
+     * @param array $oldIdentityMap
+     */
+    protected function detachAllNewEntities(array $oldIdentityMap)
+    {
+        $entityManager = $this->getServiceLocator()->get('Omeka\EntityManager');
+        $identityMap = $entityManager->getUnitOfWork()->getIdentityMap();
+        foreach ($identityMap as $entityClass => $entities) {
+            foreach ($entities as $idHash => $entity) {
+                if (!isset($oldIdentityMap[$entityClass][$idHash])) {
+                    $entityManager->detach($entity);
+                }
+            }
+        }
     }
 }
