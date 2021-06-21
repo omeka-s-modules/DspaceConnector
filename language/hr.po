@@ -4,7 +4,8 @@
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 # 
 # Translators:
-# Hong Zhang <zhangh@unlv.nevada.edu>, 2021
+# Angela-Marina Batarelo <angela-marina.batarelo@ericsson.com>, 2021
+# Josip Ilic <josip.ilic@ericsson.com>, 2021
 # 
 #, fuzzy
 msgid ""
@@ -13,158 +14,177 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-08-08 11:23-0400\n"
 "PO-Revision-Date: 2017-09-14 20:15+0000\n"
-"Last-Translator: Hong Zhang <zhangh@unlv.nevada.edu>, 2021\n"
-"Language-Team: Chinese (China) (https://www.transifex.com/omeka/teams/14184/zh_CN/)\n"
+"Last-Translator: Josip Ilic <josip.ilic@ericsson.com>, 2021\n"
+"Language-Team: Croatian (https://www.transifex.com/omeka/teams/14184/hr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: zh_CN\n"
-"Plural-Forms: nplurals=1; plural=0;\n"
+"Language: hr\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 
 #: Module.php:81
 msgid "Last Modified"
-msgstr "最后修改于"
+msgstr "Zadnji Put Promijenjeno"
 
 #: Module.php:82
 msgid "Link"
-msgstr "链接"
+msgstr "Poveznica"
 
 #: src/Controller/IndexController.php:66
 msgid "Error importing data"
-msgstr "导入数据出错"
+msgstr "Greška prilikom uvoženja podataka"
 
 #: view/dspace-connector/index/import.phtml:8
 #: view/dspace-connector/index/index.phtml:10
 #: view/dspace-connector/index/past-imports.phtml:6
 msgid "Dspace Connector"
-msgstr "Dspace连接器"
+msgstr "Dspace konektor"
 
 #: view/dspace-connector/index/import.phtml:8
 msgid "Import options"
-msgstr "导入选项"
+msgstr "Opcije uvoza"
 
 #: view/dspace-connector/index/import.phtml:12
 msgid "Basic import settings"
-msgstr "基本导入设置"
+msgstr "Osnovne postavke uvoza"
 
 #: view/dspace-connector/index/import.phtml:13
 msgid "Collections"
-msgstr "馆藏"
+msgstr "Kolekcije"
 
 #: view/dspace-connector/index/import.phtml:14
 msgid "Communities"
-msgstr "社区"
+msgstr "Zajednice"
 
 #: view/dspace-connector/index/import.phtml:28
 #: view/dspace-connector/index/import.phtml:60
 msgid "Import collection"
-msgstr "导入馆藏"
+msgstr "Uvedi kolekciju"
 
 #: view/dspace-connector/index/import.phtml:36
 #: view/dspace-connector/index/import.phtml:53
 #: view/dspace-connector/index/import.phtml:68
 msgid "[No description given]"
-msgstr "【未给出描述】"
+msgstr "[Nema opisa]"
 
 #: view/dspace-connector/index/index.phtml:10
 msgid "Import Settings"
-msgstr "导入设置"
+msgstr "Postavke Uvoza"
 
 #: view/dspace-connector/index/index.phtml:14
 msgid "Get collections and communities"
-msgstr "获取收藏和社区"
+msgstr "Dohvati zbirke i zajednice"
 
 #: view/dspace-connector/index/past-imports.phtml:6
 msgid "Past Imports"
-msgstr "以往的导入"
+msgstr "Prošli Uvozi"
 
 #: view/dspace-connector/index/past-imports.phtml:20
 msgid "Undo?"
-msgstr ""
+msgstr "Poništi?"
 
 #: view/dspace-connector/index/past-imports.phtml:21
 msgid "Job ID"
-msgstr "任务ID"
+msgstr "ID posla"
 
 #: view/dspace-connector/index/past-imports.phtml:22
 msgid "Dspace collection link"
-msgstr "Dspace收藏表单"
+msgstr "Dspace poveznica za prikupljanje"
 
 #: view/dspace-connector/index/past-imports.phtml:46
 msgid "Added: "
-msgstr "添加："
+msgstr "Dodano:"
 
 #: view/dspace-connector/index/past-imports.phtml:47
 msgid "Updated: "
-msgstr "更新："
+msgstr "Ažurirano:"
 
 #: view/dspace-connector/index/past-imports.phtml:53
 msgid "Undone"
-msgstr ""
+msgstr "Poništeno"
 
 #: src/Form/ImportForm.php:17
 msgid "Import files into Omeka S"
-msgstr "把文件导入进Omeka S"
+msgstr "Uvedi datoteke u Omeka S"
 
 #: src/Form/ImportForm.php:18
 msgid ""
 "If checked, original files will be imported into Omeka S. Otherwise, "
 "derivates will be displayed when possible, with links back to the original "
 "file in the DSpace repository."
-msgstr "如果点选的话，原始文件将被导入进Omeka S。否则，在可能时将显示衍生文件，链接到DSpace库的初始文件。"
+msgstr ""
+"Ako je označeno, izvorne datoteke bit će uvezene u Omeka S. Inače, izvodi će"
+" se prikazivati ​​kad god je to moguće, s vezama natrag na izvornu datoteku "
+"u spremištu DSpace."
 
 #: src/Form/ImportForm.php:27
 msgid "Optional. Import items into this item set."
-msgstr "可选项。把条目导入进该条目集。"
+msgstr "Neobavezno. Uvedi predmetu u ovaj set predmeta."
 
 #: src/Form/ImportForm.php:43
 msgid "Create or update from DSpace collection"
-msgstr "从DSpace馆藏中创建或更新"
+msgstr "Stvarajte ili ažurirajte iz DSpace kolekcije"
 
 #: src/Form/ImportForm.php:59
 msgid "A note about the purpose or source of this import"
-msgstr "关于该导入的目的或来源的注释 "
+msgstr "Bilješka o svrsi ili izvoru ovog uvoza"
 
 #: src/Form/UrlForm.php:17
 msgid "DSpace site URL"
-msgstr "DSpace网站URL"
+msgstr "URL DSpace web-mjesta"
 
 #: src/Form/UrlForm.php:18
 msgid ""
 "The URL of the repository you want to connect to (DSpace 5.6 or higher) Fill"
 " this in, then click \"Get collections and communities\" to browse what you "
 "want to import."
-msgstr "您想连接到的库（DSpace 5.6 或更高版本）的URL。在此处填入，然后点击“获取馆藏和社区”以浏览您想导入的资源。"
+msgstr ""
+"URL spremišta s kojim se želite povezati (DSpace 5.6 ili noviji) Ispunite "
+"to, a zatim kliknite \"Dohvati zbirke i zajednice\" da biste pregledali ono "
+"što želite uvesti."
 
 #: src/Form/UrlForm.php:30
 msgid "Endpoint"
-msgstr "端点"
+msgstr "Krajnja točka"
 
 #: src/Form/UrlForm.php:31
 msgid "The endpoint for the API"
-msgstr "API的端点"
+msgstr "Krajnja točka API-a"
 
 #: src/Form/UrlForm.php:45
 msgid ""
 "The maximum number of results to retrieve at once from DSpace. If you notice"
 " errors or missing data, try lowering this number. Increasing it might make "
 "imports faster."
-msgstr "从DSpace中一次性提取的最多结果数。如果您发现错误或缺失数据，尝试降低这个数字。增加该数字可以加快导入速度。"
+msgstr ""
+"Maksimalni broj rezultata za dohvatiti istovremeno iz DSpace-a. Ako uočite "
+"greške ili nedostajuće podatke, probajte smanjiti ovaj broj. Povećavajući ga"
+" bi moglo ubrzati uvoženja. "
 
 #: src/Controller/IndexController.php:40 src/Controller/IndexController.php:55
 msgid "There was an error during validation"
-msgstr "验证时出错"
+msgstr "Pojavila se greška prilikom validacije"
 
 #: src/Controller/IndexController.php:46
 #, php-format
 msgid "Importing in Job ID %s"
-msgstr "正在导入任务ID %s"
+msgstr ""
+"Uvoz u ID posla %s\n"
+" \n"
+"\n"
+" \n"
+" \n"
+" \n"
+" \n"
+" "
 
 #: src/Controller/IndexController.php:101
 msgid "There was an error retrieving data. Please try again."
-msgstr "提取数据时出错。请重试。"
+msgstr ""
+"Pojavila se greška prilikom dohvaćanja podataka. Molimo vas pokušajte "
+"ponovo. "
 
 #: src/Controller/IndexController.php:125
 #, php-format
 msgid "Undo in progress in the following jobs: %s"
-msgstr "在以下任务中的撤销操作正在进行：%s"
+msgstr "Poništavanje u tijeku u sljedećim poslovima: %s"

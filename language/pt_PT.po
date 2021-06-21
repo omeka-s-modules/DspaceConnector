@@ -4,7 +4,7 @@
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 # 
 # Translators:
-# Hong Zhang <zhangh@unlv.nevada.edu>, 2021
+# Joana Paulino <jpaulino@fcsh.unl.pt>, 2020
 # 
 #, fuzzy
 msgid ""
@@ -13,158 +13,167 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-08-08 11:23-0400\n"
 "PO-Revision-Date: 2017-09-14 20:15+0000\n"
-"Last-Translator: Hong Zhang <zhangh@unlv.nevada.edu>, 2021\n"
-"Language-Team: Chinese (China) (https://www.transifex.com/omeka/teams/14184/zh_CN/)\n"
+"Last-Translator: Joana Paulino <jpaulino@fcsh.unl.pt>, 2020\n"
+"Language-Team: Portuguese (Portugal) (https://www.transifex.com/omeka/teams/14184/pt_PT/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: zh_CN\n"
-"Plural-Forms: nplurals=1; plural=0;\n"
+"Language: pt_PT\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: Module.php:81
 msgid "Last Modified"
-msgstr "最后修改于"
+msgstr "Última modificação"
 
 #: Module.php:82
 msgid "Link"
-msgstr "链接"
+msgstr "Hiperligação"
 
 #: src/Controller/IndexController.php:66
 msgid "Error importing data"
-msgstr "导入数据出错"
+msgstr "Erro ao importar os dados"
 
 #: view/dspace-connector/index/import.phtml:8
 #: view/dspace-connector/index/index.phtml:10
 #: view/dspace-connector/index/past-imports.phtml:6
 msgid "Dspace Connector"
-msgstr "Dspace连接器"
+msgstr "Conector Dspace"
 
 #: view/dspace-connector/index/import.phtml:8
 msgid "Import options"
-msgstr "导入选项"
+msgstr "Opções de importação"
 
 #: view/dspace-connector/index/import.phtml:12
 msgid "Basic import settings"
-msgstr "基本导入设置"
+msgstr "Configurações básicas de importação"
 
 #: view/dspace-connector/index/import.phtml:13
 msgid "Collections"
-msgstr "馆藏"
+msgstr "Coleções"
 
 #: view/dspace-connector/index/import.phtml:14
 msgid "Communities"
-msgstr "社区"
+msgstr "Comunidades"
 
 #: view/dspace-connector/index/import.phtml:28
 #: view/dspace-connector/index/import.phtml:60
 msgid "Import collection"
-msgstr "导入馆藏"
+msgstr "Importar coleção"
 
 #: view/dspace-connector/index/import.phtml:36
 #: view/dspace-connector/index/import.phtml:53
 #: view/dspace-connector/index/import.phtml:68
 msgid "[No description given]"
-msgstr "【未给出描述】"
+msgstr "[Não foi fornecida descrição]"
 
 #: view/dspace-connector/index/index.phtml:10
 msgid "Import Settings"
-msgstr "导入设置"
+msgstr "Configurações de importação"
 
 #: view/dspace-connector/index/index.phtml:14
 msgid "Get collections and communities"
-msgstr "获取收藏和社区"
+msgstr "Obter coleções e comunidades"
 
 #: view/dspace-connector/index/past-imports.phtml:6
 msgid "Past Imports"
-msgstr "以往的导入"
+msgstr "Importações passadas"
 
 #: view/dspace-connector/index/past-imports.phtml:20
 msgid "Undo?"
-msgstr ""
+msgstr "Desfazer?"
 
 #: view/dspace-connector/index/past-imports.phtml:21
 msgid "Job ID"
-msgstr "任务ID"
+msgstr "Id do trabalho"
 
 #: view/dspace-connector/index/past-imports.phtml:22
 msgid "Dspace collection link"
-msgstr "Dspace收藏表单"
+msgstr "Hiperligação da coleção Dspace"
 
 #: view/dspace-connector/index/past-imports.phtml:46
 msgid "Added: "
-msgstr "添加："
+msgstr "Adicionado:"
 
 #: view/dspace-connector/index/past-imports.phtml:47
 msgid "Updated: "
-msgstr "更新："
+msgstr "Atualizado:"
 
 #: view/dspace-connector/index/past-imports.phtml:53
 msgid "Undone"
-msgstr ""
+msgstr "Desfeito"
 
 #: src/Form/ImportForm.php:17
 msgid "Import files into Omeka S"
-msgstr "把文件导入进Omeka S"
+msgstr "Importar ficheiros para o Omeka S"
 
 #: src/Form/ImportForm.php:18
 msgid ""
 "If checked, original files will be imported into Omeka S. Otherwise, "
 "derivates will be displayed when possible, with links back to the original "
 "file in the DSpace repository."
-msgstr "如果点选的话，原始文件将被导入进Omeka S。否则，在可能时将显示衍生文件，链接到DSpace库的初始文件。"
+msgstr ""
+"Se selecionados, os ficheiros originais serão importados para o Omeka S. "
+"Caso contrário, os derivados serão exibidos quando possível, com "
+"hiperligações para o ficheiro original no repositório do DSpace."
 
 #: src/Form/ImportForm.php:27
 msgid "Optional. Import items into this item set."
-msgstr "可选项。把条目导入进该条目集。"
+msgstr "Opcional. Importar itens para este conjunto de itens."
 
 #: src/Form/ImportForm.php:43
 msgid "Create or update from DSpace collection"
-msgstr "从DSpace馆藏中创建或更新"
+msgstr "Criar ou atualizar da coleção do DSpace"
 
 #: src/Form/ImportForm.php:59
 msgid "A note about the purpose or source of this import"
-msgstr "关于该导入的目的或来源的注释 "
+msgstr "Uma nota sobre o propósito ou fonte desta importação"
 
 #: src/Form/UrlForm.php:17
 msgid "DSpace site URL"
-msgstr "DSpace网站URL"
+msgstr "URL do Dspace"
 
 #: src/Form/UrlForm.php:18
 msgid ""
 "The URL of the repository you want to connect to (DSpace 5.6 or higher) Fill"
 " this in, then click \"Get collections and communities\" to browse what you "
 "want to import."
-msgstr "您想连接到的库（DSpace 5.6 或更高版本）的URL。在此处填入，然后点击“获取馆藏和社区”以浏览您想导入的资源。"
+msgstr ""
+"O URL do repositório ao qual se quer conectar (DSpace 5.6 ou superior) "
+"Preencha isto, depois selecione \"Obter coleções e comunidades\" para "
+"navegar no que pretende importar."
 
 #: src/Form/UrlForm.php:30
 msgid "Endpoint"
-msgstr "端点"
+msgstr "Endpoint"
 
 #: src/Form/UrlForm.php:31
 msgid "The endpoint for the API"
-msgstr "API的端点"
+msgstr "O endpoint para a API"
 
 #: src/Form/UrlForm.php:45
 msgid ""
 "The maximum number of results to retrieve at once from DSpace. If you notice"
 " errors or missing data, try lowering this number. Increasing it might make "
 "imports faster."
-msgstr "从DSpace中一次性提取的最多结果数。如果您发现错误或缺失数据，尝试降低这个数字。增加该数字可以加快导入速度。"
+msgstr ""
+"O número máximo de resultados a serem recuperados numa única vez do DSpace. "
+"Se verificar a existência de erros ou dados em falta, tente diminuir esse "
+"número. Aumentá-lo pode tornar as importações mais rápidas."
 
 #: src/Controller/IndexController.php:40 src/Controller/IndexController.php:55
 msgid "There was an error during validation"
-msgstr "验证时出错"
+msgstr "Existiu um erro durante a validação"
 
 #: src/Controller/IndexController.php:46
 #, php-format
 msgid "Importing in Job ID %s"
-msgstr "正在导入任务ID %s"
+msgstr "A importar o ID do trabalho %s"
 
 #: src/Controller/IndexController.php:101
 msgid "There was an error retrieving data. Please try again."
-msgstr "提取数据时出错。请重试。"
+msgstr "Existiu um erro ao recuperar os dados. Por favor tente novamente."
 
 #: src/Controller/IndexController.php:125
 #, php-format
 msgid "Undo in progress in the following jobs: %s"
-msgstr "在以下任务中的撤销操作正在进行：%s"
+msgstr "Desfazer em progresso nos seguintes trabalhos: %s"
