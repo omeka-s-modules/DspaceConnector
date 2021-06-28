@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-08-08 11:23-0400\n"
+"POT-Creation-Date: 2021-06-28 12:49-0700\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,15 +17,15 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: Module.php:81
+#: Module.php:80
 msgid "Last Modified"
 msgstr ""
 
-#: Module.php:82
+#: Module.php:81
 msgid "Link"
 msgstr ""
 
-#: src/Controller/IndexController.php:66
+#: src/Controller/IndexController.php:65
 msgid "Error importing data"
 msgstr ""
 
@@ -47,19 +47,23 @@ msgstr ""
 msgid "Collections"
 msgstr ""
 
-#: view/dspace-connector/index/import.phtml:14
-msgid "Communities"
+#: view/dspace-connector/index/import.phtml:25
+msgid ""
+"Import all items in the DSpace repository, without separating by community "
+"or collection:"
 msgstr ""
 
-#: view/dspace-connector/index/import.phtml:28
-#: view/dspace-connector/index/import.phtml:60
-msgid "Import collection"
+#: view/dspace-connector/index/import.phtml:27
+msgid "Import entire repository"
 msgstr ""
 
-#: view/dspace-connector/index/import.phtml:36
-#: view/dspace-connector/index/import.phtml:53
-#: view/dspace-connector/index/import.phtml:68
+#: view/dspace-connector/index/import.phtml:38
+#: view/dspace-connector/index/import.phtml:55
 msgid "[No description given]"
+msgstr ""
+
+#: view/dspace-connector/index/import.phtml:45
+msgid "Import collection"
 msgstr ""
 
 #: view/dspace-connector/index/index.phtml:10
@@ -98,29 +102,6 @@ msgstr ""
 msgid "Undone"
 msgstr ""
 
-#: src/Form/ImportForm.php:17
-msgid "Import files into Omeka S"
-msgstr ""
-
-#: src/Form/ImportForm.php:18
-msgid ""
-"If checked, original files will be imported into Omeka S. Otherwise, "
-"derivates will be displayed when possible, with links back to the original "
-"file in the DSpace repository."
-msgstr ""
-
-#: src/Form/ImportForm.php:27
-msgid "Optional. Import items into this item set."
-msgstr ""
-
-#: src/Form/ImportForm.php:43
-msgid "Create or update from DSpace collection"
-msgstr ""
-
-#: src/Form/ImportForm.php:59
-msgid "A note about the purpose or source of this import"
-msgstr ""
-
 #: src/Form/UrlForm.php:17
 msgid "DSpace site URL"
 msgstr ""
@@ -147,20 +128,55 @@ msgid ""
 "imports faster."
 msgstr ""
 
-#: src/Controller/IndexController.php:40 src/Controller/IndexController.php:55
+#: src/Form/ImportForm.php:17
+msgid "Import files into Omeka S"
+msgstr ""
+
+#: src/Form/ImportForm.php:18
+msgid ""
+"If checked, original files will be imported into Omeka S. Otherwise, "
+"derivates will be displayed when possible, with links back to the original "
+"file in the DSpace repository."
+msgstr ""
+
+#: src/Form/ImportForm.php:27
+msgid "Optional. Import items into this item set."
+msgstr ""
+
+#: src/Form/ImportForm.php:43
+msgid "Create or update from DSpace collection"
+msgstr ""
+
+#: src/Form/ImportForm.php:58
+msgid "Ignored fields"
+msgstr ""
+
+#: src/Form/ImportForm.php:59
+msgid "DSpace fields to ignore, separated by commas"
+msgstr ""
+
+#: src/Form/ImportForm.php:71
+msgid "A note about the purpose or source of this import"
+msgstr ""
+
+#: src/Controller/IndexController.php:39 src/Controller/IndexController.php:54
 msgid "There was an error during validation"
 msgstr ""
 
-#: src/Controller/IndexController.php:46
+#: src/Controller/IndexController.php:45
 #, php-format
 msgid "Importing in Job ID %s"
 msgstr ""
 
-#: src/Controller/IndexController.php:101
+#: src/Controller/IndexController.php:100
 msgid "There was an error retrieving data. Please try again."
 msgstr ""
 
 #: src/Controller/IndexController.php:125
 #, php-format
 msgid "Undo in progress in the following jobs: %s"
+msgstr ""
+
+#: src/Controller/IndexController.php:129
+msgid "Error: no jobs selected to undo"
 msgstr ""
