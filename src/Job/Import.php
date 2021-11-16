@@ -20,7 +20,7 @@ class Import extends AbstractJob
 
     protected $updatedCount;
 
-    protected $itemSetId;
+    protected $itemSetIdArray;
 
     protected $ignoredFields;
 
@@ -82,9 +82,9 @@ class Import extends AbstractJob
                     //import collection
                     $collectionResponse = $collection['items'];
                 }
-                //set the item set id. called here so that, if a new item set needs
+                //set the item set id array. called here so that, if a new item set needs
                 //to be created from the collection data, I have the data to do so
-                $this->setItemSetId($collection);
+                $this->setItemSetIdArray($collection);
                 $toCreate = [];
                 $toUpdate = [];
                 if (empty($collectionResponse)) {
@@ -97,6 +97,12 @@ class Import extends AbstractJob
                     $importRecord = $this->importRecord($resourceJson['remote_id'], $this->apiUrl);
                     //separate the items to create from those to update
                     if ($importRecord) {
+                        // keep existing item sets, add any new item sets
+                        $existingItem = $this->api->search('items', ['id' => $importRecord->item()->id()])->getContent();
+                        $existingItemSets = array_keys($existingItem[0]->itemSets()) ?: [];
+                        $newItemSets = $resourceJson['o:item_set'] ?: [];
+                        $resourceJson['o:item_set'] = array_merge($existingItemSets, $newItemSets);
+
                         //add the Omeka S item id to the itemJson
                         //and key by the importRecordid for reuse
                         //in both updating the item itself, and the importRecord
@@ -121,8 +127,8 @@ class Import extends AbstractJob
             $itemArray = json_decode($response->getBody(), true);
         }
         $itemJson = [];
-        if ($this->itemSetId) {
-            $itemJson['o:item_set'] = [['o:id' => $this->itemSetId]];
+        if ($this->itemSetIdArray) {
+            $itemJson['o:item_set'] = $this->itemSetIdArray;
         }
         $itemJson = $this->processItemMetadata($itemArray['metadata'], $itemJson);
         //stuff some data that's not relevant to Omeka onto the JSON array
@@ -277,17 +283,22 @@ class Import extends AbstractJob
         }
     }
 
-    protected function setItemSetId($collection)
+    protected function setItemSetIdArray($collection)
     {
-        if (! is_null($this->itemSetId)) {
+        if (! is_null($this->itemSetIdArray)) {
             return;
         }
-        $itemSetId = $this->getArg('itemSet', false);
-        if ($itemSetId == 'new') {
-            $itemSet = $this->createItemSet($collection);
-            $this->itemSetId = $itemSet->id();
-        } else {
-            $this->itemSetId = $itemSetId;
+        $itemSetIds = $this->getArg('itemSets', false);
+        if ($itemSetIds) {
+            foreach ($itemSetIds as $itemSetId) {
+                if ($itemSetId == 'new') {
+                    $itemSet = $this->createItemSet($collection);
+                    $itemSets[] = $itemSet->id();
+                } else {
+                    $itemSets[] = $itemSetId;
+                }
+            }
+            $this->itemSetIdArray = $itemSets;
         }
     }
 

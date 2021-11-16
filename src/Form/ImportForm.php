@@ -20,34 +20,39 @@ class ImportForm extends Form
         ]);
 
         $this->add([
-                'name' => 'itemSet',
-                'type' => ResourceSelect::class,
-                'options' => [
-                    'label' => 'Item Set', // @translate
-                    'info' => 'Optional. Import items into this item set.', // @translate
-                    'empty_option' => 'Select item set', // @translate
-                    'resource_value_options' => [
-                        'resource' => 'item_sets',
-                        'query' => [],
-                        'option_text_callback' => function ($itemSet) {
-                            return $itemSet->displayTitle();
-                        },
-                    ],
+            'name' => 'itemSets',
+            'type' => ResourceSelect::class,
+            'attributes' => [
+                'class' => 'chosen-select',
+                'data-placeholder' => 'Select item set(s)', // @translate
+                'multiple' => true,
+                'id' => 'item-set',
+            ],
+            'options' => [
+                'label' => 'Item Sets', // @translate
+                'info' => 'Optional. Import items into item set(s).', // @translate
+                'empty_option' => '',
+                'resource_value_options' => [
+                    'resource' => 'item_sets',
+                    'query' => [],
+                    'option_text_callback' => function ($itemSet) {
+                        return $itemSet->displayTitle();
+                    },
                 ],
+            ],
         ]);
-        $itemSetSelect = $this->get('itemSet');
+        $itemSetSelect = $this->get('itemSets');
 
         //slightly weird resetting of the values to add the create/update item set option to what
         //ResourceSelect builds for me
         $valueOptions = $itemSetSelect->getValueOptions();
+
         $valueOptions = ['new' => 'Create or update from DSpace collection'] + $valueOptions; // @translate
         $itemSetSelect->setValueOptions($valueOptions);
 
-        //$this->add($itemSetSelect);
-
         $inputFilter = $this->getInputFilter();
         $inputFilter->add([
-            'name' => 'itemSet',
+            'name' => 'itemSets',
             'required' => false,
         ]);
 
