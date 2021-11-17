@@ -20,6 +20,8 @@ class Import extends AbstractJob
 
     protected $updatedCount;
 
+    protected $itemSites;
+
     protected $itemSetIdArray;
 
     protected $ignoredFields;
@@ -37,6 +39,7 @@ class Import extends AbstractJob
         $this->client->setOptions(['timeout' => 120]);
         $this->apiUrl = $this->getArg('api_url');
         $this->limit = $this->getArg('limit');
+        $this->itemSiteArray = $this->getArg('itemSites', false);
 
         foreach (explode(',', $this->getArg('ignored_fields')) as $field) {
             $field = trim($field);
@@ -129,6 +132,14 @@ class Import extends AbstractJob
         $itemJson = [];
         if ($this->itemSetIdArray) {
             $itemJson['o:item_set'] = $this->itemSetIdArray;
+        }
+        if ($this->itemSiteArray) {
+            foreach ($this->itemSiteArray as $itemSite) {
+                $itemSites[] = $itemSite;
+            }
+            $itemJson['o:site'] = $itemSites;
+        } else {
+            $itemJson['o:site'] = [];
         }
         $itemJson = $this->processItemMetadata($itemArray['metadata'], $itemJson);
         //stuff some data that's not relevant to Omeka onto the JSON array

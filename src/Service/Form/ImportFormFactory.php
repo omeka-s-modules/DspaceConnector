@@ -12,6 +12,8 @@ class ImportFormFactory implements FactoryInterface
         $form = new ImportForm(null, $options);
         $identity = $services->get('Omeka\AuthenticationService')->getIdentity();
         $form->setOwner($identity);
+        $form->setUserSettings($services->get('Omeka\Settings\User'));
+        $form->setApiManager($services->get('Omeka\ApiManager'));
         return $form;
     }
 }

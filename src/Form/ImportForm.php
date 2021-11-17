@@ -2,10 +2,28 @@
 namespace DspaceConnector\Form;
 
 use Omeka\Form\Element\ResourceSelect;
+use Omeka\Form\Element\SiteSelect;
+use Omeka\Settings\UserSettings;
+use Omeka\Api\Manager as ApiManager;
 use Laminas\Form\Form;
 
 class ImportForm extends Form
 {
+    /**
+     * @var UserSettings
+     */
+    protected $userSettings;
+
+    /**
+     * @var AuthenticationService
+     */
+    protected $AuthenticationService;
+
+    /**
+     * @var ApiManager
+     */
+    protected $apiManager;
+
     protected $owner;
 
     public function init()
@@ -46,13 +64,46 @@ class ImportForm extends Form
         //slightly weird resetting of the values to add the create/update item set option to what
         //ResourceSelect builds for me
         $valueOptions = $itemSetSelect->getValueOptions();
-
         $valueOptions = ['new' => 'Create or update from DSpace collection'] + $valueOptions; // @translate
         $itemSetSelect->setValueOptions($valueOptions);
+
+        // Build itemSite array by merging assign_new_item sites and default user sites
+        $defaultAddSiteRepresentations = $this->getApiManager()->search('sites', ['assign_new_items' => true])->getContent();
+        foreach ($defaultAddSiteRepresentations as $defaultAddSiteRepresentation) {
+            $defaultAddSites[] = $defaultAddSiteRepresentation->id();
+        }
+        $defaultAddSiteStrings = $defaultAddSites ?? [];
+
+        $userId = $this->getOwner()->getId();
+        $userDefaultSites = $userId ? $this->getUserSettings()->get('default_item_sites', null, $userId) : [];
+        $userDefaultSiteStrings = $userDefaultSites ?? [];
+
+        $sites = array_merge($defaultAddSiteStrings, $userDefaultSiteStrings);
+
+        $this->add([
+            'name' => 'itemSites',
+            'type' => SiteSelect::class,
+            'attributes' => [
+                'value' => $sites,
+                'class' => 'chosen-select',
+                'data-placeholder' => 'Select site(s)', // @translate
+                'multiple' => true,
+                'id' => 'item-sites',
+            ],
+            'options' => [
+                'label' => 'Sites', // @translate
+                'info' => 'Optional. Import items into site(s).', // @translate
+                'empty_option' => '',
+            ],
+        ]);
 
         $inputFilter = $this->getInputFilter();
         $inputFilter->add([
             'name' => 'itemSets',
+            'required' => false,
+        ]);
+        $inputFilter->add([
+            'name' => 'itemSites',
             'required' => false,
         ]);
 
@@ -89,5 +140,37 @@ class ImportForm extends Form
     public function getOwner()
     {
         return $this->owner;
+    }
+
+    /**
+     * @param UserSettings $userSettings
+     */
+    public function setUserSettings(UserSettings $userSettings)
+    {
+        $this->userSettings = $userSettings;
+    }
+
+    /**
+     * @return UserSettings
+     */
+    public function getUserSettings()
+    {
+        return $this->userSettings;
+    }
+
+    /**
+     * @param ApiManager $apiManager
+     */
+    public function setApiManager(ApiManager $apiManager)
+    {
+        $this->apiManager = $apiManager;
+    }
+
+    /**
+     * @return ApiManager
+     */
+    public function getApiManager()
+    {
+        return $this->apiManager;
     }
 }
