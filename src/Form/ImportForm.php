@@ -61,10 +61,10 @@ class ImportForm extends Form
         ]);
         $itemSetSelect = $this->get('itemSets');
 
-        //slightly weird resetting of the values to add the create/update item set option to what
+        //slightly weird resetting of the values to add the create item set option to what
         //ResourceSelect builds for me
         $valueOptions = $itemSetSelect->getValueOptions();
-        $valueOptions = ['new' => 'Create or update from DSpace collection'] + $valueOptions; // @translate
+        $valueOptions = ['new' => 'Create from DSpace collection'] + $valueOptions; // @translate
         $itemSetSelect->setValueOptions($valueOptions);
 
         // Build itemSite array by merging assign_new_item sites and default user sites
