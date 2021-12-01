@@ -100,12 +100,16 @@ class Import extends AbstractJob
                     $importRecord = $this->importRecord($resourceJson['remote_id'], $this->apiUrl);
                     //separate the items to create from those to update
                     if ($importRecord) {
-                        // keep existing item sets, add any new item sets
+                        // keep existing item sets/sites, add any new item sets/sites
                         $existingItem = $this->api->search('items', ['id' => $importRecord->item()->id()])->getContent();
+
                         $existingItemSets = array_keys($existingItem[0]->itemSets()) ?: [];
                         $newItemSets = $resourceJson['o:item_set'] ?: [];
                         $resourceJson['o:item_set'] = array_merge($existingItemSets, $newItemSets);
 
+                        $existingItemSites = array_keys($existingItem[0]->sites()) ?: [];
+                        $newItemSites = $resourceJson['o:site'] ?: [];
+                        $resourceJson['o:site'] = array_merge($existingItemSites, $newItemSites);
                         //add the Omeka S item id to the itemJson
                         //and key by the importRecordid for reuse
                         //in both updating the item itself, and the importRecord
