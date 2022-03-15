@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-08-08 11:23-0400\n"
+"POT-Creation-Date: 2022-03-15 15:18-0700\n"
 "PO-Revision-Date: 2017-09-14 20:15+0000\n"
 "Last-Translator: Joana Paulino <jpaulino@fcsh.unl.pt>, 2020\n"
 "Language-Team: Portuguese (Portugal) (https://www.transifex.com/omeka/teams/14184/pt_PT/)\n"
@@ -21,50 +21,61 @@ msgstr ""
 "Language: pt_PT\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: Module.php:81
+#: Module.php:80
 msgid "Last Modified"
 msgstr "Última modificação"
 
-#: Module.php:82
+#: Module.php:81
 msgid "Link"
 msgstr "Hiperligação"
 
-#: src/Controller/IndexController.php:66
+#: src/Controller/IndexController.php:65
 msgid "Error importing data"
 msgstr "Erro ao importar os dados"
 
-#: view/dspace-connector/index/import.phtml:8
+#: view/dspace-connector/index/import.phtml:9
 #: view/dspace-connector/index/index.phtml:10
 #: view/dspace-connector/index/past-imports.phtml:6
 msgid "Dspace Connector"
 msgstr "Conector Dspace"
 
-#: view/dspace-connector/index/import.phtml:8
+#: view/dspace-connector/index/import.phtml:9
 msgid "Import options"
 msgstr "Opções de importação"
 
-#: view/dspace-connector/index/import.phtml:12
+#: view/dspace-connector/index/import.phtml:13
 msgid "Basic import settings"
 msgstr "Configurações básicas de importação"
 
-#: view/dspace-connector/index/import.phtml:13
+#: view/dspace-connector/index/import.phtml:14
 msgid "Collections"
 msgstr "Coleções"
 
-#: view/dspace-connector/index/import.phtml:14
-msgid "Communities"
-msgstr "Comunidades"
+#: view/dspace-connector/index/import.phtml:24
+msgid ""
+"Import all items in the DSpace repository, without separating by community "
+"or collection"
+msgstr ""
 
-#: view/dspace-connector/index/import.phtml:28
+#: view/dspace-connector/index/import.phtml:25
+msgid "Import entire repository"
+msgstr ""
+
+#: view/dspace-connector/index/import.phtml:29
+msgid "Expand all"
+msgstr ""
+
+#: view/dspace-connector/index/import.phtml:30
+msgid "Collapse all"
+msgstr ""
+
 #: view/dspace-connector/index/import.phtml:60
 msgid "Import collection"
 msgstr "Importar coleção"
 
-#: view/dspace-connector/index/import.phtml:36
-#: view/dspace-connector/index/import.phtml:53
-#: view/dspace-connector/index/import.phtml:68
-msgid "[No description given]"
-msgstr "[Não foi fornecida descrição]"
+#: view/dspace-connector/index/import.phtml:65
+msgid "No collections."
+msgstr ""
 
 #: view/dspace-connector/index/index.phtml:10
 msgid "Import Settings"
@@ -102,32 +113,6 @@ msgstr "Atualizado:"
 msgid "Undone"
 msgstr "Desfeito"
 
-#: src/Form/ImportForm.php:17
-msgid "Import files into Omeka S"
-msgstr "Importar ficheiros para o Omeka S"
-
-#: src/Form/ImportForm.php:18
-msgid ""
-"If checked, original files will be imported into Omeka S. Otherwise, "
-"derivates will be displayed when possible, with links back to the original "
-"file in the DSpace repository."
-msgstr ""
-"Se selecionados, os ficheiros originais serão importados para o Omeka S. "
-"Caso contrário, os derivados serão exibidos quando possível, com "
-"hiperligações para o ficheiro original no repositório do DSpace."
-
-#: src/Form/ImportForm.php:27
-msgid "Optional. Import items into this item set."
-msgstr "Opcional. Importar itens para este conjunto de itens."
-
-#: src/Form/ImportForm.php:43
-msgid "Create or update from DSpace collection"
-msgstr "Criar ou atualizar da coleção do DSpace"
-
-#: src/Form/ImportForm.php:59
-msgid "A note about the purpose or source of this import"
-msgstr "Uma nota sobre o propósito ou fonte desta importação"
-
 #: src/Form/UrlForm.php:17
 msgid "DSpace site URL"
 msgstr "URL do Dspace"
@@ -160,16 +145,66 @@ msgstr ""
 "Se verificar a existência de erros ou dados em falta, tente diminuir esse "
 "número. Aumentá-lo pode tornar as importações mais rápidas."
 
-#: src/Controller/IndexController.php:40 src/Controller/IndexController.php:55
+#: src/Form/ImportForm.php:35
+msgid "Import files into Omeka S"
+msgstr "Importar ficheiros para o Omeka S"
+
+#: src/Form/ImportForm.php:36
+msgid ""
+"If checked, original files will be imported into Omeka S. Otherwise, "
+"derivates will be displayed when possible, with links back to the original "
+"file in the DSpace repository."
+msgstr ""
+"Se selecionados, os ficheiros originais serão importados para o Omeka S. "
+"Caso contrário, os derivados serão exibidos quando possível, com "
+"hiperligações para o ficheiro original no repositório do DSpace."
+
+#: src/Form/ImportForm.php:45
+msgid "Select item set(s)"
+msgstr ""
+
+#: src/Form/ImportForm.php:50
+msgid "Item Sets"
+msgstr ""
+
+#: src/Form/ImportForm.php:51
+msgid "Optional. Import items into item set(s)."
+msgstr ""
+
+#: src/Form/ImportForm.php:67
+msgid "Create from DSpace collection"
+msgstr ""
+
+#: src/Form/ImportForm.php:89
+msgid "Select site(s)"
+msgstr ""
+
+#: src/Form/ImportForm.php:95
+msgid "Optional. Import items into site(s)."
+msgstr ""
+
+#: src/Form/ImportForm.php:114
+msgid "Ignored fields"
+msgstr ""
+
+#: src/Form/ImportForm.php:115
+msgid "DSpace fields to ignore, separated by commas"
+msgstr ""
+
+#: src/Form/ImportForm.php:127
+msgid "A note about the purpose or source of this import"
+msgstr "Uma nota sobre o propósito ou fonte desta importação"
+
+#: src/Controller/IndexController.php:39 src/Controller/IndexController.php:54
 msgid "There was an error during validation"
 msgstr "Existiu um erro durante a validação"
 
-#: src/Controller/IndexController.php:46
+#: src/Controller/IndexController.php:45
 #, php-format
 msgid "Importing in Job ID %s"
 msgstr "A importar o ID do trabalho %s"
 
-#: src/Controller/IndexController.php:101
+#: src/Controller/IndexController.php:100
 msgid "There was an error retrieving data. Please try again."
 msgstr "Existiu um erro ao recuperar os dados. Por favor tente novamente."
 
@@ -177,3 +212,7 @@ msgstr "Existiu um erro ao recuperar os dados. Por favor tente novamente."
 #, php-format
 msgid "Undo in progress in the following jobs: %s"
 msgstr "Desfazer em progresso nos seguintes trabalhos: %s"
+
+#: src/Controller/IndexController.php:129
+msgid "Error: no jobs selected to undo"
+msgstr ""

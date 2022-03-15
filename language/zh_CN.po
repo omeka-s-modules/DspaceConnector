@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-08-08 11:23-0400\n"
+"POT-Creation-Date: 2022-03-15 15:18-0700\n"
 "PO-Revision-Date: 2017-09-14 20:15+0000\n"
 "Last-Translator: Hong Zhang <zhangh@unlv.nevada.edu>, 2021\n"
 "Language-Team: Chinese (China) (https://www.transifex.com/omeka/teams/14184/zh_CN/)\n"
@@ -21,50 +21,61 @@ msgstr ""
 "Language: zh_CN\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-#: Module.php:81
+#: Module.php:80
 msgid "Last Modified"
 msgstr "最后修改于"
 
-#: Module.php:82
+#: Module.php:81
 msgid "Link"
 msgstr "链接"
 
-#: src/Controller/IndexController.php:66
+#: src/Controller/IndexController.php:65
 msgid "Error importing data"
 msgstr "导入数据出错"
 
-#: view/dspace-connector/index/import.phtml:8
+#: view/dspace-connector/index/import.phtml:9
 #: view/dspace-connector/index/index.phtml:10
 #: view/dspace-connector/index/past-imports.phtml:6
 msgid "Dspace Connector"
 msgstr "Dspace连接器"
 
-#: view/dspace-connector/index/import.phtml:8
+#: view/dspace-connector/index/import.phtml:9
 msgid "Import options"
 msgstr "导入选项"
 
-#: view/dspace-connector/index/import.phtml:12
+#: view/dspace-connector/index/import.phtml:13
 msgid "Basic import settings"
 msgstr "基本导入设置"
 
-#: view/dspace-connector/index/import.phtml:13
+#: view/dspace-connector/index/import.phtml:14
 msgid "Collections"
 msgstr "馆藏"
 
-#: view/dspace-connector/index/import.phtml:14
-msgid "Communities"
-msgstr "社区"
+#: view/dspace-connector/index/import.phtml:24
+msgid ""
+"Import all items in the DSpace repository, without separating by community "
+"or collection"
+msgstr ""
 
-#: view/dspace-connector/index/import.phtml:28
+#: view/dspace-connector/index/import.phtml:25
+msgid "Import entire repository"
+msgstr ""
+
+#: view/dspace-connector/index/import.phtml:29
+msgid "Expand all"
+msgstr ""
+
+#: view/dspace-connector/index/import.phtml:30
+msgid "Collapse all"
+msgstr ""
+
 #: view/dspace-connector/index/import.phtml:60
 msgid "Import collection"
 msgstr "导入馆藏"
 
-#: view/dspace-connector/index/import.phtml:36
-#: view/dspace-connector/index/import.phtml:53
-#: view/dspace-connector/index/import.phtml:68
-msgid "[No description given]"
-msgstr "【未给出描述】"
+#: view/dspace-connector/index/import.phtml:65
+msgid "No collections."
+msgstr ""
 
 #: view/dspace-connector/index/index.phtml:10
 msgid "Import Settings"
@@ -102,29 +113,6 @@ msgstr "更新："
 msgid "Undone"
 msgstr ""
 
-#: src/Form/ImportForm.php:17
-msgid "Import files into Omeka S"
-msgstr "把文件导入进Omeka S"
-
-#: src/Form/ImportForm.php:18
-msgid ""
-"If checked, original files will be imported into Omeka S. Otherwise, "
-"derivates will be displayed when possible, with links back to the original "
-"file in the DSpace repository."
-msgstr "如果点选的话，原始文件将被导入进Omeka S。否则，在可能时将显示衍生文件，链接到DSpace库的初始文件。"
-
-#: src/Form/ImportForm.php:27
-msgid "Optional. Import items into this item set."
-msgstr "可选项。把条目导入进该条目集。"
-
-#: src/Form/ImportForm.php:43
-msgid "Create or update from DSpace collection"
-msgstr "从DSpace馆藏中创建或更新"
-
-#: src/Form/ImportForm.php:59
-msgid "A note about the purpose or source of this import"
-msgstr "关于该导入的目的或来源的注释 "
-
 #: src/Form/UrlForm.php:17
 msgid "DSpace site URL"
 msgstr "DSpace网站URL"
@@ -151,16 +139,63 @@ msgid ""
 "imports faster."
 msgstr "从DSpace中一次性提取的最多结果数。如果您发现错误或缺失数据，尝试降低这个数字。增加该数字可以加快导入速度。"
 
-#: src/Controller/IndexController.php:40 src/Controller/IndexController.php:55
+#: src/Form/ImportForm.php:35
+msgid "Import files into Omeka S"
+msgstr "把文件导入进Omeka S"
+
+#: src/Form/ImportForm.php:36
+msgid ""
+"If checked, original files will be imported into Omeka S. Otherwise, "
+"derivates will be displayed when possible, with links back to the original "
+"file in the DSpace repository."
+msgstr "如果点选的话，原始文件将被导入进Omeka S。否则，在可能时将显示衍生文件，链接到DSpace库的初始文件。"
+
+#: src/Form/ImportForm.php:45
+msgid "Select item set(s)"
+msgstr ""
+
+#: src/Form/ImportForm.php:50
+msgid "Item Sets"
+msgstr ""
+
+#: src/Form/ImportForm.php:51
+msgid "Optional. Import items into item set(s)."
+msgstr ""
+
+#: src/Form/ImportForm.php:67
+msgid "Create from DSpace collection"
+msgstr ""
+
+#: src/Form/ImportForm.php:89
+msgid "Select site(s)"
+msgstr ""
+
+#: src/Form/ImportForm.php:95
+msgid "Optional. Import items into site(s)."
+msgstr ""
+
+#: src/Form/ImportForm.php:114
+msgid "Ignored fields"
+msgstr ""
+
+#: src/Form/ImportForm.php:115
+msgid "DSpace fields to ignore, separated by commas"
+msgstr ""
+
+#: src/Form/ImportForm.php:127
+msgid "A note about the purpose or source of this import"
+msgstr "关于该导入的目的或来源的注释 "
+
+#: src/Controller/IndexController.php:39 src/Controller/IndexController.php:54
 msgid "There was an error during validation"
 msgstr "验证时出错"
 
-#: src/Controller/IndexController.php:46
+#: src/Controller/IndexController.php:45
 #, php-format
 msgid "Importing in Job ID %s"
 msgstr "正在导入任务ID %s"
 
-#: src/Controller/IndexController.php:101
+#: src/Controller/IndexController.php:100
 msgid "There was an error retrieving data. Please try again."
 msgstr "提取数据时出错。请重试。"
 
@@ -168,3 +203,7 @@ msgstr "提取数据时出错。请重试。"
 #, php-format
 msgid "Undo in progress in the following jobs: %s"
 msgstr "在以下任务中的撤销操作正在进行：%s"
+
+#: src/Controller/IndexController.php:129
+msgid "Error: no jobs selected to undo"
+msgstr ""

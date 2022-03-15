@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-08-08 11:23-0400\n"
+"POT-Creation-Date: 2022-03-15 15:18-0700\n"
 "PO-Revision-Date: 2017-09-14 20:15+0000\n"
 "Last-Translator: Laurent Thomas, 2019\n"
 "Language-Team: French (https://www.transifex.com/omeka/teams/14184/fr/)\n"
@@ -21,50 +21,61 @@ msgstr ""
 "Language: fr\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: Module.php:81
+#: Module.php:80
 msgid "Last Modified"
 msgstr "Dernière modification"
 
-#: Module.php:82
+#: Module.php:81
 msgid "Link"
 msgstr "Lien"
 
-#: src/Controller/IndexController.php:66
+#: src/Controller/IndexController.php:65
 msgid "Error importing data"
 msgstr "Erreur lors de l'import des données"
 
-#: view/dspace-connector/index/import.phtml:8
+#: view/dspace-connector/index/import.phtml:9
 #: view/dspace-connector/index/index.phtml:10
 #: view/dspace-connector/index/past-imports.phtml:6
 msgid "Dspace Connector"
 msgstr "Connecteur DSpace"
 
-#: view/dspace-connector/index/import.phtml:8
+#: view/dspace-connector/index/import.phtml:9
 msgid "Import options"
 msgstr "Options d'import"
 
-#: view/dspace-connector/index/import.phtml:12
+#: view/dspace-connector/index/import.phtml:13
 msgid "Basic import settings"
 msgstr "Options générales d'import"
 
-#: view/dspace-connector/index/import.phtml:13
+#: view/dspace-connector/index/import.phtml:14
 msgid "Collections"
 msgstr "Collections"
 
-#: view/dspace-connector/index/import.phtml:14
-msgid "Communities"
-msgstr "Communautés"
+#: view/dspace-connector/index/import.phtml:24
+msgid ""
+"Import all items in the DSpace repository, without separating by community "
+"or collection"
+msgstr ""
 
-#: view/dspace-connector/index/import.phtml:28
+#: view/dspace-connector/index/import.phtml:25
+msgid "Import entire repository"
+msgstr ""
+
+#: view/dspace-connector/index/import.phtml:29
+msgid "Expand all"
+msgstr ""
+
+#: view/dspace-connector/index/import.phtml:30
+msgid "Collapse all"
+msgstr ""
+
 #: view/dspace-connector/index/import.phtml:60
 msgid "Import collection"
 msgstr "Importer la collection"
 
-#: view/dspace-connector/index/import.phtml:36
-#: view/dspace-connector/index/import.phtml:53
-#: view/dspace-connector/index/import.phtml:68
-msgid "[No description given]"
-msgstr "[Pas de description]"
+#: view/dspace-connector/index/import.phtml:65
+msgid "No collections."
+msgstr ""
 
 #: view/dspace-connector/index/index.phtml:10
 msgid "Import Settings"
@@ -102,32 +113,6 @@ msgstr "Mises à jour :"
 msgid "Undone"
 msgstr "Annulé"
 
-#: src/Form/ImportForm.php:17
-msgid "Import files into Omeka S"
-msgstr "Importer les fichiers dans Omeka S"
-
-#: src/Form/ImportForm.php:18
-msgid ""
-"If checked, original files will be imported into Omeka S. Otherwise, "
-"derivates will be displayed when possible, with links back to the original "
-"file in the DSpace repository."
-msgstr ""
-"Si activé, les fichiers originaux seront importés dans Omeka S. Sinon, des "
-"objets dérivés seront affichés lorsque possible, avec des liens vers le "
-"fichiers original sur l'espace DSpace."
-
-#: src/Form/ImportForm.php:27
-msgid "Optional. Import items into this item set."
-msgstr "Facultatif. Importer les contenus dans cette collection."
-
-#: src/Form/ImportForm.php:43
-msgid "Create or update from DSpace collection"
-msgstr "Créer ou mettre à jour depuis la collection DSpace"
-
-#: src/Form/ImportForm.php:59
-msgid "A note about the purpose or source of this import"
-msgstr "Une note à propos de l'objet ou de la source de cet import."
-
 #: src/Form/UrlForm.php:17
 msgid "DSpace site URL"
 msgstr "URL du site DSpace"
@@ -160,16 +145,66 @@ msgstr ""
 "vous rencontrez des erreurs ou des données manquantes, essayez de baisser ce"
 " nombre. L'augmenter pourra accélérer la vitesse d'import."
 
-#: src/Controller/IndexController.php:40 src/Controller/IndexController.php:55
+#: src/Form/ImportForm.php:35
+msgid "Import files into Omeka S"
+msgstr "Importer les fichiers dans Omeka S"
+
+#: src/Form/ImportForm.php:36
+msgid ""
+"If checked, original files will be imported into Omeka S. Otherwise, "
+"derivates will be displayed when possible, with links back to the original "
+"file in the DSpace repository."
+msgstr ""
+"Si activé, les fichiers originaux seront importés dans Omeka S. Sinon, des "
+"objets dérivés seront affichés lorsque possible, avec des liens vers le "
+"fichiers original sur l'espace DSpace."
+
+#: src/Form/ImportForm.php:45
+msgid "Select item set(s)"
+msgstr ""
+
+#: src/Form/ImportForm.php:50
+msgid "Item Sets"
+msgstr ""
+
+#: src/Form/ImportForm.php:51
+msgid "Optional. Import items into item set(s)."
+msgstr ""
+
+#: src/Form/ImportForm.php:67
+msgid "Create from DSpace collection"
+msgstr ""
+
+#: src/Form/ImportForm.php:89
+msgid "Select site(s)"
+msgstr ""
+
+#: src/Form/ImportForm.php:95
+msgid "Optional. Import items into site(s)."
+msgstr ""
+
+#: src/Form/ImportForm.php:114
+msgid "Ignored fields"
+msgstr ""
+
+#: src/Form/ImportForm.php:115
+msgid "DSpace fields to ignore, separated by commas"
+msgstr ""
+
+#: src/Form/ImportForm.php:127
+msgid "A note about the purpose or source of this import"
+msgstr "Une note à propos de l'objet ou de la source de cet import."
+
+#: src/Controller/IndexController.php:39 src/Controller/IndexController.php:54
 msgid "There was an error during validation"
 msgstr "Une erreur est survenue durant la validation"
 
-#: src/Controller/IndexController.php:46
+#: src/Controller/IndexController.php:45
 #, php-format
 msgid "Importing in Job ID %s"
 msgstr "Import de la tâche ID %s en cours"
 
-#: src/Controller/IndexController.php:101
+#: src/Controller/IndexController.php:100
 msgid "There was an error retrieving data. Please try again."
 msgstr ""
 "Une erreur est survenue lors de la récupération des données. Veuillez "
@@ -179,3 +214,7 @@ msgstr ""
 #, php-format
 msgid "Undo in progress in the following jobs: %s"
 msgstr "Annulation des tâches suivantes en cours : %s"
+
+#: src/Controller/IndexController.php:129
+msgid "Error: no jobs selected to undo"
+msgstr ""

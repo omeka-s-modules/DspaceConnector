@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-08-08 11:23-0400\n"
+"POT-Creation-Date: 2022-03-15 15:18-0700\n"
 "PO-Revision-Date: 2017-09-14 20:15+0000\n"
 "Last-Translator: Josip Ilic <josip.ilic@ericsson.com>, 2021\n"
 "Language-Team: Croatian (https://www.transifex.com/omeka/teams/14184/hr/)\n"
@@ -22,50 +22,61 @@ msgstr ""
 "Language: hr\n"
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 
-#: Module.php:81
+#: Module.php:80
 msgid "Last Modified"
 msgstr "Zadnji Put Promijenjeno"
 
-#: Module.php:82
+#: Module.php:81
 msgid "Link"
 msgstr "Poveznica"
 
-#: src/Controller/IndexController.php:66
+#: src/Controller/IndexController.php:65
 msgid "Error importing data"
 msgstr "Greška prilikom uvoženja podataka"
 
-#: view/dspace-connector/index/import.phtml:8
+#: view/dspace-connector/index/import.phtml:9
 #: view/dspace-connector/index/index.phtml:10
 #: view/dspace-connector/index/past-imports.phtml:6
 msgid "Dspace Connector"
 msgstr "Dspace konektor"
 
-#: view/dspace-connector/index/import.phtml:8
+#: view/dspace-connector/index/import.phtml:9
 msgid "Import options"
 msgstr "Opcije uvoza"
 
-#: view/dspace-connector/index/import.phtml:12
+#: view/dspace-connector/index/import.phtml:13
 msgid "Basic import settings"
 msgstr "Osnovne postavke uvoza"
 
-#: view/dspace-connector/index/import.phtml:13
+#: view/dspace-connector/index/import.phtml:14
 msgid "Collections"
 msgstr "Kolekcije"
 
-#: view/dspace-connector/index/import.phtml:14
-msgid "Communities"
-msgstr "Zajednice"
+#: view/dspace-connector/index/import.phtml:24
+msgid ""
+"Import all items in the DSpace repository, without separating by community "
+"or collection"
+msgstr ""
 
-#: view/dspace-connector/index/import.phtml:28
+#: view/dspace-connector/index/import.phtml:25
+msgid "Import entire repository"
+msgstr ""
+
+#: view/dspace-connector/index/import.phtml:29
+msgid "Expand all"
+msgstr ""
+
+#: view/dspace-connector/index/import.phtml:30
+msgid "Collapse all"
+msgstr ""
+
 #: view/dspace-connector/index/import.phtml:60
 msgid "Import collection"
 msgstr "Uvedi kolekciju"
 
-#: view/dspace-connector/index/import.phtml:36
-#: view/dspace-connector/index/import.phtml:53
-#: view/dspace-connector/index/import.phtml:68
-msgid "[No description given]"
-msgstr "[Nema opisa]"
+#: view/dspace-connector/index/import.phtml:65
+msgid "No collections."
+msgstr ""
 
 #: view/dspace-connector/index/index.phtml:10
 msgid "Import Settings"
@@ -103,32 +114,6 @@ msgstr "Ažurirano:"
 msgid "Undone"
 msgstr "Poništeno"
 
-#: src/Form/ImportForm.php:17
-msgid "Import files into Omeka S"
-msgstr "Uvedi datoteke u Omeka S"
-
-#: src/Form/ImportForm.php:18
-msgid ""
-"If checked, original files will be imported into Omeka S. Otherwise, "
-"derivates will be displayed when possible, with links back to the original "
-"file in the DSpace repository."
-msgstr ""
-"Ako je označeno, izvorne datoteke bit će uvezene u Omeka S. Inače, izvodi će"
-" se prikazivati ​​kad god je to moguće, s vezama natrag na izvornu datoteku "
-"u spremištu DSpace."
-
-#: src/Form/ImportForm.php:27
-msgid "Optional. Import items into this item set."
-msgstr "Neobavezno. Uvedi predmetu u ovaj set predmeta."
-
-#: src/Form/ImportForm.php:43
-msgid "Create or update from DSpace collection"
-msgstr "Stvarajte ili ažurirajte iz DSpace kolekcije"
-
-#: src/Form/ImportForm.php:59
-msgid "A note about the purpose or source of this import"
-msgstr "Bilješka o svrsi ili izvoru ovog uvoza"
-
 #: src/Form/UrlForm.php:17
 msgid "DSpace site URL"
 msgstr "URL DSpace web-mjesta"
@@ -161,11 +146,61 @@ msgstr ""
 "greške ili nedostajuće podatke, probajte smanjiti ovaj broj. Povećavajući ga"
 " bi moglo ubrzati uvoženja. "
 
-#: src/Controller/IndexController.php:40 src/Controller/IndexController.php:55
+#: src/Form/ImportForm.php:35
+msgid "Import files into Omeka S"
+msgstr "Uvedi datoteke u Omeka S"
+
+#: src/Form/ImportForm.php:36
+msgid ""
+"If checked, original files will be imported into Omeka S. Otherwise, "
+"derivates will be displayed when possible, with links back to the original "
+"file in the DSpace repository."
+msgstr ""
+"Ako je označeno, izvorne datoteke bit će uvezene u Omeka S. Inače, izvodi će"
+" se prikazivati ​​kad god je to moguće, s vezama natrag na izvornu datoteku "
+"u spremištu DSpace."
+
+#: src/Form/ImportForm.php:45
+msgid "Select item set(s)"
+msgstr ""
+
+#: src/Form/ImportForm.php:50
+msgid "Item Sets"
+msgstr ""
+
+#: src/Form/ImportForm.php:51
+msgid "Optional. Import items into item set(s)."
+msgstr ""
+
+#: src/Form/ImportForm.php:67
+msgid "Create from DSpace collection"
+msgstr ""
+
+#: src/Form/ImportForm.php:89
+msgid "Select site(s)"
+msgstr ""
+
+#: src/Form/ImportForm.php:95
+msgid "Optional. Import items into site(s)."
+msgstr ""
+
+#: src/Form/ImportForm.php:114
+msgid "Ignored fields"
+msgstr ""
+
+#: src/Form/ImportForm.php:115
+msgid "DSpace fields to ignore, separated by commas"
+msgstr ""
+
+#: src/Form/ImportForm.php:127
+msgid "A note about the purpose or source of this import"
+msgstr "Bilješka o svrsi ili izvoru ovog uvoza"
+
+#: src/Controller/IndexController.php:39 src/Controller/IndexController.php:54
 msgid "There was an error during validation"
 msgstr "Pojavila se greška prilikom validacije"
 
-#: src/Controller/IndexController.php:46
+#: src/Controller/IndexController.php:45
 #, php-format
 msgid "Importing in Job ID %s"
 msgstr ""
@@ -178,7 +213,7 @@ msgstr ""
 " \n"
 " "
 
-#: src/Controller/IndexController.php:101
+#: src/Controller/IndexController.php:100
 msgid "There was an error retrieving data. Please try again."
 msgstr ""
 "Pojavila se greška prilikom dohvaćanja podataka. Molimo vas pokušajte "
@@ -188,3 +223,7 @@ msgstr ""
 #, php-format
 msgid "Undo in progress in the following jobs: %s"
 msgstr "Poništavanje u tijeku u sljedećim poslovima: %s"
+
+#: src/Controller/IndexController.php:129
+msgid "Error: no jobs selected to undo"
+msgstr ""

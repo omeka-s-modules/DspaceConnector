@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-08-08 11:23-0400\n"
+"POT-Creation-Date: 2022-03-15 15:18-0700\n"
 "PO-Revision-Date: 2017-09-14 20:15+0000\n"
 "Last-Translator: Matti Lassila <matti.lassila@gmail.com>, 2018\n"
 "Language-Team: Finnish (Finland) (https://www.transifex.com/omeka/teams/14184/fi_FI/)\n"
@@ -21,50 +21,61 @@ msgstr ""
 "Language: fi_FI\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: Module.php:81
+#: Module.php:80
 msgid "Last Modified"
 msgstr "Muokattu viimeksi"
 
-#: Module.php:82
+#: Module.php:81
 msgid "Link"
 msgstr "Linkki"
 
-#: src/Controller/IndexController.php:66
+#: src/Controller/IndexController.php:65
 msgid "Error importing data"
 msgstr "Tiedonsiirtovirhe"
 
-#: view/dspace-connector/index/import.phtml:8
+#: view/dspace-connector/index/import.phtml:9
 #: view/dspace-connector/index/index.phtml:10
 #: view/dspace-connector/index/past-imports.phtml:6
 msgid "Dspace Connector"
 msgstr "DSpace-tuonti"
 
-#: view/dspace-connector/index/import.phtml:8
+#: view/dspace-connector/index/import.phtml:9
 msgid "Import options"
 msgstr "Tuontiasetukset"
 
-#: view/dspace-connector/index/import.phtml:12
+#: view/dspace-connector/index/import.phtml:13
 msgid "Basic import settings"
 msgstr "Perusasetukset"
 
-#: view/dspace-connector/index/import.phtml:13
+#: view/dspace-connector/index/import.phtml:14
 msgid "Collections"
 msgstr "Kokoelmat"
 
-#: view/dspace-connector/index/import.phtml:14
-msgid "Communities"
-msgstr "Yhteisöt"
+#: view/dspace-connector/index/import.phtml:24
+msgid ""
+"Import all items in the DSpace repository, without separating by community "
+"or collection"
+msgstr ""
 
-#: view/dspace-connector/index/import.phtml:28
+#: view/dspace-connector/index/import.phtml:25
+msgid "Import entire repository"
+msgstr ""
+
+#: view/dspace-connector/index/import.phtml:29
+msgid "Expand all"
+msgstr ""
+
+#: view/dspace-connector/index/import.phtml:30
+msgid "Collapse all"
+msgstr ""
+
 #: view/dspace-connector/index/import.phtml:60
 msgid "Import collection"
 msgstr "Tuo kokoelma"
 
-#: view/dspace-connector/index/import.phtml:36
-#: view/dspace-connector/index/import.phtml:53
-#: view/dspace-connector/index/import.phtml:68
-msgid "[No description given]"
-msgstr "[Ei kuvausta]"
+#: view/dspace-connector/index/import.phtml:65
+msgid "No collections."
+msgstr ""
 
 #: view/dspace-connector/index/index.phtml:10
 msgid "Import Settings"
@@ -102,32 +113,6 @@ msgstr "Päivitetty:"
 msgid "Undone"
 msgstr "Peruttu"
 
-#: src/Form/ImportForm.php:17
-msgid "Import files into Omeka S"
-msgstr "Kopioi tiedostot Omekaan"
-
-#: src/Form/ImportForm.php:18
-msgid ""
-"If checked, original files will be imported into Omeka S. Otherwise, "
-"derivates will be displayed when possible, with links back to the original "
-"file in the DSpace repository."
-msgstr ""
-"Valittuna aineistot tuodaan tiedostoineen Omekaan. Muutoin aineistoista "
-"luodaan esikatselukuvat, mikäli mahdollista, ja luodaan linkki "
-"alkuperäistiedostoon DSpacessa."
-
-#: src/Form/ImportForm.php:27
-msgid "Optional. Import items into this item set."
-msgstr "Valinnainen. Tuo aineistot tähän kokoelmaan."
-
-#: src/Form/ImportForm.php:43
-msgid "Create or update from DSpace collection"
-msgstr "Luo tai päivitä aineistoja DSpace-kokoelmasta"
-
-#: src/Form/ImportForm.php:59
-msgid "A note about the purpose or source of this import"
-msgstr "Tuonnin kuvaus"
-
 #: src/Form/UrlForm.php:17
 msgid "DSpace site URL"
 msgstr "DSpace URL"
@@ -159,16 +144,66 @@ msgstr ""
 "Mikäli tuonnista puuttuu aineistoja tai tuonti johtaa virheilmoitukseen, "
 "rajaa kannattaa laskea. Rajan nostaminen voi nopeuttaa aineistojen tuontia."
 
-#: src/Controller/IndexController.php:40 src/Controller/IndexController.php:55
+#: src/Form/ImportForm.php:35
+msgid "Import files into Omeka S"
+msgstr "Kopioi tiedostot Omekaan"
+
+#: src/Form/ImportForm.php:36
+msgid ""
+"If checked, original files will be imported into Omeka S. Otherwise, "
+"derivates will be displayed when possible, with links back to the original "
+"file in the DSpace repository."
+msgstr ""
+"Valittuna aineistot tuodaan tiedostoineen Omekaan. Muutoin aineistoista "
+"luodaan esikatselukuvat, mikäli mahdollista, ja luodaan linkki "
+"alkuperäistiedostoon DSpacessa."
+
+#: src/Form/ImportForm.php:45
+msgid "Select item set(s)"
+msgstr ""
+
+#: src/Form/ImportForm.php:50
+msgid "Item Sets"
+msgstr ""
+
+#: src/Form/ImportForm.php:51
+msgid "Optional. Import items into item set(s)."
+msgstr ""
+
+#: src/Form/ImportForm.php:67
+msgid "Create from DSpace collection"
+msgstr ""
+
+#: src/Form/ImportForm.php:89
+msgid "Select site(s)"
+msgstr ""
+
+#: src/Form/ImportForm.php:95
+msgid "Optional. Import items into site(s)."
+msgstr ""
+
+#: src/Form/ImportForm.php:114
+msgid "Ignored fields"
+msgstr ""
+
+#: src/Form/ImportForm.php:115
+msgid "DSpace fields to ignore, separated by commas"
+msgstr ""
+
+#: src/Form/ImportForm.php:127
+msgid "A note about the purpose or source of this import"
+msgstr "Tuonnin kuvaus"
+
+#: src/Controller/IndexController.php:39 src/Controller/IndexController.php:54
 msgid "There was an error during validation"
 msgstr "Validointivirhe"
 
-#: src/Controller/IndexController.php:46
+#: src/Controller/IndexController.php:45
 #, php-format
 msgid "Importing in Job ID %s"
 msgstr "Tuodaan taustaprosessissa %s"
 
-#: src/Controller/IndexController.php:101
+#: src/Controller/IndexController.php:100
 msgid "There was an error retrieving data. Please try again."
 msgstr "Virhe ladatteassa tietoja. Ole hyvä ja yritä uudelleen."
 
@@ -176,3 +211,7 @@ msgstr "Virhe ladatteassa tietoja. Ole hyvä ja yritä uudelleen."
 #, php-format
 msgid "Undo in progress in the following jobs: %s"
 msgstr "Perutaan taustaprosessissa %s"
+
+#: src/Controller/IndexController.php:129
+msgid "Error: no jobs selected to undo"
+msgstr ""
