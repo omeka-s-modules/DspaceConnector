@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-06-28 12:49-0700\n"
+"POT-Creation-Date: 2022-03-15 15:18-0700\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -29,41 +29,48 @@ msgstr ""
 msgid "Error importing data"
 msgstr ""
 
-#: view/dspace-connector/index/import.phtml:8
+#: view/dspace-connector/index/import.phtml:9
 #: view/dspace-connector/index/index.phtml:10
 #: view/dspace-connector/index/past-imports.phtml:6
 msgid "Dspace Connector"
 msgstr ""
 
-#: view/dspace-connector/index/import.phtml:8
+#: view/dspace-connector/index/import.phtml:9
 msgid "Import options"
 msgstr ""
 
-#: view/dspace-connector/index/import.phtml:12
+#: view/dspace-connector/index/import.phtml:13
 msgid "Basic import settings"
 msgstr ""
 
-#: view/dspace-connector/index/import.phtml:13
+#: view/dspace-connector/index/import.phtml:14
 msgid "Collections"
 msgstr ""
 
-#: view/dspace-connector/index/import.phtml:25
+#: view/dspace-connector/index/import.phtml:24
 msgid ""
 "Import all items in the DSpace repository, without separating by community "
-"or collection:"
+"or collection"
 msgstr ""
 
-#: view/dspace-connector/index/import.phtml:27
+#: view/dspace-connector/index/import.phtml:25
 msgid "Import entire repository"
 msgstr ""
 
-#: view/dspace-connector/index/import.phtml:38
-#: view/dspace-connector/index/import.phtml:55
-msgid "[No description given]"
+#: view/dspace-connector/index/import.phtml:29
+msgid "Expand all"
 msgstr ""
 
-#: view/dspace-connector/index/import.phtml:45
+#: view/dspace-connector/index/import.phtml:30
+msgid "Collapse all"
+msgstr ""
+
+#: view/dspace-connector/index/import.phtml:60
 msgid "Import collection"
+msgstr ""
+
+#: view/dspace-connector/index/import.phtml:65
+msgid "No collections."
 msgstr ""
 
 #: view/dspace-connector/index/index.phtml:10
@@ -128,34 +135,50 @@ msgid ""
 "imports faster."
 msgstr ""
 
-#: src/Form/ImportForm.php:17
+#: src/Form/ImportForm.php:35
 msgid "Import files into Omeka S"
 msgstr ""
 
-#: src/Form/ImportForm.php:18
+#: src/Form/ImportForm.php:36
 msgid ""
 "If checked, original files will be imported into Omeka S. Otherwise, "
 "derivates will be displayed when possible, with links back to the original "
 "file in the DSpace repository."
 msgstr ""
 
-#: src/Form/ImportForm.php:27
-msgid "Optional. Import items into this item set."
+#: src/Form/ImportForm.php:45
+msgid "Select item set(s)"
 msgstr ""
 
-#: src/Form/ImportForm.php:43
-msgid "Create or update from DSpace collection"
+#: src/Form/ImportForm.php:50
+msgid "Item Sets"
 msgstr ""
 
-#: src/Form/ImportForm.php:58
+#: src/Form/ImportForm.php:51
+msgid "Optional. Import items into item set(s)."
+msgstr ""
+
+#: src/Form/ImportForm.php:67
+msgid "Create from DSpace collection"
+msgstr ""
+
+#: src/Form/ImportForm.php:89
+msgid "Select site(s)"
+msgstr ""
+
+#: src/Form/ImportForm.php:95
+msgid "Optional. Import items into site(s)."
+msgstr ""
+
+#: src/Form/ImportForm.php:114
 msgid "Ignored fields"
 msgstr ""
 
-#: src/Form/ImportForm.php:59
+#: src/Form/ImportForm.php:115
 msgid "DSpace fields to ignore, separated by commas"
 msgstr ""
 
-#: src/Form/ImportForm.php:71
+#: src/Form/ImportForm.php:127
 msgid "A note about the purpose or source of this import"
 msgstr ""
 
