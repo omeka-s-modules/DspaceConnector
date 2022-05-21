@@ -42,7 +42,7 @@ $this->headScript()->appendFile($this->assetUrl('js/dspace-connector.js', 'Dspac
                     <?php endif;?>
                 </div>
             <?php endif; ?>
-            <?php if (count($community['collections']) > 0): ?>
+            <?php if (isset($community['collections']) && count($community['collections']) > 0): ?>
                 <div class="collections">
                 <?php foreach($community['collections'] as $collection): ?>
                     <div class="collection">

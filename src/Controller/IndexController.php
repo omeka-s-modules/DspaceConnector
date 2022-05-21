@@ -6,6 +6,7 @@ use DspaceConnector\Form\ImportForm;
 use DspaceConnector\Form\UrlForm;
 use Laminas\Mvc\Controller\AbstractActionController;
 use Laminas\View\Model\ViewModel;
+use Laminas\Dom\Query;
 
 class IndexController extends AbstractActionController
 {
@@ -58,9 +59,28 @@ class IndexController extends AbstractActionController
             $importForm = $this->getForm(ImportForm::class);
             $dspaceUrl = rtrim($params['api_url'], '/');
 
+
             try {
-                $communities = $this->fetchData($dspaceUrl . '/' . $params['endpoint'] . '/communities', 'collections');
-                $repository = '/' . $params['endpoint'] . '/items';
+                // Check dspace version in meta generator tag, to address dspace post 7.x API changes
+                $this->client->setUri($dspaceUrl);
+                $response = $this->client->send();
+                $dom = new Query($response->getBody());
+                $generator = $dom->queryXpath("//meta[@name='Generator']/@content");
+                foreach ($generator as $generator) {
+                    // Get dspace version # using regex
+                    $regex = '/\d\.\d/';
+                    if (preg_match($regex, $generator->nodeValue, $matches)) {
+                        $version = (int)$matches[0];
+                    }
+                }
+
+                if (isset($version) && $version >= 7) {
+                    $communities = $this->fetchDataNew($dspaceUrl . '/' . $params['endpoint']);
+                    $repository = $dspaceUrl . '/' . $params['endpoint'] . '/discover/search/objects?dsoType=item';
+                } else {
+                    $communities = $this->fetchDataOld($dspaceUrl . '/' . $params['endpoint'] . '/communities', 'collections');
+                    $repository = '/' . $params['endpoint'] . '/items';
+                }
             } catch (\Exception $e) {
                 $this->logger()->err($this->translate('Error importing data'));
                 $this->logger()->err($e);
@@ -75,10 +95,12 @@ class IndexController extends AbstractActionController
     }
 
     /**
+     * fetch communities/collections via pre 7.x API
+     *
      * @param string $link either 'collections' or 'communities'
      * @throws \RuntimeException
      */
-    protected function fetchData($endpoint, $expand = null)
+    protected function fetchDataOld($endpoint, $expand = null)
     {
         $this->client->setHeaders(['Accept' => 'application/json'])->setOptions(['timeout' => 60]);
         $this->client->setUri($endpoint);
@@ -108,6 +130,71 @@ class IndexController extends AbstractActionController
                 $this->client->setParameterGet($getParams);
                 $fullResponse = array_merge($responseBody, $fullResponse);
             }
+        }
+        return $fullResponse;
+    }
+
+    /**
+     * fetch communities/collections via post 7.x API
+     *
+     * @param string $link either 'collections' or 'communities'
+     * @throws \RuntimeException
+     */
+    protected function fetchDataNew($endpoint, $expand = null)
+    {
+        $this->client->setHeaders(['Accept' => 'application/json'])->setOptions(['timeout' => 60]);
+        $this->client->setUri($endpoint  . '/core/communities');
+        $page = 0;
+        $limit = $this->limit;
+        $getParams = [
+            'page' => $page,
+            'size' => $limit,
+        ];
+        $this->client->setParameterGet($getParams);
+        $fullResponse = [];
+
+        $response = $this->client->send();
+        $communityMetadata = json_decode($response->getBody(), true);
+        $totalPages = (int)$communityMetadata['page']['totalPages'];
+
+        while ($page < $totalPages) {
+            $response = $this->client->send();
+            if (!$response->isSuccess()) {
+                $this->logger()->err(sprintf('Requested "%s" got "%s".', $endpoint, $response->renderStatusLine()));
+                $this->messenger()->addError('There was an error retrieving data. Please try again.'); // @translate
+            }
+            $responseBody = json_decode($response->getBody(), true);
+
+            foreach ($responseBody['_embedded']['communities'] as $community) {
+                $communityArray = [];
+
+                // Translate post 7.x description fields to pre 7.x syntax
+                $communityArray['name'] = $community['name'];
+                $communityArray['shortDescription'] = $community['metadata']['dc.description.abstract'][0]['value'] ?? null;
+                $communityArray['introductoryText'] = $community['metadata']['dc.description'][0]['value'] ?? null;
+
+                $collectionLink = $community['_links']['collections']['href'] ?? null;
+                if ($collectionLink) {
+                    $this->client->setUri($collectionLink);
+                    $collectionResponse = $this->client->send();
+                    $collectionBody = json_decode($collectionResponse->getBody(), true);
+
+                    foreach ($collectionBody['_embedded']['collections'] as $collection) {
+                        $collectionArray['name'] = $collection['name'];
+                        $collectionArray['shortDescription'] = $collection['metadata']['dc.description.abstract'][0]['value'] ?? null;
+                        $collectionArray['introductoryText'] = $collection['metadata']['dc.description'][0]['value'] ?? null;
+                        // Build collection link with discovery API
+                        $collectionArray['link'] = $endpoint . '/discover/search/objects?dsoType=item&scope=' . $collection['uuid'];
+
+                        $communityArray['collections'][] = $collectionArray;
+                    }
+                }
+                $fullResponse[] = $communityArray;
+            }
+            $getParams['page'] = ++$page;
+            $this->client->setParameterGet($getParams);
+            // Re-setting URI to communities
+            $this->client->setUri($endpoint  . '/core/communities');
         }
         return $fullResponse;
     }
