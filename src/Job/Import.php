@@ -39,6 +39,7 @@ class Import extends AbstractJob
         $this->client->setOptions(['timeout' => 120]);
         $this->apiUrl = $this->getArg('api_url');
         $this->limit = $this->getArg('limit');
+        $this->version = $this->getArg('version');
         $this->itemSiteArray = $this->getArg('itemSites', false);
 
         foreach (explode(',', $this->getArg('ignored_fields')) as $field) {
@@ -59,7 +60,12 @@ class Import extends AbstractJob
         $importRecordId = $response->getContent()->id();
 
         $this->originalIdentityMap = $this->getServiceLocator()->get('Omeka\EntityManager')->getUnitOfWork()->getIdentityMap();
-        $this->importCollection($this->getArg('collection_link'));
+        //Adjust import settings for post 7.x API
+        if (isset($this->version) && $this->version >= 7) {
+            $this->importCollectionNew($this->getArg('collection_link'));
+        } else {
+            $this->importCollectionOld($this->getArg('collection_link'));
+        }
 
         $dspaceImportJson = [
             'o:job' => ['o:id' => $this->job->getId()],
@@ -70,15 +76,15 @@ class Import extends AbstractJob
         $response = $this->api->update('dspace_imports', $importRecordId, $dspaceImportJson);
     }
 
-    public function importCollection($collectionLink)
+    public function importCollectionOld($collectionLink)
     {
         $offset = 0;
         $hasNext = true;
         while ($hasNext) {
-            $response = $this->getResponse($collectionLink, 'items', $offset);
+            $response = $this->getResponseOld($collectionLink, 'items', $offset);
             if ($response) {
                 $collection = json_decode($response->getBody(), true);
-                if ($collectionLink === '/rest/items'){
+                if (strpos($collectionLink, 'items') !== false){
                     //import entire repository
                     $collectionResponse = $collection;
                 } else {
@@ -127,9 +133,60 @@ class Import extends AbstractJob
         }
     }
 
+    public function importCollectionNew($collectionLink)
+    {
+        $page = 0;
+        $this->totalPages = 1;
+        while ($page < $this->totalPages) {
+            $response = $this->getResponseNew($collectionLink, $page);
+            if ($response) {
+                $collection = json_decode($response->getBody(), true);
+
+                //set the item set id array. called here so that, if a new item set needs
+                //to be created from the collection data, I have the data to do so
+                $this->setItemSetIdArray($collection);
+                $toCreate = [];
+                $toUpdate = [];
+                foreach ($collection['_embedded']['searchResult']['_embedded']['objects'] as $index => $itemData) {
+                    $resourceJson = $this->buildResourceJson($itemData['_links']['indexableObject']['href']);
+                    $importRecord = $this->importRecord($resourceJson['remote_id'], $this->apiUrl);
+                    //separate the items to create from those to update
+                    if ($importRecord) {
+                        // keep existing item sets/sites, add any new item sets/sites
+                        $existingItem = $this->api->search('items', ['id' => $importRecord->item()->id()])->getContent();
+
+                        $existingItemSets = array_keys($existingItem[0]->itemSets()) ?: [];
+                        $newItemSets = $resourceJson['o:item_set'] ?: [];
+                        $resourceJson['o:item_set'] = array_merge($existingItemSets, $newItemSets);
+
+                        $existingItemSites = array_keys($existingItem[0]->sites()) ?: [];
+                        $newItemSites = $resourceJson['o:site'] ?: [];
+                        $resourceJson['o:site'] = array_merge($existingItemSites, $newItemSites);
+                        //add the Omeka S item id to the itemJson
+                        //and key by the importRecordid for reuse
+                        //in both updating the item itself, and the importRecord
+                        $resourceJson['id'] = $importRecord->item()->id();
+                        $toUpdate[$importRecord->id()] = $resourceJson;
+                    } else {
+                        $toCreate["create" . $index] = $resourceJson;
+                    }
+                }
+                $this->createItems($toCreate);
+                $this->updateItems($toUpdate);
+
+                $offset = $offset + $this->limit;
+            }
+        }
+    }
+
     public function buildResourceJson($itemLink)
     {
-        $response = $this->getResponse($itemLink, 'metadata,bitstreams');
+        if (isset($this->version) && $this->version >= 7) {
+            $response = $this->getResponseNew($itemLink);
+        } else {
+            $response = $this->getResponseOld($itemLink, 'metadata,bitstreams');
+        }
+
         if ($response) {
             $itemArray = json_decode($response->getBody(), true);
         }
@@ -145,7 +202,12 @@ class Import extends AbstractJob
         } else {
             $itemJson['o:site'] = [];
         }
-        $itemJson = $this->processItemMetadata($itemArray['metadata'], $itemJson);
+        if (isset($this->version) && $this->version >= 7) {
+            $itemJson = $this->processItemMetadataNew($itemArray['metadata'], $itemJson);
+        } else {
+            $itemJson = $this->processItemMetadataOld($itemArray['metadata'], $itemJson);
+        }
+
         //stuff some data that's not relevant to Omeka onto the JSON array
         //for later reuse during create and update operations
         if (isset($itemArray['uuid'])) {
@@ -157,12 +219,16 @@ class Import extends AbstractJob
         $itemJson['lastModified'] = $itemArray['lastModified'];
 
         if ($this->getArg('ingest_files')) {
-            $itemJson = $this->processItemBitstreams($itemArray['bitstreams'], $itemJson);
+            if (isset($this->version) && $this->version >= 7) {
+                $itemJson = $this->processItemBitstreamsNew($itemArray, $itemJson);
+            } else {
+                $itemJson = $this->processItemBitstreamsOld($itemArray['bitstreams'], $itemJson);
+            }
         }
         return $itemJson;
     }
 
-    public function processItemMetadata($itemMetadataArray, $itemJson)
+    public function processItemMetadataOld($itemMetadataArray, $itemJson)
     {
         foreach ($itemMetadataArray as $metadataEntry) {
             $termArray = $this->mapKeyToTerm($metadataEntry['key']);
@@ -187,7 +253,32 @@ class Import extends AbstractJob
         return $itemJson;
     }
 
-    public function processItemBitstreams($bitstreamsArray, $itemJson)
+    public function processItemMetadataNew($itemMetadataArray, $itemJson)
+    {
+        foreach ($itemMetadataArray as $index => $metadataEntry) {
+            $termArray = $this->mapKeyToTerm($index);
+            if (!$termArray) {
+                continue;
+            }
+
+            $valueArray = [];
+            if ($termArray['name'] == 'bibo:uri') {
+                $valueArray['@id'] = $metadataEntry[0]['value'];
+                $valueArray['type'] = 'uri';
+            } else {
+                $valueArray['@value'] = $metadataEntry[0]['value'];
+                if (isset($metadataEntry[0]['language'])) {
+                    $valueArray['@language'] = $metadataEntry[0]['language'];
+                }
+                $valueArray['type'] = 'literal';
+            }
+            $valueArray['property_id'] = $termArray['term_id'];
+            $itemJson[$termArray['name']][] = $valueArray;
+        }
+        return $itemJson;
+    }
+
+    public function processItemBitstreamsOld($bitstreamsArray, $itemJson)
     {
         foreach ($bitstreamsArray as $bitstream) {
             if (isset($bitstream['bundleName']) && $bitstream['bundleName'] == 'ORIGINAL') {
@@ -210,7 +301,47 @@ class Import extends AbstractJob
         return $itemJson;
     }
 
-    public function getResponse($link, $expand = 'all', $offset = 0)
+    public function processItemBitstreamsNew($bitstreamsArray, $itemJson)
+    {
+
+        // Need to follow multiple API links to get to original content file
+        $bundleLink = $bitstreamsArray['_links']['bundles']['href'];
+        $this->client->setUri($bundleLink);
+        $bundleResponse = $this->client->send();
+        $bundleBody = json_decode($bundleResponse->getBody(), true);
+        foreach ($bundleBody['_embedded']['bundles'] as $bundle) {
+            if ($bundle['name'] == 'ORIGINAL') {
+                $bitstreamsLink = $bundle['_links']['bitstreams']['href'];
+                $this->client->setUri($bitstreamsLink);
+                $bitstreamsResponse = $this->client->send();
+                $bitstreamsBody = json_decode($bitstreamsResponse->getBody(), true);
+            }
+        }
+
+        if (isset($bitstreamsBody)) {
+            foreach ($bitstreamsBody['_embedded']['bitstreams'] as $bitstream) {
+                if (isset($bitstream['bundleName']) && $bitstream['bundleName'] == 'ORIGINAL') {
+                    $itemJson['o:media'][] = [
+                        'o:ingester' => 'url',
+                        'o:data' => json_encode($bitstream),
+                        'o:source' => $bitstream['_links']['content']['href'],
+                        'ingest_url' => $bitstream['_links']['content']['href'],
+                        'dcterms:title' => [
+                            [
+                                'type' => 'literal',
+                                '@language' => '',
+                                '@value' => $bitstream['name'],
+                                'property_id' => $this->termIdMap['dcterms:title'],
+                            ],
+                        ],
+                    ];
+                }
+            }
+        }
+        return $itemJson;
+    }
+
+    public function getResponseOld($link, $expand = 'all', $offset = 0)
     {
         //work around some dspace api versions reporting RESTapi instead of rest in the link
         $link = str_replace('RESTapi', 'rest', $link);
@@ -226,6 +357,23 @@ class Import extends AbstractJob
                 'Requested "%s" got "%s".', $this->apiUrl . $link, $response->renderStatusLine()
             ));
         }
+        return $response;
+    }
+
+    public function getResponseNew($link, $page = 0)
+    {
+        $this->client->setUri($link);
+        $this->client->setParameterGet(['page' => $page,
+                                        'size' => $this->limit,
+                                       ]);
+        $response = $this->client->send();
+        if (!$response->isSuccess()) {
+            throw new Exception\RuntimeException(sprintf(
+                'Requested "%s" got "%s".', $this->apiUrl . $link, $response->renderStatusLine()
+            ));
+        }
+        $objectMetadata = json_decode($response->getBody(), true);
+        $this->totalPages = (int)$objectMetadata['page']['totalPages'];
         return $response;
     }
 
@@ -319,31 +467,51 @@ class Import extends AbstractJob
 
     protected function createItemSet($collection)
     {
+        if (isset($this->version) && $this->version >= 7) {
+            // Get collection API page for metadata
+            $collectionLink = str_replace('discover/search/objects?dsoType=item&scope=', 'core/collections/', $this->getArg('collection_link'));
+            $this->client->setUri($collectionLink);
+            $collectionResponse = $this->client->send();
+
+            $collectionBody = json_decode($collectionResponse->getBody(), true);
+            $collectionName = $collectionBody['name'];
+            $collectionLicense = $collectionBody['metadata']['dc.rights.license'][0]['value'] ?? null;
+            $collectionCopyright = $collectionBody['metadata']['dc.rights'][0]['value'] ?? null;
+            $collectionDesc = $collectionBody['metadata']['dc.description.abstract'][0]['value'] ?? null;
+            $collectionIntro = $collectionBody['metadata']['dc.description'][0]['value'] ?? null;
+        } else {
+            $collectionName = $collection['name'];
+            $collectionLicense = $collection['license'];
+            $collectionCopyright = $collection['copyrightText'];
+            $collectionDesc = $collection['shortDescription'];
+            $collectionIntro = $collection['introductoryText'];
+        }
+
         $itemSetData = [];
         $itemSetData['dcterms:title'] = [
-                ['@value' => $collection['name'],
+                ['@value' => $collectionName,
                       'property_id' => $this->termIdMap['dcterms:title'],
                       'type' => 'literal',
                 ], ];
 
         $itemSetData['dcterms:license'] = [
-                ['@value' => $collection['license'],
+                ['@value' => $collectionLicense,
                       'property_id' => $this->termIdMap['dcterms:license'],
                       'type' => 'literal',
                 ], ];
 
         $itemSetData['dcterms:rights'] = [
-                ['@value' => $collection['copyrightText'],
+                ['@value' => $collectionCopyright,
                       'property_id' => $this->termIdMap['dcterms:rights'],
                        'type' => 'literal',
                 ], ];
 
         $itemSetData['dcterms:description'] = [
-                ['@value' => $collection['shortDescription'],
+                ['@value' => $collectionDesc,
                       'property_id' => $this->termIdMap['dcterms:description'],
                       'type' => 'literal',
                 ],
-                ['@value' => $collection['introductoryText'],
+                ['@value' => $collectionIntro,
                       'property_id' => $this->termIdMap['dcterms:description'],
                       'type' => 'literal',
                 ], ];

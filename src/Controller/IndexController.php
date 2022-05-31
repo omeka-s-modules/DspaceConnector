@@ -90,6 +90,9 @@ class IndexController extends AbstractActionController
             $view->setVariable('dspace_url', $dspaceUrl);
             $view->setVariable('form', $importForm);
             $view->setVariable('limit', $this->limit);
+            if (isset($version)) {
+                $view->setVariable('version', $version);
+            }
             return $view;
         }
     }
@@ -140,7 +143,7 @@ class IndexController extends AbstractActionController
      * @param string $link either 'collections' or 'communities'
      * @throws \RuntimeException
      */
-    protected function fetchDataNew($endpoint, $expand = null)
+    protected function fetchDataNew($endpoint)
     {
         $this->client->setHeaders(['Accept' => 'application/json'])->setOptions(['timeout' => 60]);
         $this->client->setUri($endpoint  . '/core/communities');
