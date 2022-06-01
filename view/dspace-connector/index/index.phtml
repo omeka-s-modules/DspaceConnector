@@ -13,7 +13,7 @@ $formLabel = $this->plugin('formLabel');
     <fieldset id='page-actions'>
         <button id='index-submit'><?php echo $this->translate("Get collections and communities"); ?></button>
     </fieldset>
-<?php echo $this->formCollection($form, false); ?>
+    <?php echo $this->formCollection($form, false); ?>
     <?php echo $this->form()->closeTag(); ?>
+    <div class='spinner-display'></div>
 </div>
-<div class='spinner-display'></div>

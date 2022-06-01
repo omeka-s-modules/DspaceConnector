@@ -130,3 +130,18 @@
     animation: fa-spin 1s infinite linear;
     text-align: center;
 }
+
+.spinner-display.loading {
+    overflow: hidden;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    background: white;
+    display: block;
+}
+
+#import {
+    position: relative;
+}
