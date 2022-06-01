@@ -100,3 +100,33 @@
 .import-collection {
     margin-bottom: 6px;
 }
+
+@keyframes fa-spin {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.loading {
+    overflow: hidden;
+    position: relative;
+}
+
+.loading * {
+    display: none;
+}
+
+.loading:before {
+    font-family: "Font Awesome 5 Free";
+    content: "\f1ce";
+    position: absolute;
+    top: .75em;
+    left: calc(50% - .6em);
+    font-size: 4em;
+    animation: fa-spin 1s infinite linear;
+    text-align: center;
+}

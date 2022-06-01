@@ -28,7 +28,7 @@ class UrlForm extends Form
             'type' => Text::class,
             'options' => [
                 'label' => 'Endpoint', // @translate
-                'info' => 'The endpoint for the API. For DSpace 7.x and higher, change default to "server/api."', // @translate
+                'info' => 'The endpoint for the API. For DSpace 7.x and higher, change to "server/api."', // @translate
             ],
             'attributes' => [
                 'id' => 'endpoint',
