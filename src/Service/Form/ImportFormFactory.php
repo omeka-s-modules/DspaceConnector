@@ -9,7 +9,7 @@ class ImportFormFactory implements FactoryInterface
 {
     public function __invoke(ContainerInterface $services, $requestedName, array $options = null)
     {
-        $form = new ImportForm(null, $options);
+        $form = new ImportForm(null, $options ?? []);
         $identity = $services->get('Omeka\AuthenticationService')->getIdentity();
         $form->setOwner($identity);
         $form->setUserSettings($services->get('Omeka\Settings\User'));

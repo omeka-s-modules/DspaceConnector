@@ -9,7 +9,7 @@ class UrlFormFactory implements FactoryInterface
 {
     public function __invoke(ContainerInterface $services, $requestedName, array $options = null)
     {
-        $form = new UrlForm(null, $options);
+        $form = new UrlForm(null, $options ?? []);
         return $form;
     }
 }
