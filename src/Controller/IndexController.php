@@ -61,20 +61,13 @@ class IndexController extends AbstractActionController
 
 
             try {
-                // Check dspace version in meta generator tag, to address dspace post 7.x API changes
-                $this->client->setUri($dspaceUrl);
+                // Check content-type of endpoint, to determine whether API is post- or pre-7.x
+                // (7.x API consistently returns application/hal+json)
+                $this->client->setUri($dspaceUrl. '/' . $params['endpoint']);
                 $response = $this->client->send();
-                $dom = new Query($response->getBody());
-                $generator = $dom->queryXpath("//meta[@name='Generator']/@content");
-                foreach ($generator as $generator) {
-                    // Get dspace version # using regex
-                    $regex = '/\d\.\d/';
-                    if (preg_match($regex, $generator->nodeValue, $matches)) {
-                        $version = (int)$matches[0];
-                    }
-                }
+                $contentType = $response->getHeaders()->get('Content-Type');
 
-                if (isset($version) && $version >= 7) {
+                if ($contentType->match('application/hal+json')) {
                     $communities = $this->fetchDataNew($dspaceUrl . '/' . $params['endpoint']);
                     $repository = $dspaceUrl . '/' . $params['endpoint'] . '/discover/search/objects?dsoType=item';
                 } else {
