@@ -39,7 +39,7 @@ class Import extends AbstractJob
         $this->client->setOptions(['timeout' => 120]);
         $this->apiUrl = $this->getArg('api_url');
         $this->limit = $this->getArg('limit');
-        $this->version = $this->getArg('version');
+        $this->newAPI = (bool) $this->getArg('newAPI');
         $this->itemSiteArray = $this->getArg('itemSites', false);
 
         foreach (explode(',', $this->getArg('ignored_fields')) as $field) {
@@ -61,7 +61,7 @@ class Import extends AbstractJob
 
         $this->originalIdentityMap = $this->getServiceLocator()->get('Omeka\EntityManager')->getUnitOfWork()->getIdentityMap();
         //Adjust import settings for post 7.x API
-        if (isset($this->version) && $this->version >= 7) {
+        if ($this->newAPI === TRUE) {
             $this->importCollectionNew($this->getArg('collection_link'));
         } else {
             $this->importCollectionOld($this->getArg('collection_link'));
@@ -181,7 +181,7 @@ class Import extends AbstractJob
 
     public function buildResourceJson($itemLink)
     {
-        if (isset($this->version) && $this->version >= 7) {
+        if ($this->newAPI === TRUE) {
             $response = $this->getResponseNew($itemLink);
         } else {
             $response = $this->getResponseOld($itemLink, 'metadata,bitstreams');
@@ -202,7 +202,7 @@ class Import extends AbstractJob
         } else {
             $itemJson['o:site'] = [];
         }
-        if (isset($this->version) && $this->version >= 7) {
+        if ($this->newAPI === TRUE) {
             $itemJson = $this->processItemMetadataNew($itemArray['metadata'], $itemJson);
         } else {
             $itemJson = $this->processItemMetadataOld($itemArray['metadata'], $itemJson);
@@ -219,7 +219,7 @@ class Import extends AbstractJob
         $itemJson['lastModified'] = $itemArray['lastModified'];
 
         if ($this->getArg('ingest_files')) {
-            if (isset($this->version) && $this->version >= 7) {
+            if ($this->newAPI === TRUE) {
                 $itemJson = $this->processItemBitstreamsNew($itemArray, $itemJson);
             } else {
                 $itemJson = $this->processItemBitstreamsOld($itemArray['bitstreams'], $itemJson);
@@ -467,7 +467,7 @@ class Import extends AbstractJob
 
     protected function createItemSet($collection)
     {
-        if (isset($this->version) && $this->version >= 7) {
+        if ($this->newAPI === TRUE) {
             // Get collection API page for metadata
             $collectionLink = str_replace('discover/search/objects?dsoType=item&scope=', 'core/collections/', $this->getArg('collection_link'));
             $this->client->setUri($collectionLink);

@@ -70,9 +70,11 @@ class IndexController extends AbstractActionController
                 if ($contentType->match('application/hal+json')) {
                     $communities = $this->fetchDataNew($dspaceUrl . '/' . $params['endpoint']);
                     $repository = $dspaceUrl . '/' . $params['endpoint'] . '/discover/search/objects?dsoType=item';
+                    $newAPI = true;
                 } else {
                     $communities = $this->fetchDataOld($dspaceUrl . '/' . $params['endpoint'] . '/communities', 'collections');
                     $repository = '/' . $params['endpoint'] . '/items';
+                    $newAPI = false;
                 }
             } catch (\Exception $e) {
                 $this->logger()->err($this->translate('Error importing data'));
@@ -83,9 +85,7 @@ class IndexController extends AbstractActionController
             $view->setVariable('dspace_url', $dspaceUrl);
             $view->setVariable('form', $importForm);
             $view->setVariable('limit', $this->limit);
-            if (isset($version)) {
-                $view->setVariable('version', $version);
-            }
+            $view->setVariable('newAPI', $newAPI);
             return $view;
         }
     }
