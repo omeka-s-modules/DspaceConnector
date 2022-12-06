@@ -5,7 +5,7 @@
 # 
 # Translators:
 # Tommaso Vitale, 2019
-# Giorgio Comai <g@giorgiocomai.eu>, 2019
+# Giorgio Comai <g@giorgiocomai.eu>, 2022
 # 
 #, fuzzy
 msgid ""
@@ -14,13 +14,13 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-03-15 15:18-0700\n"
 "PO-Revision-Date: 2017-09-14 20:15+0000\n"
-"Last-Translator: Giorgio Comai <g@giorgiocomai.eu>, 2019\n"
+"Last-Translator: Giorgio Comai <g@giorgiocomai.eu>, 2022\n"
 "Language-Team: Italian (https://www.transifex.com/omeka/teams/14184/it/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: it\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Plural-Forms: nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;\n"
 
 #: Module.php:80
 msgid "Last Modified"
@@ -57,18 +57,20 @@ msgid ""
 "Import all items in the DSpace repository, without separating by community "
 "or collection"
 msgstr ""
+"Importa tutti i contenuti nel repository DSpace, senza dividerli per "
+"comunità o collezione"
 
 #: view/dspace-connector/index/import.phtml:25
 msgid "Import entire repository"
-msgstr ""
+msgstr "Importa l'intero repository"
 
 #: view/dspace-connector/index/import.phtml:29
 msgid "Expand all"
-msgstr ""
+msgstr "Espandi tutto"
 
 #: view/dspace-connector/index/import.phtml:30
 msgid "Collapse all"
-msgstr ""
+msgstr "Riduci tutto"
 
 #: view/dspace-connector/index/import.phtml:60
 msgid "Import collection"
@@ -76,7 +78,7 @@ msgstr "Importa collezione"
 
 #: view/dspace-connector/index/import.phtml:65
 msgid "No collections."
-msgstr ""
+msgstr "Nessuna collezione."
 
 #: view/dspace-connector/index/index.phtml:10
 msgid "Import Settings"
@@ -84,7 +86,7 @@ msgstr "Impostazioni di importazione"
 
 #: view/dspace-connector/index/index.phtml:14
 msgid "Get collections and communities"
-msgstr ""
+msgstr "Ottieni collezioni e comunità"
 
 #: view/dspace-connector/index/past-imports.phtml:6
 msgid "Past Imports"
@@ -100,7 +102,7 @@ msgstr "Lavoro ID"
 
 #: view/dspace-connector/index/past-imports.phtml:22
 msgid "Dspace collection link"
-msgstr ""
+msgstr "Collegamento a collezione DSpace"
 
 #: view/dspace-connector/index/past-imports.phtml:46
 msgid "Added: "
@@ -124,6 +126,9 @@ msgid ""
 " this in, then click \"Get collections and communities\" to browse what you "
 "want to import."
 msgstr ""
+"L'URL del repository a cui ti vuoi connettere (DSpace versione 5.6 o "
+"successive). Completa questo campo, poi clicca su \"Ottieni collezioni e "
+"comunità\" per vedere cosa vuoi importare."
 
 #: src/Form/UrlForm.php:30
 msgid "Endpoint"
@@ -139,6 +144,9 @@ msgid ""
 " errors or missing data, try lowering this number. Increasing it might make "
 "imports faster."
 msgstr ""
+"Massimo numero di risultati da importare da DSpace in una singola richiesta."
+" Se noti errori o dati mancanti, prova a ridurre questo numero. Alzare "
+"questo numero può rendere l'importazione più veloce."
 
 #: src/Form/ImportForm.php:35
 msgid "Import files into Omeka S"
@@ -150,38 +158,41 @@ msgid ""
 "derivates will be displayed when possible, with links back to the original "
 "file in the DSpace repository."
 msgstr ""
+"Se selezionato, i file originali verranno importati in Omeka S. Altrimenti, "
+"file derivati verranno mostrati quando possibile, con link al file originale"
+" nel repository DSpace."
 
 #: src/Form/ImportForm.php:45
 msgid "Select item set(s)"
-msgstr ""
+msgstr "Seleziona collezioni"
 
 #: src/Form/ImportForm.php:50
 msgid "Item Sets"
-msgstr ""
+msgstr "Collezioni"
 
 #: src/Form/ImportForm.php:51
 msgid "Optional. Import items into item set(s)."
-msgstr ""
+msgstr "Opzionale. Importa i contenuti in collezioni."
 
 #: src/Form/ImportForm.php:67
 msgid "Create from DSpace collection"
-msgstr ""
+msgstr "Crea a partire da collezione DSpace"
 
 #: src/Form/ImportForm.php:89
 msgid "Select site(s)"
-msgstr ""
+msgstr "Seleziona siti"
 
 #: src/Form/ImportForm.php:95
 msgid "Optional. Import items into site(s)."
-msgstr ""
+msgstr "Opzionale. Importa contenuti in siti."
 
 #: src/Form/ImportForm.php:114
 msgid "Ignored fields"
-msgstr ""
+msgstr "Campi ignorati"
 
 #: src/Form/ImportForm.php:115
 msgid "DSpace fields to ignore, separated by commas"
-msgstr ""
+msgstr "Campi DSpace da ignorare, separati da virgola"
 
 #: src/Form/ImportForm.php:127
 msgid "A note about the purpose or source of this import"
@@ -208,4 +219,4 @@ msgstr "Annullamento in esecuzione dei seguenti lavori: %s"
 
 #: src/Controller/IndexController.php:129
 msgid "Error: no jobs selected to undo"
-msgstr ""
+msgstr "Errore: nessuna operazione selezionata per essere annullata"
