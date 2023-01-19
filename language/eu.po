@@ -4,7 +4,7 @@
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 # 
 # Translators:
-# Rubén Alcaraz Martínez <rubenalcarazmartinez@gmail.com>, 2023
+# Iametza Interaktiboa, 2022
 # 
 #, fuzzy
 msgid ""
@@ -13,111 +13,111 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-03-15 15:18-0700\n"
 "PO-Revision-Date: 2017-09-14 20:15+0000\n"
-"Last-Translator: Rubén Alcaraz Martínez <rubenalcarazmartinez@gmail.com>, 2023\n"
-"Language-Team: Catalan (Spain) (https://www.transifex.com/omeka/teams/14184/ca_ES/)\n"
+"Last-Translator: Iametza Interaktiboa, 2022\n"
+"Language-Team: Basque (https://www.transifex.com/omeka/teams/14184/eu/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: ca_ES\n"
+"Language: eu\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: Module.php:80
 msgid "Last Modified"
-msgstr "Darrera modificació"
+msgstr "Azkenekoz Aldatua"
 
 #: Module.php:81
 msgid "Link"
-msgstr "Enllaç"
+msgstr "Lotura"
 
 #: src/Controller/IndexController.php:65
 msgid "Error importing data"
-msgstr "Error en la importació de dades"
+msgstr "Errorea datuak inportatzean"
 
 #: view/dspace-connector/index/import.phtml:9
 #: view/dspace-connector/index/index.phtml:10
 #: view/dspace-connector/index/past-imports.phtml:6
 msgid "Dspace Connector"
-msgstr "Dspace Connector"
+msgstr "Dspace Konektorea"
 
 #: view/dspace-connector/index/import.phtml:9
 msgid "Import options"
-msgstr "Opcions d'importació"
+msgstr "Inportazio aukerak"
 
 #: view/dspace-connector/index/import.phtml:13
 msgid "Basic import settings"
-msgstr "Opcions d'importació bàsiques"
+msgstr "Oinarrizko inportazio ezarpenak"
 
 #: view/dspace-connector/index/import.phtml:14
 msgid "Collections"
-msgstr "Col·leccions"
+msgstr "Bildumak"
 
 #: view/dspace-connector/index/import.phtml:24
 msgid ""
 "Import all items in the DSpace repository, without separating by community "
 "or collection"
 msgstr ""
-"Importa tots els registres del repositori DSpace, sense separar-los per "
-"comunitats o col·leccions"
+"DSpace biltegiko elementu denak inportatu, komunitate edo kolekzioaren "
+"arabera bereiztu gabe."
 
 #: view/dspace-connector/index/import.phtml:25
 msgid "Import entire repository"
-msgstr "Importa tot el repositori"
+msgstr "Inportatu biltegi osoa"
 
 #: view/dspace-connector/index/import.phtml:29
 msgid "Expand all"
-msgstr "Expandeix-ho tot"
+msgstr "Zabaldu dena"
 
 #: view/dspace-connector/index/import.phtml:30
 msgid "Collapse all"
-msgstr "Col·lapsa-ho tot"
+msgstr "Bildu dena"
 
 #: view/dspace-connector/index/import.phtml:60
 msgid "Import collection"
-msgstr "Importa la col·lecció"
+msgstr "Inportatu bilduma"
 
 #: view/dspace-connector/index/import.phtml:65
 msgid "No collections."
-msgstr "Sense col·leccions."
+msgstr "Bildumarik ez."
 
 #: view/dspace-connector/index/index.phtml:10
 msgid "Import Settings"
-msgstr "Importa els paràmetres"
+msgstr "Inportatu Ezarpenak"
 
 #: view/dspace-connector/index/index.phtml:14
 msgid "Get collections and communities"
-msgstr "Veure col·leccions i comunitats"
+msgstr "Lortu bilduma eta komunitateak"
 
 #: view/dspace-connector/index/past-imports.phtml:6
 msgid "Past Imports"
-msgstr "Importacions anteriors"
+msgstr "Pasatako Inportazioak"
 
 #: view/dspace-connector/index/past-imports.phtml:20
 msgid "Undo?"
-msgstr "Voleu desfer?"
+msgstr "Desegin?"
 
 #: view/dspace-connector/index/past-imports.phtml:21
 msgid "Job ID"
-msgstr "Job ID"
+msgstr "Lan ID"
 
 #: view/dspace-connector/index/past-imports.phtml:22
 msgid "Dspace collection link"
-msgstr "Enllaç a la col·lecció del DSpace"
+msgstr "Dspace bilduma lotura"
 
 #: view/dspace-connector/index/past-imports.phtml:46
 msgid "Added: "
-msgstr "Afegit:"
+msgstr "Gehitua:"
 
 #: view/dspace-connector/index/past-imports.phtml:47
 msgid "Updated: "
-msgstr "Actualitzat:"
+msgstr "Eguneratua:"
 
 #: view/dspace-connector/index/past-imports.phtml:53
 msgid "Undone"
-msgstr "Desfet"
+msgstr "Deseginda"
 
 #: src/Form/UrlForm.php:17
 msgid "DSpace site URL"
-msgstr "URL del DSpace"
+msgstr "DSpace atari helbidea"
 
 #: src/Form/UrlForm.php:18
 msgid ""
@@ -125,17 +125,17 @@ msgid ""
 " this in, then click \"Get collections and communities\" to browse what you "
 "want to import."
 msgstr ""
-"L'URL del repositori que voleu connectar (versió 5.6 o superior). Podeu "
-"indicar-la al camp \"Veure col·leccions i comunitats\" per triar el que "
-"voleu importar."
+"Konektatu nahi duzun bildumaren URL helbidea (DSpace 5.6 edo handiagoa) Bete"
+" hemen, ondonren klikatu \"Lortu bilduma eta komunitateak\" inportatu nahi "
+"duzuna arakatzeko."
 
 #: src/Form/UrlForm.php:30
 msgid "Endpoint"
-msgstr "Endpoint"
+msgstr "Amaiera-puntua"
 
 #: src/Form/UrlForm.php:31
 msgid "The endpoint for the API"
-msgstr "Endpoint de l'API"
+msgstr "APIaren amaiera-puntua"
 
 #: src/Form/UrlForm.php:45
 msgid ""
@@ -143,12 +143,13 @@ msgid ""
 " errors or missing data, try lowering this number. Increasing it might make "
 "imports faster."
 msgstr ""
-"El nombre màxim de resultats que es recuperaran simultàniament d'un "
-"repositori DSpace. Si observeu errors en la importació, reduïu el valor."
+"Aldi berean DSpacetik eskuratuko den gehienezko emaitza kopurua. Errorea edo"
+" datu falta nabaritzen baduzu, saiatu zenbaki hau txikituz. Handituz "
+"inportazioa azkartu daiteke."
 
 #: src/Form/ImportForm.php:35
 msgid "Import files into Omeka S"
-msgstr "Importa els fitxers en l'Omeka S"
+msgstr "Inportatu fitxategiak Omeka S barrura"
 
 #: src/Form/ImportForm.php:36
 msgid ""
@@ -156,64 +157,64 @@ msgid ""
 "derivates will be displayed when possible, with links back to the original "
 "file in the DSpace repository."
 msgstr ""
-"Si està seleccionat, els fitxers originals s'importaran a l'Omeka S. En cas "
-"contrari, es mostrarà un derivat a partir d'un enllaç al repositori DSpace "
-"d'origen."
+"Hau aukeratuta, jatorrizko fitxategiak Omeka S barrura inportatuko dira. "
+"Bestela, eratorriak erakutsiko dira ahal denean, DSpace biltegiko jatorrizko"
+" fitxategietarako itzulera estekarekin."
 
 #: src/Form/ImportForm.php:45
 msgid "Select item set(s)"
-msgstr "Selecciona el conjunt(s) de registres"
+msgstr "Hautatu elementu multzoa(k)"
 
 #: src/Form/ImportForm.php:50
 msgid "Item Sets"
-msgstr "Conjunts de registres"
+msgstr "Elementu Multzoak"
 
 #: src/Form/ImportForm.php:51
 msgid "Optional. Import items into item set(s)."
-msgstr ""
+msgstr "Hautazkoa. Inportatu elementuak elementu multzoetan."
 
 #: src/Form/ImportForm.php:67
 msgid "Create from DSpace collection"
-msgstr "Creat des de una col·lecció del DSpace"
+msgstr "Sortu DSpace bildumatik"
 
 #: src/Form/ImportForm.php:89
 msgid "Select site(s)"
-msgstr "Selecciona el lloc(s)"
+msgstr "Hautatu ataria(k)"
 
 #: src/Form/ImportForm.php:95
 msgid "Optional. Import items into site(s)."
-msgstr ""
+msgstr "Hautazkoa. Inportatu elementuak atarian/atarietan."
 
 #: src/Form/ImportForm.php:114
 msgid "Ignored fields"
-msgstr "Camps ignorats"
+msgstr "Ezikusitako eremuak"
 
 #: src/Form/ImportForm.php:115
 msgid "DSpace fields to ignore, separated by commas"
-msgstr "Camps del DSpace que s'han d'ignorar, separats per coma."
+msgstr "Ez ikusia egiteko DSpace eremuak, komaz bereizita"
 
 #: src/Form/ImportForm.php:127
 msgid "A note about the purpose or source of this import"
-msgstr "Una nota sobre el propòsit o origen de la importació"
+msgstr "Inportazio honen helburu edo jatorriaren inguruko oharra"
 
 #: src/Controller/IndexController.php:39 src/Controller/IndexController.php:54
 msgid "There was an error during validation"
-msgstr "Error en la validació"
+msgstr "Errorea egon da balidazio garaian"
 
 #: src/Controller/IndexController.php:45
 #, php-format
 msgid "Importing in Job ID %s"
-msgstr "S'està important en l'acció amb ID %s"
+msgstr "%s Lan IDan inportatzen"
 
 #: src/Controller/IndexController.php:100
 msgid "There was an error retrieving data. Please try again."
-msgstr "Error en l'obtenció de dades. Torneu a provar."
+msgstr "Errorea egon da datuak ekartzen. Saiatu berriro mesedez."
 
 #: src/Controller/IndexController.php:125
 #, php-format
 msgid "Undo in progress in the following jobs: %s"
-msgstr "S'estan desfent les accions següents: %s"
+msgstr "Desegitea martxan hurrengo lanetan: %s"
 
 #: src/Controller/IndexController.php:129
 msgid "Error: no jobs selected to undo"
-msgstr "Error: no s'ha seleccionat cap acció per desfer"
+msgstr "Errorea: ez da lanik hautatu desegiteko"
