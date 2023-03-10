@@ -28,13 +28,14 @@ class Module extends AbstractModule
     public function install(ServiceLocatorInterface $serviceLocator)
     {
         $connection = $serviceLocator->get('Omeka\Connection');
-        $connection->exec("CREATE TABLE dspace_item (id INT AUTO_INCREMENT NOT NULL, item_id INT NOT NULL, job_id INT NOT NULL, api_url VARCHAR(255) NOT NULL, remote_id VARCHAR(36) NOT NULL, handle VARCHAR(255) NOT NULL, last_modified DATETIME NOT NULL, UNIQUE INDEX UNIQ_1C6D63B4126F525E (item_id), INDEX IDX_1C6D63B4BE04EA9 (job_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE = InnoDB;");
+        $connection->exec("CREATE TABLE dspace_item (id INT AUTO_INCREMENT NOT NULL, item_id INT NOT NULL, job_id INT NOT NULL, api_url VARCHAR(255) NOT NULL, remote_id VARCHAR(36) NOT NULL, handle VARCHAR(255) NOT NULL, last_modified DATETIME NOT NULL, UNIQUE INDEX UNIQ_1C6D63B4126F525E (item_id), INDEX IDX_1C6D63B4BE04EA9 (job_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB;");
         $connection->exec("ALTER TABLE dspace_item ADD CONSTRAINT FK_1C6D63B4126F525E FOREIGN KEY (item_id) REFERENCES item (id) ON DELETE CASCADE;");
         $connection->exec("ALTER TABLE dspace_item ADD CONSTRAINT FK_1C6D63B4BE04EA9 FOREIGN KEY (job_id) REFERENCES job (id);");
 
-        $connection->exec("CREATE TABLE dspace_import (id INT AUTO_INCREMENT NOT NULL, job_id INT NOT NULL, undo_job_id INT DEFAULT NULL, added_count INT NOT NULL, updated_count INT NOT NULL, comment VARCHAR(255) DEFAULT NULL, UNIQUE INDEX UNIQ_56197DADBE04EA9 (job_id), UNIQUE INDEX UNIQ_56197DAD4C276F75 (undo_job_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci ENGINE = InnoDB;");
+        $connection->exec("CREATE TABLE dspace_import (id INT AUTO_INCREMENT NOT NULL, job_id INT NOT NULL, undo_job_id INT DEFAULT NULL, rerun_job_id INT DEFAULT NULL, added_count INT NOT NULL, updated_count INT NOT NULL, comment VARCHAR(255) DEFAULT NULL, UNIQUE INDEX UNIQ_56197DADBE04EA9 (job_id), UNIQUE INDEX UNIQ_56197DAD4C276F75 (undo_job_id), UNIQUE INDEX UNIQ_56197DAD7071F49C (rerun_job_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB;");
         $connection->exec("ALTER TABLE dspace_import ADD CONSTRAINT FK_56197DADBE04EA9 FOREIGN KEY (job_id) REFERENCES job (id);");
         $connection->exec("ALTER TABLE dspace_import ADD CONSTRAINT FK_56197DAD4C276F75 FOREIGN KEY (undo_job_id) REFERENCES job (id);");
+        $connection->exec("ALTER TABLE dspace_import ADD CONSTRAINT FK_56197DAD7071F49C FOREIGN KEY (rerun_job_id) REFERENCES job (id);");
     }
 
     public function uninstall(ServiceLocatorInterface $serviceLocator)
@@ -46,14 +47,19 @@ class Module extends AbstractModule
 
         $connection->exec("ALTER TABLE dspace_import DROP FOREIGN KEY FK_56197DADBE04EA9");
         $connection->exec("ALTER TABLE dspace_import DROP FOREIGN KEY FK_56197DAD4C276F75");
+        $connection->exec("ALTER TABLE dspace_import DROP FOREIGN KEY FK_56197DAD7071F49C");
         $connection->exec('DROP TABLE dspace_import');
     }
 
     public function upgrade($oldVersion, $newVersion, ServiceLocatorInterface $serviceLocator)
     {
+        $connection = $serviceLocator->get('Omeka\Connection');
         if (Comparator::lessThan($oldVersion, '0.4.0-alpha')) {
-            $connection = $serviceLocator->get('Omeka\Connection');
             $connection->exec("ALTER TABLE `dspace_item` CHANGE `remote_id` `remote_id` VARCHAR(36) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL;");
+        }
+        if (Comparator::lessThan($oldVersion, '1.6.1')) {
+            $connection->exec("ALTER TABLE dspace_import ADD rerun_job_id INT DEFAULT NULL AFTER undo_job_id;");
+            $connection->exec("ALTER TABLE dspace_import ADD CONSTRAINT FK_56197DAD7071F49C FOREIGN KEY (rerun_job_id) REFERENCES job (id);");
         }
     }
 

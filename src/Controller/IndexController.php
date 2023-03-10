@@ -199,17 +199,26 @@ class IndexController extends AbstractActionController
     {
         if ($this->getRequest()->isPost()) {
             $data = $this->params()->fromPost();
-            if (isset($data['jobs'])) {
+            if (isset($data['undoJobs'])) {
                 $undoJobIds = [];
-                foreach ($data['jobs'] as $jobId) {
+                foreach ($data['undoJobs'] as $jobId) {
                     $undoJob = $this->undoJob($jobId);
                     $undoJobIds[] = $undoJob->getId();
                 }
-                $message = new Message('Undo in progress in the following jobs: %s', // @translate
+                $message = new Message('Undo in progress on the following jobs: %s', // @translate
                     implode(', ', $undoJobIds));
                 $this->messenger()->addSuccess($message);
+            } else if (isset($data['rerunJobs'])) {
+                $rerunJobIds = [];
+                foreach ($data['rerunJobs'] as $jobId) {
+                    $rerunJob = $this->rerunJob($jobId);
+                    $rerunJobIds[] = $jobId;
+                }
+                $message = new Message('Rerun in progress on the following jobs: %s', // @translate
+                    implode(', ', $rerunJobIds));
+                $this->messenger()->addSuccess($message);
             } else {
-                $this->messenger()->addError('Error: no jobs selected to undo'); // @translate
+                $this->messenger()->addError('Error: no jobs selected'); // @translate
             }
         }
         $view = new ViewModel;
@@ -238,4 +247,21 @@ class IndexController extends AbstractActionController
             );
         return $job;
     }
+
+    protected function rerunJob($jobId)
+    {
+        $response = $this->api()->search('dspace_imports', ['job_id' => $jobId]);
+        $dspaceImport = $response->getContent()[0];
+        // Get original import job args to run again
+        $rerunData = $dspaceImport->job()->args();
+        $job = $this->jobDispatcher()->dispatch('DspaceConnector\Job\Import', $rerunData);
+        $response = $this->api()->update('dspace_imports',
+                $dspaceImport->id(),
+                [
+                    'o:rerun_job' => ['o:id' => $job->getId() ],
+                ]
+            );
+        return $job;
+    }
+
 }
