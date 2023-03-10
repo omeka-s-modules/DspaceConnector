@@ -57,9 +57,9 @@ $escape = $this->plugin('escapeHtml');
             
             <td>
             <?php if ($rerunJob) {
-                $status = $this->translate('Reran: ') . ' ' . $escape($this->i18n()->dateFormat($rerunJob->ended()));
+                $status = $this->translate('Reran in job ') . $rerunJob->id() . ': ' . $escape($this->i18n()->dateFormat($rerunJob->ended()));
             } else if ($undoJob) {
-                $status = $this->translate('Undone: ') . ' ' . $escape($this->i18n()->dateFormat($undoJob->ended()));
+                $status = $this->translate('Undone in job ') . $undoJob->id() . ': ' . $escape($this->i18n()->dateFormat($undoJob->ended()));
                 
             } else {
                 $status = $this->translate($job->status());
