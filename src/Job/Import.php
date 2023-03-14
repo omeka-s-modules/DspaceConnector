@@ -91,6 +91,12 @@ class Import extends AbstractJob
                     //import collection
                     $collectionResponse = $collection['items'];
                 }
+                // Get collection name
+                $jobArgs = $this->job->getArgs();
+                if (isset($collection['name'])) {
+                    $jobArgs['collection_name'] = $collection['name'];
+                }
+                $this->job->setArgs($jobArgs);
                 //set the item set id array. called here so that, if a new item set needs
                 //to be created from the collection data, I have the data to do so
                 $this->setItemSetIdArray($collection);

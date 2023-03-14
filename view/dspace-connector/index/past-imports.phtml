@@ -39,10 +39,15 @@ $escape = $this->plugin('escapeHtml');
             <td><?php echo $job->link($job->id()); ?></td>
             <td>
                 <?php $args = $job->args();
-                if (isset($args['newAPI']) && (bool) $args['newAPI'] === TRUE) {
-                    echo $this->hyperlink('link', $args['collection_link']);
+                if (isset($args['collection_name'])) {
+                    $linkText = $args['collection_name'];
                 } else {
-                    echo $this->hyperlink('link', $args['api_url'] . $args['collection_link']);
+                    $linkText = $args['api_url'];
+                }
+                if (isset($args['newAPI']) && (bool) $args['newAPI'] === TRUE) {
+                    echo $this->hyperlink($linkText, $args['collection_link']);
+                } else {
+                    echo $this->hyperlink($linkText, $args['api_url'] . $args['collection_link']);
                 }
                 ?>
             </td>
