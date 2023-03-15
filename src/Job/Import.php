@@ -39,6 +39,7 @@ class Import extends AbstractJob
         $this->client->setOptions(['timeout' => 120]);
         $this->apiUrl = $this->getArg('api_url');
         $this->limit = $this->getArg('limit');
+        $this->testImport = (bool) $this->getArg('test_import');
         $this->newAPI = (bool) $this->getArg('newAPI');
         $this->itemSiteArray = $this->getArg('itemSites', false);
 
@@ -102,9 +103,8 @@ class Import extends AbstractJob
                 $this->setItemSetIdArray($collection);
                 $toCreate = [];
                 $toUpdate = [];
-                if (empty($collectionResponse)) {
-                    // not a good way to really check, this just see if the last query
-                    // got nothing
+                // If no more records or test import, stop iterating
+                if (empty($collectionResponse) || $this->testImport === TRUE) {
                     $hasNext = false;
                 }
                 foreach ($collectionResponse as $index => $itemData) {
@@ -147,7 +147,14 @@ class Import extends AbstractJob
             $response = $this->getResponseNew($collectionLink, $page);
             if ($response) {
                 $collection = json_decode($response->getBody(), true);
-
+                // Get collection name
+                $jobArgs = $this->job->getArgs();
+                if (isset($collection['name'])) {
+                    $jobArgs['collection_name'] = $collection['name'];
+                }
+                $this->job->setArgs($jobArgs);
+                // Set totalPages
+                $this->totalPages = $collection['_embedded']['searchResult']['page']['totalPages'];
                 //set the item set id array. called here so that, if a new item set needs
                 //to be created from the collection data, I have the data to do so
                 $this->setItemSetIdArray($collection);
@@ -180,7 +187,12 @@ class Import extends AbstractJob
                 $this->createItems($toCreate);
                 $this->updateItems($toUpdate);
 
-                $offset = $offset + $this->limit;
+                // Stop iterating if test import
+                if ($this->testImport === TRUE) {
+                    break;
+                } else {
+                    $page++;
+                }
             }
         }
     }
@@ -378,8 +390,6 @@ class Import extends AbstractJob
                 'Requested "%s" got "%s".', $this->apiUrl . $link, $response->renderStatusLine()
             ));
         }
-        $objectMetadata = json_decode($response->getBody(), true);
-        $this->totalPages = (int)$objectMetadata['page']['totalPages'];
         return $response;
     }
 

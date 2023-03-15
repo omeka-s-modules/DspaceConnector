@@ -50,5 +50,18 @@ class UrlForm extends Form
                 'value' => '100',
             ],
         ]);
+
+        $this->add([
+            'name' => 'test_import',
+            'type' => 'checkbox',
+            'options' => [
+                'label' => 'Test import', // @translate
+                'info' => 'If checked, ONLY import the # of results indicated in Limit field above from chosen collection on next screen. Useful for testing and fine-tuning.', // @translate
+            ],
+            'attributes' => [
+                'id' => 'test-import',
+                'required' => false,
+            ],
+        ]);
     }
 }

@@ -85,6 +85,7 @@ class IndexController extends AbstractActionController
             $view->setVariable('dspace_url', $dspaceUrl);
             $view->setVariable('form', $importForm);
             $view->setVariable('limit', $this->limit);
+            $view->setVariable('test_import', $params['test_import']);
             $view->setVariable('newAPI', $newAPI);
             return $view;
         }
