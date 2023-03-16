@@ -173,6 +173,8 @@ class IndexController extends AbstractActionController
                 $collectionLink = $community['_links']['collections']['href'] ?? null;
                 if ($collectionLink) {
                     $this->client->setUri($collectionLink);
+                    // Clear parameters, otherwise a low limit + pagination can miss collections
+                    $this->client->setParameterGet([]);
                     $collectionResponse = $this->client->send();
                     $collectionBody = json_decode($collectionResponse->getBody(), true);
 
