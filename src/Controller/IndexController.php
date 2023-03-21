@@ -206,12 +206,13 @@ class IndexController extends AbstractActionController
                 $undoJobIds = [];
                 foreach ($data['undoJobs'] as $jobId) {
                     $undoJob = $this->undoJob($jobId);
-                    $undoJobIds[] = $undoJob->getId();
+                    $undoJobIds[] = $jobId;
                 }
                 $message = new Message('Undo in progress on the following jobs: %s', // @translate
                     implode(', ', $undoJobIds));
                 $this->messenger()->addSuccess($message);
-            } else if (isset($data['rerunJobs'])) {
+            }
+            if (isset($data['rerunJobs'])) {
                 $rerunJobIds = [];
                 foreach ($data['rerunJobs'] as $jobId) {
                     $rerunJob = $this->rerunJob($jobId);
@@ -220,7 +221,8 @@ class IndexController extends AbstractActionController
                 $message = new Message('Rerun in progress on the following jobs: %s', // @translate
                     implode(', ', $rerunJobIds));
                 $this->messenger()->addSuccess($message);
-            } else {
+            }
+            if (!isset($data['undoJobs']) && !isset($data['rerunJobs'])) {
                 $this->messenger()->addError('Error: no jobs selected'); // @translate
             }
         }
