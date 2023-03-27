@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-03-15 15:18-0700\n"
+"POT-Creation-Date: 2023-03-27 15:48-0700\n"
 "PO-Revision-Date: 2017-09-14 20:15+0000\n"
 "Last-Translator: Rubén Alcaraz Martínez <rubenalcarazmartinez@gmail.com>, 2023\n"
 "Language-Team: Catalan (Spain) (https://www.transifex.com/omeka/teams/14184/ca_ES/)\n"
@@ -21,15 +21,15 @@ msgstr ""
 "Language: ca_ES\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: Module.php:80
+#: Module.php:92
 msgid "Last Modified"
 msgstr "Darrera modificació"
 
-#: Module.php:81
+#: Module.php:93
 msgid "Link"
 msgstr "Enllaç"
 
-#: src/Controller/IndexController.php:65
+#: src/Controller/IndexController.php:80
 msgid "Error importing data"
 msgstr "Error en la importació de dades"
 
@@ -92,28 +92,28 @@ msgid "Past Imports"
 msgstr "Importacions anteriors"
 
 #: view/dspace-connector/index/past-imports.phtml:20
-msgid "Undo?"
-msgstr "Voleu desfer?"
+msgid "Undo"
+msgstr ""
 
 #: view/dspace-connector/index/past-imports.phtml:21
+msgid "Re-run"
+msgstr ""
+
+#: view/dspace-connector/index/past-imports.phtml:22
 msgid "Job ID"
 msgstr "Job ID"
 
-#: view/dspace-connector/index/past-imports.phtml:22
-msgid "Dspace collection link"
-msgstr "Enllaç a la col·lecció del DSpace"
+#: view/dspace-connector/index/past-imports.phtml:23
+msgid "Dspace collection"
+msgstr ""
 
-#: view/dspace-connector/index/past-imports.phtml:46
-msgid "Added: "
-msgstr "Afegit:"
+#: view/dspace-connector/index/past-imports.phtml:80
+msgid "Reran in job "
+msgstr ""
 
-#: view/dspace-connector/index/past-imports.phtml:47
-msgid "Updated: "
-msgstr "Actualitzat:"
-
-#: view/dspace-connector/index/past-imports.phtml:53
-msgid "Undone"
-msgstr "Desfet"
+#: view/dspace-connector/index/past-imports.phtml:82
+msgid "Undone in job "
+msgstr ""
 
 #: src/Form/UrlForm.php:17
 msgid "DSpace site URL"
@@ -134,8 +134,10 @@ msgid "Endpoint"
 msgstr "Endpoint"
 
 #: src/Form/UrlForm.php:31
-msgid "The endpoint for the API"
-msgstr "Endpoint de l'API"
+msgid ""
+"The endpoint for the API. For DSpace 7.x and higher, change to "
+"\"server/api.\""
+msgstr ""
 
 #: src/Form/UrlForm.php:45
 msgid ""
@@ -145,6 +147,16 @@ msgid ""
 msgstr ""
 "El nombre màxim de resultats que es recuperaran simultàniament d'un "
 "repositori DSpace. Si observeu errors en la importació, reduïu el valor."
+
+#: src/Form/UrlForm.php:58
+msgid "Test import"
+msgstr ""
+
+#: src/Form/UrlForm.php:59
+msgid ""
+"If checked, ONLY import the # of results indicated in Limit field above from"
+" chosen collection on next screen. Useful for testing and fine-tuning."
+msgstr ""
 
 #: src/Form/ImportForm.php:35
 msgid "Import files into Omeka S"
@@ -163,10 +175,6 @@ msgstr ""
 #: src/Form/ImportForm.php:45
 msgid "Select item set(s)"
 msgstr "Selecciona el conjunt(s) de registres"
-
-#: src/Form/ImportForm.php:50
-msgid "Item Sets"
-msgstr "Conjunts de registres"
 
 #: src/Form/ImportForm.php:51
 msgid "Optional. Import items into item set(s)."
@@ -196,24 +204,30 @@ msgstr "Camps del DSpace que s'han d'ignorar, separats per coma."
 msgid "A note about the purpose or source of this import"
 msgstr "Una nota sobre el propòsit o origen de la importació"
 
-#: src/Controller/IndexController.php:39 src/Controller/IndexController.php:54
+#: src/Controller/IndexController.php:40 src/Controller/IndexController.php:55
 msgid "There was an error during validation"
 msgstr "Error en la validació"
 
-#: src/Controller/IndexController.php:45
+#: src/Controller/IndexController.php:46
 #, php-format
 msgid "Importing in Job ID %s"
 msgstr "S'està important en l'acció amb ID %s"
 
-#: src/Controller/IndexController.php:100
+#: src/Controller/IndexController.php:119
+#: src/Controller/IndexController.php:161
 msgid "There was an error retrieving data. Please try again."
 msgstr "Error en l'obtenció de dades. Torneu a provar."
 
-#: src/Controller/IndexController.php:125
+#: src/Controller/IndexController.php:211
 #, php-format
-msgid "Undo in progress in the following jobs: %s"
-msgstr "S'estan desfent les accions següents: %s"
+msgid "Undo in progress on the following jobs: %s"
+msgstr ""
 
-#: src/Controller/IndexController.php:129
-msgid "Error: no jobs selected to undo"
-msgstr "Error: no s'ha seleccionat cap acció per desfer"
+#: src/Controller/IndexController.php:221
+#, php-format
+msgid "Rerun in progress on the following jobs: %s"
+msgstr ""
+
+#: src/Controller/IndexController.php:226
+msgid "Error: no jobs selected"
+msgstr ""

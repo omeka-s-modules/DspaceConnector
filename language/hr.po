@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-03-15 15:18-0700\n"
+"POT-Creation-Date: 2023-03-27 15:48-0700\n"
 "PO-Revision-Date: 2017-09-14 20:15+0000\n"
 "Last-Translator: Josip Ilic <josip.ilic@ericsson.com>, 2021\n"
 "Language-Team: Croatian (https://www.transifex.com/omeka/teams/14184/hr/)\n"
@@ -22,15 +22,15 @@ msgstr ""
 "Language: hr\n"
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 
-#: Module.php:80
+#: Module.php:92
 msgid "Last Modified"
 msgstr "Zadnji Put Promijenjeno"
 
-#: Module.php:81
+#: Module.php:93
 msgid "Link"
 msgstr "Poveznica"
 
-#: src/Controller/IndexController.php:65
+#: src/Controller/IndexController.php:80
 msgid "Error importing data"
 msgstr "Greška prilikom uvoženja podataka"
 
@@ -91,28 +91,28 @@ msgid "Past Imports"
 msgstr "Prošli Uvozi"
 
 #: view/dspace-connector/index/past-imports.phtml:20
-msgid "Undo?"
-msgstr "Poništi?"
+msgid "Undo"
+msgstr ""
 
 #: view/dspace-connector/index/past-imports.phtml:21
+msgid "Re-run"
+msgstr ""
+
+#: view/dspace-connector/index/past-imports.phtml:22
 msgid "Job ID"
 msgstr "ID posla"
 
-#: view/dspace-connector/index/past-imports.phtml:22
-msgid "Dspace collection link"
-msgstr "Dspace poveznica za prikupljanje"
+#: view/dspace-connector/index/past-imports.phtml:23
+msgid "Dspace collection"
+msgstr ""
 
-#: view/dspace-connector/index/past-imports.phtml:46
-msgid "Added: "
-msgstr "Dodano:"
+#: view/dspace-connector/index/past-imports.phtml:80
+msgid "Reran in job "
+msgstr ""
 
-#: view/dspace-connector/index/past-imports.phtml:47
-msgid "Updated: "
-msgstr "Ažurirano:"
-
-#: view/dspace-connector/index/past-imports.phtml:53
-msgid "Undone"
-msgstr "Poništeno"
+#: view/dspace-connector/index/past-imports.phtml:82
+msgid "Undone in job "
+msgstr ""
 
 #: src/Form/UrlForm.php:17
 msgid "DSpace site URL"
@@ -133,8 +133,10 @@ msgid "Endpoint"
 msgstr "Krajnja točka"
 
 #: src/Form/UrlForm.php:31
-msgid "The endpoint for the API"
-msgstr "Krajnja točka API-a"
+msgid ""
+"The endpoint for the API. For DSpace 7.x and higher, change to "
+"\"server/api.\""
+msgstr ""
 
 #: src/Form/UrlForm.php:45
 msgid ""
@@ -145,6 +147,16 @@ msgstr ""
 "Maksimalni broj rezultata za dohvatiti istovremeno iz DSpace-a. Ako uočite "
 "greške ili nedostajuće podatke, probajte smanjiti ovaj broj. Povećavajući ga"
 " bi moglo ubrzati uvoženja. "
+
+#: src/Form/UrlForm.php:58
+msgid "Test import"
+msgstr ""
+
+#: src/Form/UrlForm.php:59
+msgid ""
+"If checked, ONLY import the # of results indicated in Limit field above from"
+" chosen collection on next screen. Useful for testing and fine-tuning."
+msgstr ""
 
 #: src/Form/ImportForm.php:35
 msgid "Import files into Omeka S"
@@ -162,10 +174,6 @@ msgstr ""
 
 #: src/Form/ImportForm.php:45
 msgid "Select item set(s)"
-msgstr ""
-
-#: src/Form/ImportForm.php:50
-msgid "Item Sets"
 msgstr ""
 
 #: src/Form/ImportForm.php:51
@@ -196,11 +204,11 @@ msgstr ""
 msgid "A note about the purpose or source of this import"
 msgstr "Bilješka o svrsi ili izvoru ovog uvoza"
 
-#: src/Controller/IndexController.php:39 src/Controller/IndexController.php:54
+#: src/Controller/IndexController.php:40 src/Controller/IndexController.php:55
 msgid "There was an error during validation"
 msgstr "Pojavila se greška prilikom validacije"
 
-#: src/Controller/IndexController.php:45
+#: src/Controller/IndexController.php:46
 #, php-format
 msgid "Importing in Job ID %s"
 msgstr ""
@@ -213,17 +221,23 @@ msgstr ""
 " \n"
 " "
 
-#: src/Controller/IndexController.php:100
+#: src/Controller/IndexController.php:119
+#: src/Controller/IndexController.php:161
 msgid "There was an error retrieving data. Please try again."
 msgstr ""
 "Pojavila se greška prilikom dohvaćanja podataka. Molimo vas pokušajte "
 "ponovo. "
 
-#: src/Controller/IndexController.php:125
+#: src/Controller/IndexController.php:211
 #, php-format
-msgid "Undo in progress in the following jobs: %s"
-msgstr "Poništavanje u tijeku u sljedećim poslovima: %s"
+msgid "Undo in progress on the following jobs: %s"
+msgstr ""
 
-#: src/Controller/IndexController.php:129
-msgid "Error: no jobs selected to undo"
+#: src/Controller/IndexController.php:221
+#, php-format
+msgid "Rerun in progress on the following jobs: %s"
+msgstr ""
+
+#: src/Controller/IndexController.php:226
+msgid "Error: no jobs selected"
 msgstr ""

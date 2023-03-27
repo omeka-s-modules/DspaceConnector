@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-03-15 15:18-0700\n"
+"POT-Creation-Date: 2023-03-27 15:48-0700\n"
 "PO-Revision-Date: 2017-09-14 20:15+0000\n"
 "Last-Translator: Naosuke Okamoto, 2018\n"
 "Language-Team: Japanese (https://www.transifex.com/omeka/teams/14184/ja/)\n"
@@ -21,15 +21,15 @@ msgstr ""
 "Language: ja\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-#: Module.php:80
+#: Module.php:92
 msgid "Last Modified"
 msgstr "最終更新日"
 
-#: Module.php:81
+#: Module.php:93
 msgid "Link"
 msgstr "リンク"
 
-#: src/Controller/IndexController.php:65
+#: src/Controller/IndexController.php:80
 msgid "Error importing data"
 msgstr "インポートデータエラー"
 
@@ -90,28 +90,28 @@ msgid "Past Imports"
 msgstr "過去のインポート"
 
 #: view/dspace-connector/index/past-imports.phtml:20
-msgid "Undo?"
-msgstr "元に戻しますか？"
+msgid "Undo"
+msgstr ""
 
 #: view/dspace-connector/index/past-imports.phtml:21
+msgid "Re-run"
+msgstr ""
+
+#: view/dspace-connector/index/past-imports.phtml:22
 msgid "Job ID"
 msgstr "ジョブID"
 
-#: view/dspace-connector/index/past-imports.phtml:22
-msgid "Dspace collection link"
-msgstr "Dspaceコレクションリンク"
+#: view/dspace-connector/index/past-imports.phtml:23
+msgid "Dspace collection"
+msgstr ""
 
-#: view/dspace-connector/index/past-imports.phtml:46
-msgid "Added: "
-msgstr "追加済："
+#: view/dspace-connector/index/past-imports.phtml:80
+msgid "Reran in job "
+msgstr ""
 
-#: view/dspace-connector/index/past-imports.phtml:47
-msgid "Updated: "
-msgstr "更新済"
-
-#: view/dspace-connector/index/past-imports.phtml:53
-msgid "Undone"
-msgstr "元に戻しました"
+#: view/dspace-connector/index/past-imports.phtml:82
+msgid "Undone in job "
+msgstr ""
 
 #: src/Form/UrlForm.php:17
 msgid "DSpace site URL"
@@ -131,8 +131,10 @@ msgid "Endpoint"
 msgstr "エンドポイント"
 
 #: src/Form/UrlForm.php:31
-msgid "The endpoint for the API"
-msgstr "APIのエンドポイント"
+msgid ""
+"The endpoint for the API. For DSpace 7.x and higher, change to "
+"\"server/api.\""
+msgstr ""
 
 #: src/Form/UrlForm.php:45
 msgid ""
@@ -142,6 +144,16 @@ msgid ""
 msgstr ""
 "DSpaceから一度に取得する結果の最大数。 エラーやデータの欠落が見つかった場合は、この値を減らしてください。 "
 "増やすと、読み込みが速くなる可能性があります。"
+
+#: src/Form/UrlForm.php:58
+msgid "Test import"
+msgstr ""
+
+#: src/Form/UrlForm.php:59
+msgid ""
+"If checked, ONLY import the # of results indicated in Limit field above from"
+" chosen collection on next screen. Useful for testing and fine-tuning."
+msgstr ""
 
 #: src/Form/ImportForm.php:35
 msgid "Import files into Omeka S"
@@ -158,10 +170,6 @@ msgstr ""
 
 #: src/Form/ImportForm.php:45
 msgid "Select item set(s)"
-msgstr ""
-
-#: src/Form/ImportForm.php:50
-msgid "Item Sets"
 msgstr ""
 
 #: src/Form/ImportForm.php:51
@@ -192,24 +200,30 @@ msgstr ""
 msgid "A note about the purpose or source of this import"
 msgstr "このインポートの目的またはソースに関する注釈"
 
-#: src/Controller/IndexController.php:39 src/Controller/IndexController.php:54
+#: src/Controller/IndexController.php:40 src/Controller/IndexController.php:55
 msgid "There was an error during validation"
 msgstr "検証中にエラーが発生しました"
 
-#: src/Controller/IndexController.php:45
+#: src/Controller/IndexController.php:46
 #, php-format
 msgid "Importing in Job ID %s"
 msgstr "ジョブID %s でインポート"
 
-#: src/Controller/IndexController.php:100
+#: src/Controller/IndexController.php:119
+#: src/Controller/IndexController.php:161
 msgid "There was an error retrieving data. Please try again."
 msgstr "データの取得中にエラーが発生しました。 もう一度お試しください。"
 
-#: src/Controller/IndexController.php:125
+#: src/Controller/IndexController.php:211
 #, php-format
-msgid "Undo in progress in the following jobs: %s"
-msgstr "次のジョブで処理を元に戻す： %s"
+msgid "Undo in progress on the following jobs: %s"
+msgstr ""
 
-#: src/Controller/IndexController.php:129
-msgid "Error: no jobs selected to undo"
+#: src/Controller/IndexController.php:221
+#, php-format
+msgid "Rerun in progress on the following jobs: %s"
+msgstr ""
+
+#: src/Controller/IndexController.php:226
+msgid "Error: no jobs selected"
 msgstr ""

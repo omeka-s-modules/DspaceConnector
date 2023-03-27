@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-03-15 15:18-0700\n"
+"POT-Creation-Date: 2023-03-27 15:48-0700\n"
 "PO-Revision-Date: 2017-09-14 20:15+0000\n"
 "Last-Translator: Rivo Zängov <eraser@eraser.ee>, 2022\n"
 "Language-Team: Estonian (https://www.transifex.com/omeka/teams/14184/et/)\n"
@@ -21,15 +21,15 @@ msgstr ""
 "Language: et\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: Module.php:80
+#: Module.php:92
 msgid "Last Modified"
 msgstr "Viimati muudetud"
 
-#: Module.php:81
+#: Module.php:93
 msgid "Link"
 msgstr "Link"
 
-#: src/Controller/IndexController.php:65
+#: src/Controller/IndexController.php:80
 msgid "Error importing data"
 msgstr "Tõrge andmete importimisel"
 
@@ -90,28 +90,28 @@ msgid "Past Imports"
 msgstr "Varasemad importimised"
 
 #: view/dspace-connector/index/past-imports.phtml:20
-msgid "Undo?"
-msgstr "Tühistada?"
+msgid "Undo"
+msgstr ""
 
 #: view/dspace-connector/index/past-imports.phtml:21
+msgid "Re-run"
+msgstr ""
+
+#: view/dspace-connector/index/past-imports.phtml:22
 msgid "Job ID"
 msgstr "Töö ID"
 
-#: view/dspace-connector/index/past-imports.phtml:22
-msgid "Dspace collection link"
-msgstr "Dspace ühendaja link"
+#: view/dspace-connector/index/past-imports.phtml:23
+msgid "Dspace collection"
+msgstr ""
 
-#: view/dspace-connector/index/past-imports.phtml:46
-msgid "Added: "
-msgstr "Lisatud:"
+#: view/dspace-connector/index/past-imports.phtml:80
+msgid "Reran in job "
+msgstr ""
 
-#: view/dspace-connector/index/past-imports.phtml:47
-msgid "Updated: "
-msgstr "Värskendatud:"
-
-#: view/dspace-connector/index/past-imports.phtml:53
-msgid "Undone"
-msgstr "Tühistati"
+#: view/dspace-connector/index/past-imports.phtml:82
+msgid "Undone in job "
+msgstr ""
 
 #: src/Form/UrlForm.php:17
 msgid "DSpace site URL"
@@ -129,7 +129,9 @@ msgid "Endpoint"
 msgstr "Lõpppunkt"
 
 #: src/Form/UrlForm.php:31
-msgid "The endpoint for the API"
+msgid ""
+"The endpoint for the API. For DSpace 7.x and higher, change to "
+"\"server/api.\""
 msgstr ""
 
 #: src/Form/UrlForm.php:45
@@ -137,6 +139,16 @@ msgid ""
 "The maximum number of results to retrieve at once from DSpace. If you notice"
 " errors or missing data, try lowering this number. Increasing it might make "
 "imports faster."
+msgstr ""
+
+#: src/Form/UrlForm.php:58
+msgid "Test import"
+msgstr ""
+
+#: src/Form/UrlForm.php:59
+msgid ""
+"If checked, ONLY import the # of results indicated in Limit field above from"
+" chosen collection on next screen. Useful for testing and fine-tuning."
 msgstr ""
 
 #: src/Form/ImportForm.php:35
@@ -152,10 +164,6 @@ msgstr ""
 
 #: src/Form/ImportForm.php:45
 msgid "Select item set(s)"
-msgstr ""
-
-#: src/Form/ImportForm.php:50
-msgid "Item Sets"
 msgstr ""
 
 #: src/Form/ImportForm.php:51
@@ -186,24 +194,30 @@ msgstr ""
 msgid "A note about the purpose or source of this import"
 msgstr ""
 
-#: src/Controller/IndexController.php:39 src/Controller/IndexController.php:54
+#: src/Controller/IndexController.php:40 src/Controller/IndexController.php:55
 msgid "There was an error during validation"
 msgstr "Kontrollimisel tekkis tõrge"
 
-#: src/Controller/IndexController.php:45
+#: src/Controller/IndexController.php:46
 #, php-format
 msgid "Importing in Job ID %s"
 msgstr ""
 
-#: src/Controller/IndexController.php:100
+#: src/Controller/IndexController.php:119
+#: src/Controller/IndexController.php:161
 msgid "There was an error retrieving data. Please try again."
 msgstr "Andmete tõmbamisel tekkis tõrge. Palun proovi uuesti."
 
-#: src/Controller/IndexController.php:125
+#: src/Controller/IndexController.php:211
 #, php-format
-msgid "Undo in progress in the following jobs: %s"
+msgid "Undo in progress on the following jobs: %s"
 msgstr ""
 
-#: src/Controller/IndexController.php:129
-msgid "Error: no jobs selected to undo"
+#: src/Controller/IndexController.php:221
+#, php-format
+msgid "Rerun in progress on the following jobs: %s"
+msgstr ""
+
+#: src/Controller/IndexController.php:226
+msgid "Error: no jobs selected"
 msgstr ""
