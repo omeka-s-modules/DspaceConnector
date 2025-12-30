@@ -3,6 +3,7 @@ namespace DspaceConnector\Form;
 
 use Omeka\Form\Element\ResourceSelect;
 use Omeka\Form\Element\SiteSelect;
+use Laminas\Form\Element\Select;
 use Omeka\Settings\UserSettings;
 use Omeka\Api\Manager as ApiManager;
 use Laminas\Form\Form;
@@ -34,6 +35,28 @@ class ImportForm extends Form
             'options' => [
                 'label' => 'Import files into Omeka S', // @translate
                 'info' => 'If checked, original files will be imported into Omeka S. Otherwise, derivates will be displayed when possible, with links back to the original file in the DSpace repository.', // @translate
+            ],
+        ]);
+
+        // Get resource templates
+        $results = $this->getApiManager()->search('resource_templates', ['limit' => 100])->getContent();
+        $valueOptions = [];
+        foreach ($results as $rt) {
+            $valueOptions[$rt->id()] = $rt->label();
+        }
+
+        $this->add([
+            'name' => 'resource_template',
+            'type' => Select::class,
+            'attributes' => [
+                'id' => 'resource-template-select',
+                'class' => 'chosen-select',
+            ],
+            'options' => [
+                'label' => 'Resource template', // @translate
+                'info' => 'Assign a resource template to all imported resources.', // @translate
+                'empty_option' => 'Select a template',
+                'value_options' => $valueOptions,
             ],
         ]);
 
@@ -100,6 +123,10 @@ class ImportForm extends Form
         $inputFilter = $this->getInputFilter();
         $inputFilter->add([
             'name' => 'itemSets',
+            'required' => false,
+        ]);
+        $inputFilter->add([
+            'name' => 'resource_template',
             'required' => false,
         ]);
         $inputFilter->add([

@@ -20,6 +20,8 @@ class Import extends AbstractJob
 
     protected $updatedCount;
 
+    protected $resourceTemplateId;
+
     protected $itemSites;
 
     protected $itemSetIdArray;
@@ -42,6 +44,7 @@ class Import extends AbstractJob
         $this->testImport = (bool) $this->getArg('test_import');
         $this->newAPI = (bool) $this->getArg('newAPI');
         $this->itemSiteArray = $this->getArg('itemSites', false);
+        $this->resourceTemplateId = (int) $this->getArg('resource_template', 0);
 
         foreach (explode(',', $this->getArg('ignored_fields')) as $field) {
             $field = trim($field);
@@ -220,6 +223,11 @@ class Import extends AbstractJob
         } else {
             $itemJson['o:site'] = [];
         }
+
+        if ($this->resourceTemplateId) {
+            $itemJson['o:resource_template']['o:id'] = (int) $this->resourceTemplateId;
+        }
+
         if ($this->newAPI === TRUE) {
             $itemJson = $this->processItemMetadataNew($itemArray['metadata'], $itemJson);
         } else {
