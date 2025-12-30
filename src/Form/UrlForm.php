@@ -33,7 +33,7 @@ class UrlForm extends Form
             'attributes' => [
                 'id' => 'endpoint',
                 'required' => 'false',
-                'value' => 'rest',
+                'value' => 'server/api',
             ],
         ]);
 
