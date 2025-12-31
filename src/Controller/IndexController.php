@@ -259,6 +259,8 @@ class IndexController extends AbstractActionController
         $dspaceImport = $response->getContent()[0];
         // Get original import job args to run again
         $rerunData = $dspaceImport->job()->args();
+        $rerunData['rerun'] = true;
+        $rerunData['previous_job'] = $jobId;
         $job = $this->jobDispatcher()->dispatch('DspaceConnector\Job\Import', $rerunData);
         $response = $this->api()->update('dspace_imports',
                 $dspaceImport->id(),

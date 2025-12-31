@@ -45,6 +45,7 @@ class Import extends AbstractJob
         $this->newAPI = (bool) $this->getArg('newAPI');
         $this->itemSiteArray = $this->getArg('itemSites', false);
         $this->resourceTemplateId = (int) $this->getArg('resource_template', 0);
+        $this->rerun = $this->getArg('rerun');
 
         foreach (explode(',', $this->getArg('ignored_fields')) as $field) {
             $field = trim($field);
@@ -69,6 +70,22 @@ class Import extends AbstractJob
             $this->importCollectionNew($this->getArg('collection_link'));
         } else {
             $this->importCollectionOld($this->getArg('collection_link'));
+        }
+        if ($this->rerun && $this->getArg('delete_missing_items')) {
+            // If delete_missing_items checked, delete any items
+            // remaining from previous job (i.e. without updated job id)
+            $remainingItems = $this->api->search('dspace_items', [
+                'job_id' => (int) $this->getArg('previous_job'),
+            ]);
+            foreach ($remainingItems->getContent() as $item) {
+                $this->api->delete('dspace_items', $item->id());
+                $this->api->delete('items', $item->item()->id());
+                $deletedCount++;
+            }
+            if ($deletedCount) {
+                $deletedComment = $deletedCount . ' items deleted';
+                $comment = strlen($comment) ? $comment . '; ' . $deletedComment : $deletedComment;
+            }
         }
 
         $dspaceImportJson = [

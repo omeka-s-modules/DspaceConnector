@@ -46,6 +46,19 @@ class ImportForm extends Form
         }
 
         $this->add([
+            'name' => 'delete_missing_items',
+            'type' => 'checkbox',
+            'options' => [
+                'label' => 'Delete missing items on update', // @translate
+                'info' => 'Delete Omeka S items not found in DSpace on a rerun/update. If unchecked, items removed from DSpace collection will remain in Omeka S.', // @translate
+            ],
+            'attributes' => [
+                'id' => 'delete-missing-items',
+                'value' => true,
+            ],
+        ]);
+
+        $this->add([
             'name' => 'resource_template',
             'type' => Select::class,
             'attributes' => [
