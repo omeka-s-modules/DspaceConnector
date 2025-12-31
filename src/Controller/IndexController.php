@@ -243,7 +243,10 @@ class IndexController extends AbstractActionController
     {
         $response = $this->api()->search('dspace_imports', ['job_id' => $jobId]);
         $dspaceImport = $response->getContent()[0];
-        $job = $this->jobDispatcher()->dispatch('DspaceConnector\Job\Undo', ['jobId' => $jobId]);
+        // Get original import job args
+        $deleteData = $dspaceImport->job()->args();
+        $deleteData['previous_job'] = $jobId;
+        $job = $this->jobDispatcher()->dispatch('DspaceConnector\Job\Undo', $deleteData);
         $response = $this->api()->update('dspace_imports',
                 $dspaceImport->id(),
                 [
