@@ -1,5 +1,6 @@
 <?php
-$this->htmlElement('body')->appendAttribute('class', 'dspace jobs undo');
+$this->headLink()->appendStylesheet($this->assetUrl('css/dspace-connector.css', 'DspaceConnector'));
+$this->htmlElement('body')->appendAttribute('class', 'dspace jobs undo browse');
 $escape = $this->plugin('escapeHtml');
 ?>
 
@@ -8,18 +9,21 @@ $escape = $this->plugin('escapeHtml');
 <?php if(empty($imports)): ?>
 
 <?php else: ?>
-<?php echo $this->pagination(); ?>
 
+<div class="browse-controls">
+    <?php echo $this->pagination(); ?>
+    <?php echo $this->browse()->renderSortSelector('dspace_past_imports'); ?>
+</div>
 <form method='POST'>
     <fieldset id='page-actions'>
         <input type='submit' value='Submit' />
     </fieldset>
-    <table class="tablesaw" data-tablesaw-mode="stack">
+
+    <table class="tablesaw" data-tablesaw-mode="stack" aria-label="<?php echo $this->translate('Past Imports'); ?>">
         <thead>
             <tr>
-                <th><?php echo $escape($this->translate('Undo'));?></th>
-                <th><?php echo $escape($this->translate('Re-run'));?></th>
-                <th><?php echo $this->sortLink($this->translate('Job ID'), 'id');?></th>
+                <th scope="col"><?php echo $this->translate('Job ID'); ?></th>
+                <th scope="col"><?php echo $escape($this->translate('Actions'));?></th>
                 <th><?php echo $escape($this->translate('Dspace collection'));?></th>
                 <th><?php echo $escape($this->translate('Comment'));?></th>
                 <th><?php echo $escape($this->translate('Items'));?></th>
@@ -32,40 +36,48 @@ $escape = $this->plugin('escapeHtml');
         <?php foreach ($imports as $import): ?>
         <?php $job = $import->job(); ?>
         <?php $undoJob = $import->undoJob(); ?>
+        <?php $disableOption = ($job->jobClass() == 'ArchivesspaceConnector\Job\Undo') ? 'disabled' : ''; ?>
         <?php $rerunJob = $import->rerunJob(); ?>
         <tr>
-            <td><input type='checkbox' name='undoJobs[]' value='<?php echo $job->id(); ?>' />
-            <td><input type='checkbox' name='rerunJobs[]' value='<?php echo $job->id(); ?>' />
-            <td><?php echo $job->link($job->id()); ?></td>
+            <th scope="row"><?php echo $job->link($job->id()); ?></th>
             <td>
-                <?php $args = $job->args();
-                if (isset($args['collection_name'])) {
-                    $linkText = $args['collection_name'];
-                } else {
-                    $linkText = $args['api_url'];
-                }
+            <div class="dspace-connector-inputs" role="radiogroup" aria-label="<?php echo $this->translate('Action options'); ?>">
+                <label>
+                    <input type='radio' name='jobActions[<?php echo $job->id(); ?>]' value checked aria-label="<?php echo $this->translate('[No Action]'); ?>" />
+                    <?php echo $this->translate('[No Action]'); ?>
+                </label>
+                <label>
+                    <input type='radio' name='jobActions[<?php echo $job->id(); ?>]' value='undo' aria-label="<?php echo $this->translate('Undo'); ?>" <?php echo $disableOption; ?> />
+                    <?php echo $this->translate('Undo'); ?>
+                </label>
+                <label>
+                    <input type='radio' name='jobActions[<?php echo $job->id(); ?>]' value='rerun' aria-label="<?php echo $this->translate('Re-run'); ?>" <?php echo $disableOption; ?> />
+                    <?php echo $this->translate('Re-run'); ?>
+                </label>
+            </div>
+            </td>
+            <td>
+                <?php
+                $args = $job->args();
+                $linkText = isset($args['collection_name']) ? $args['collection_name'] : $this->translate('collection link');
                 if (isset($args['newAPI']) && (bool) $args['newAPI'] === TRUE) {
-                    echo $this->hyperlink($linkText, $args['collection_link']);
+                    echo $this->hyperlink($linkText, $args['collection_link'], ['target' => '_blank']);
                 } else {
-                    echo $this->hyperlink($linkText, $args['api_url'] . $args['collection_link']);
+                    echo $this->hyperlink($linkText, $args['api_url'] . $args['collection_link'], ['target' => '_blank']);
                 }
                 ?>
             </td>
-            <td>
+            <td class="dspace-comment">
                 <?php echo $import->comment(); ?>
             </td>
             <td>
                 <?php
-                if ($rerunJob) {
-                    $linkID = $rerunJob->id();
-                } else {
-                    $linkID = $job->id();
-                }
+                $linkID = $job->id();
                 $totalCount = $import->addedCount() + $import->updatedCount();
                 // Only link to search results for Job IDs with associated items
                 $totalResults = $this->api()->search('items', ['dspace_import_id' => $linkID]);
-                if ($totalResults->getTotalResults() > 0 && $totalCount > 0) {
-                    echo $this->hyperlink('Total: ' . $totalCount, $this->url('admin/default', ['controller' => 'item', 'action' => 'browse'], ['query' => ['dspace_import_id' => $linkID]])) . '<br>';
+                if ($totalResults->getTotalResults() > 0) {
+                    echo $this->hyperlink('Total: ' . $totalResults->getTotalResults(), $this->url('admin/default', ['controller' => 'item', 'action' => 'browse'], ['query' => ['dspace_import_id' => $linkID]]), ['target' => '_blank']) . '<br>';
                 } else {
                     echo 'Total: ' . $totalCount . '<br>';
                 }
@@ -80,7 +92,6 @@ $escape = $this->plugin('escapeHtml');
                 $status = $this->translate('Reran in job ') . $rerunJob->id() . ': ' . $escape($this->i18n()->dateFormat($rerunJob->ended()));
             } else if ($undoJob) {
                 $status = $this->translate('Undone in job ') . $undoJob->id() . ': ' . $escape($this->i18n()->dateFormat($undoJob->ended()));
-                
             } else {
                 $status = $this->translate($job->status());
             } 

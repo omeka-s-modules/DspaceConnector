@@ -1,3 +1,18 @@
+.dspace-connector-inputs { 
+    display: flex; 
+    flex-direction: column;
+}
+
+.dspace tbody th {
+    border-bottom: 1px solid #dfdfdf;
+}
+
+.dspace td.dspace-comment {
+    white-space: nowrap; 
+    overflow: hidden; 
+    text-overflow: ellipsis;
+}
+
 .repository {
   border-bottom: 1px solid #dfdfdf;
   margin-bottom: 12px;
