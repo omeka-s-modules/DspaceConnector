@@ -225,6 +225,7 @@ class IndexController extends AbstractActionController
             if (!isset($data['undoJobs']) && !isset($data['rerunJobs'])) {
                 $this->messenger()->addError('Error: no jobs selected'); // @translate
             }
+            return $this->redirect()->toRoute('admin/dspace-connector/past-imports');
         }
         $view = new ViewModel;
         $page = $this->params()->fromQuery('page', 1);

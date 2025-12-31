@@ -32,7 +32,7 @@ class Module extends AbstractModule
         $connection->exec("ALTER TABLE dspace_item ADD CONSTRAINT FK_1C6D63B4126F525E FOREIGN KEY (item_id) REFERENCES item (id) ON DELETE CASCADE;");
         $connection->exec("ALTER TABLE dspace_item ADD CONSTRAINT FK_1C6D63B4BE04EA9 FOREIGN KEY (job_id) REFERENCES job (id);");
 
-        $connection->exec("CREATE TABLE dspace_import (id INT AUTO_INCREMENT NOT NULL, job_id INT NOT NULL, undo_job_id INT DEFAULT NULL, rerun_job_id INT DEFAULT NULL, added_count INT NOT NULL, updated_count INT NOT NULL, comment VARCHAR(255) DEFAULT NULL, UNIQUE INDEX UNIQ_56197DADBE04EA9 (job_id), UNIQUE INDEX UNIQ_56197DAD4C276F75 (undo_job_id), UNIQUE INDEX UNIQ_56197DAD7071F49C (rerun_job_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB;");
+        $connection->exec("CREATE TABLE dspace_import (id INT AUTO_INCREMENT NOT NULL, job_id INT NOT NULL, undo_job_id INT DEFAULT NULL, rerun_job_id INT DEFAULT NULL, added_count INT NOT NULL, updated_count INT NOT NULL, comment LONGTEXT DEFAULT NULL, UNIQUE INDEX UNIQ_56197DADBE04EA9 (job_id), UNIQUE INDEX UNIQ_56197DAD4C276F75 (undo_job_id), UNIQUE INDEX UNIQ_56197DAD7071F49C (rerun_job_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB;");
         $connection->exec("ALTER TABLE dspace_import ADD CONSTRAINT FK_56197DADBE04EA9 FOREIGN KEY (job_id) REFERENCES job (id);");
         $connection->exec("ALTER TABLE dspace_import ADD CONSTRAINT FK_56197DAD4C276F75 FOREIGN KEY (undo_job_id) REFERENCES job (id);");
         $connection->exec("ALTER TABLE dspace_import ADD CONSTRAINT FK_56197DAD7071F49C FOREIGN KEY (rerun_job_id) REFERENCES job (id);");
