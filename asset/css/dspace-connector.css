@@ -7,10 +7,56 @@
     border-bottom: 1px solid #dfdfdf;
 }
 
-.dspace td.dspace-comment {
-    white-space: nowrap; 
-    overflow: hidden; 
-    text-overflow: ellipsis;
+.dspace td.dspace-comment .tablesaw-cell-content {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 4;
+    line-clamp: 4;
+    overflow: hidden;
+}
+
+.dspace td.dspace-items .tablesaw-cell-content {
+    display: inline;
+}
+
+.dspace .tablesaw td:first-of-type {
+    background: transparent !important;
+}
+
+@media screen and (max-width: 640px) {
+    .dspace .tablesaw {
+        border: 0;
+    }
+
+    .dspace .tablesaw tbody th,
+    .dspace .tablesaw tbody td {
+        display: flex;
+    }
+
+    .dspace .tablesaw tbody tr {
+        border: 1px solid #dfdfdf;
+        border-radius: 3px;
+        margin-bottom: 1rem;
+    }
+
+    .dspace .tablesaw tbody th {
+        background-color: rgba(0,0,0,.04);
+        border-top: 0;
+    }
+
+    .dspace .tablesaw tbody tr td:last-child {
+        border-bottom: 0;
+    }
+
+    .tablesaw td:first-of-type .tablesaw-cell-label {
+        width: 30%;
+        height: auto;
+        padding: 0 .6em 0 0;
+    }
+
+    .tablesaw td:first-of-type .tablesaw-cell-content {
+        width: 70%;
+    }
 }
 
 .repository {
