@@ -77,8 +77,9 @@ class IndexController extends AbstractActionController
                     $newAPI = false;
                 }
             } catch (\Exception $e) {
-                $this->logger()->err($this->translate('Error importing data'));
                 $this->logger()->err($e);
+                $this->messenger()->addError('There was an error retrieving data. Please try again.'); // @translate
+                return $this->redirect()->toRoute('admin/dspace-connector');
             }
             $view->setVariable('communities', $communities);
             $view->setVariable('repository', $repository);
@@ -115,9 +116,13 @@ class IndexController extends AbstractActionController
         while ($hasNext) {
             $response = $this->client->send();
             if (!$response->isSuccess()) {
-                $this->logger()->err(sprintf('Requested "%s" got "%s".', $endpoint, $response->renderStatusLine()));
-                $this->messenger()->addError('There was an error retrieving data. Please try again.'); // @translate
+                throw new \RuntimeException(sprintf(
+                    'Requested "%s" got "%s".',
+                    $endpoint,
+                    $response->renderStatusLine()
+                ));
             }
+
             $responseBody = json_decode($response->getBody(), true);
             if (empty($responseBody)) {
                 $hasNext = false;
@@ -151,15 +156,18 @@ class IndexController extends AbstractActionController
         $fullResponse = [];
 
         $response = $this->client->send();
+        if (!$response->isSuccess()) {
+            throw new \RuntimeException(sprintf(
+                'Requested "%s" got "%s".',
+                $endpoint,
+                $response->renderStatusLine()
+            ));
+        }
+
         $communityMetadata = json_decode($response->getBody(), true);
         $totalPages = (int)$communityMetadata['page']['totalPages'];
 
         while ($page < $totalPages) {
-            $response = $this->client->send();
-            if (!$response->isSuccess()) {
-                $this->logger()->err(sprintf('Requested "%s" got "%s".', $endpoint, $response->renderStatusLine()));
-                $this->messenger()->addError('There was an error retrieving data. Please try again.'); // @translate
-            }
             $responseBody = json_decode($response->getBody(), true);
 
             foreach ($responseBody['_embedded']['communities'] as $community) {
