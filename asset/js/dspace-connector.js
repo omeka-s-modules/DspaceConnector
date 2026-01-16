@@ -9,7 +9,7 @@
     });
 
     $(document).ready(function() {
-        $('#index-submit').on('click', function() {
+        $('form').on('submit', function() {
 	        $('.spinner-display').addClass('loading');
         });
     });
