@@ -66,32 +66,10 @@ class Module extends AbstractModule
     public function attachListeners(SharedEventManagerInterface $sharedEventManager)
     {
         $sharedEventManager->attach(
-            'Omeka\Controller\Admin\Item',
-            'view.show.after',
-            [$this, 'showSource']
-        );
-
-        $sharedEventManager->attach(
             \Omeka\Api\Adapter\ItemAdapter::class,
             'api.search.query',
             [$this, 'importSearch']
         );
-    }
-
-    public function showSource($event)
-    {
-        $view = $event->getTarget();
-        $item = $view->item;
-        $api = $this->getServiceLocator()->get('Omeka\ApiManager');
-        $response = $api->search('dspace_items', ['item_id' => $item->id()]);
-        $dspaceItems = $response->getContent();
-        if ($dspaceItems) {
-            $dspaceItem = $dspaceItems[0];
-            $url = 'http://hdl.handle.net/' . $dspaceItem->handle();
-            echo '<h3>' . $view->translate('Original') . '</h3>';
-            echo '<p>' . $view->translate('Last Modified') . ' ' . $view->i18n()->dateFormat($dspaceItem->lastModified()) . '</p>';
-            echo '<p><a href="' . $url . '">' . $view->translate('Link') . '</a></p>';
-        }
     }
     
     public function importSearch($event)
