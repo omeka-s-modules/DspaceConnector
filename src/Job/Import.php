@@ -12,6 +12,8 @@ class Import extends AbstractJob
 
     protected $api;
 
+    protected $logger;
+
     protected $limit;
 
     protected $termIdMap;
@@ -33,6 +35,7 @@ class Import extends AbstractJob
     public function perform()
     {
         $this->api = $this->getServiceLocator()->get('Omeka\ApiManager');
+        $this->logger = $this->getServiceLocator()->get('Omeka\Logger');
         $this->addedCount = 0;
         $this->updatedCount = 0;
         $this->prepareTermIdMap();
@@ -593,8 +596,14 @@ class Import extends AbstractJob
         $em = $this->getServiceLocator()->get('Omeka\EntityManager');
         $updateResponses = [];
         foreach ($toUpdate as $importRecordId => $itemJson) {
+            // Continue with next item on error
+            try {
+                $updateResponses[$importRecordId] = $this->api->update('items', $itemJson['id'], $itemJson, [], ['flushEntityManager' => false]);
+            } catch (\Exception $e) {
+                $this->logger->err((string) $e);
+                continue;
+            }
             $this->updatedCount = $this->updatedCount + 1;
-            $updateResponses[$importRecordId] = $this->api->update('items', $itemJson['id'], $itemJson, [], ['flushEntityManager' => false]);
         }
 
         foreach ($updateResponses as $importRecordId => $resourceReference) {
