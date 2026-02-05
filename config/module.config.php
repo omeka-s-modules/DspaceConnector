@@ -4,16 +4,6 @@ return [
         'translation_file_patterns' => [
             [
                 'type' => 'gettext',
-                'base_dir' => OMEKA_PATH . '/modules/DscpaceConnector/language',
-                'pattern' => '%s.mo',
-                'text_domain' => null,
-            ],
-        ],
-    ],
-    'translator' => [
-        'translation_file_patterns' => [
-            [
-                'type' => 'gettext',
                 'base_dir' => OMEKA_PATH . '/modules/DspaceConnector/language',
                 'pattern' => '%s.mo',
                 'text_domain' => null,
