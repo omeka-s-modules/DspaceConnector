@@ -8,12 +8,12 @@ class DspaceItemRepresentation extends AbstractEntityRepresentation
     public function getJsonLd()
     {
         return [
-            'last_modified' => $this->getLastModified(),
-            'api_url' => $this->getApiUrl(),
-            'remote_id' => $this->getRemoteId(),
-            'handle' => $this->getHandle(),
-            'o:item' => $this->getReference(),
-            'o:job' => $this->getReference(),
+            'last_modified' => $this->lastModified(),
+            'api_url' => $this->apiUrl(),
+            'remote_id' => $this->remoteId(),
+            'handle' => $this->handle(),
+            'o:item' => $this->item(),
+            'o:job' => $this->job(),
         ];
     }
 
