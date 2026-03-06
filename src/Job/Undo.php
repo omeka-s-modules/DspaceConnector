@@ -5,7 +5,7 @@ use Omeka\Job\AbstractJob;
 
 class Undo extends AbstractJob
 {
-    protected $deletedCount;
+    protected $deletedItemCount;
 
     public function perform()
     {
@@ -20,13 +20,13 @@ class Undo extends AbstractJob
             foreach ($dspaceItems as $dspaceItem) {
                 $dspaceResponse = $api->delete('dspace_items', $dspaceItem->id());
                 $itemResponse = $api->delete('items', $dspaceItem->item()->id());
-                $deletedCount++;
+                $deletedItemCount++;
             }
         }
 
-        if ($deletedCount) {
-            $deletedComment = $deletedCount . ' items deleted';
-            $comment = strlen($comment) ? $comment . '; ' . $deletedComment : $deletedComment;
+        if ($deletedItemCount) {
+            $deletedItemComment = $deletedItemCount . ' items deleted';
+            $comment = strlen($comment) ? $comment . '; ' . $deletedItemComment : $deletedItemComment;
         }
         $dspaceImportJson = [
                             'o:job' => ['o:id' => $this->job->getId()],

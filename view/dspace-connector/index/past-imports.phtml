@@ -36,7 +36,7 @@ $escape = $this->plugin('escapeHtml');
         <?php foreach ($imports as $import): ?>
         <?php $job = $import->job(); ?>
         <?php $undoJob = $import->undoJob(); ?>
-        <?php $disableOption = ($job->jobClass() == 'ArchivesspaceConnector\Job\Undo') ? 'disabled' : ''; ?>
+        <?php $disableOption = ($job->jobClass() == 'DspaceConnector\Job\Undo') ? 'disabled' : ''; ?>
         <?php $rerunJob = $import->rerunJob(); ?>
         <tr>
             <th scope="row"><?php echo $job->link($job->id()); ?></th>
