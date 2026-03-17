@@ -152,6 +152,7 @@ class IndexController extends AbstractActionController
         $this->client->setHeaders(['Accept' => 'application/json'])->setOptions(['timeout' => 60]);
         $this->client->setUri($endpoint  . '/core/communities');
         $page = 0;
+        $totalPages = 1;
         $limit = $this->limit;
         $getParams = [
             'page' => $page,
@@ -160,19 +161,19 @@ class IndexController extends AbstractActionController
         $this->client->setParameterGet($getParams);
         $fullResponse = [];
 
-        $response = $this->client->send();
-        if (!$response->isSuccess()) {
-            throw new \RuntimeException(sprintf(
-                'Requested "%s" got "%s".',
-                $endpoint,
-                $response->renderStatusLine()
-            ));
-        }
-
-        $communityMetadata = json_decode($response->getBody(), true);
-        $totalPages = (int)$communityMetadata['page']['totalPages'];
-
         while ($page < $totalPages) {
+            $response = $this->client->send();
+            if (!$response->isSuccess()) {
+                throw new \RuntimeException(sprintf(
+                    'Requested "%s" got "%s".',
+                    $endpoint,
+                    $response->renderStatusLine()
+                ));
+            }
+
+            $communityMetadata = json_decode($response->getBody(), true);
+            $totalPages = (int)$communityMetadata['page']['totalPages'];
+
             $responseBody = json_decode($response->getBody(), true);
 
             foreach ($responseBody['_embedded']['communities'] as $community) {
