@@ -59,7 +59,7 @@ $escape = $this->plugin('escapeHtml');
             <td>
                 <?php
                 $args = $job->args();
-                $linkText = isset($args['collection_name']) ? $args['collection_name'] : $this->translate('collection link');
+                $linkText = !empty($args['collection_name']) ? $args['collection_name'] : $this->translate('collection link');
                 if (isset($args['newAPI']) && (bool) $args['newAPI'] === TRUE) {
                     echo $this->hyperlink($linkText, $args['collection_link'], ['target' => '_blank']);
                 } else {

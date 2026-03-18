@@ -7,6 +7,10 @@
             $('.communities .collapse').click();
         });
 
+        $(document).on('click', '.import-collection', function() {
+            $('input[name="collection_name"]').val($(this).data('collection-name'));
+        });
+
         $(document).on('o:collapsed o:expanded', '.communities a[data-name]', function() {
             var toggle = $(this);
             var name = toggle.data('name');

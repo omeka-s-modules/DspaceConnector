@@ -57,7 +57,7 @@ $this->headScript()->appendFile($this->assetUrl('js/dspace-connector.js', 'Dspac
                             <?php endif; ?>
                         </div>
                         <?php endif; ?>
-                        <button class='import-collection' name='collection_link' value='<?php echo $collection['link']; ?>'><?php echo $this->escapeHtml($this->translate('Import collection')); ?></button>
+                        <button class='import-collection' name='collection_link' value='<?php echo $collection['link']; ?>' data-collection-name='<?php echo $this->escapeHtmlAttr($collection['name']); ?>'><?php echo $this->escapeHtml($this->translate('Import collection')); ?></button>
                     </div>
                 <?php endforeach; ?>
                 </div>
@@ -69,6 +69,7 @@ $this->headScript()->appendFile($this->assetUrl('js/dspace-connector.js', 'Dspac
         </div>
 </fieldset>
 
+<input type='hidden' name='collection_name' value='' ></input>
 <input type='hidden' name='api_url' value='<?php echo $dspace_url; ?>' ></input>
 <input type='hidden' name='limit' value='<?php echo $limit; ?>' ></input>
 <input type='hidden' name='test_import' value='<?php echo $test_import; ?>' ></input>
