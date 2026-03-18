@@ -36,6 +36,9 @@ class ImportForm extends Form
                 'label' => 'Import files into Omeka S', // @translate
                 'info' => 'If checked, original files will be imported into Omeka S. Otherwise, derivates will be displayed when possible, with links back to the original file in the DSpace repository.', // @translate
             ],
+            'attributes' => [
+                'id' => 'ingest-files',
+            ],
         ]);
 
         // Get resource templates
