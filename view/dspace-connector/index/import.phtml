@@ -47,7 +47,7 @@ $this->headScript()->appendFile($this->assetUrl('js/dspace-connector.js', 'Dspac
                 <?php foreach($community['collections'] as $collection): ?>
                     <div class="collection">
                         <span class="name"><?php echo $collection['name']; ?></span>
-                        <?php if (!empty($community['shortDescription']) || !empty($community['introductoryText'])): ?>
+                        <?php if (!empty($collection['shortDescription']) || !empty($collection['introductoryText'])): ?>
                         <a href="#" class="expand" aria-label=" <?php echo $this->escapeHtml($this->translate('Expand')); ?>"></a>
                         <div class="description collapsible">
                             <?php if (!empty($collection['shortDescription'])): ?>
