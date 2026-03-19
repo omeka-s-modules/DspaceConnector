@@ -28,7 +28,7 @@ class UrlForm extends Form
             'type' => Text::class,
             'options' => [
                 'label' => 'Endpoint', // @translate
-                'info' => 'The endpoint for the API. For DSpace 7.x and higher, change to "server/api."', // @translate
+                'info' => 'The endpoint for the API. For DSpace versions lower than 7.x, change to "rest".', // @translate
             ],
             'attributes' => [
                 'id' => 'endpoint',
@@ -42,25 +42,12 @@ class UrlForm extends Form
             'type' => Text::class,
             'options' => [
                 'label' => 'Limit', // @translate
-                'info' => 'The maximum number of results to retrieve at once from DSpace. If you notice errors or missing data, try lowering this number. Increasing it might make imports faster.', // @translate
+                'info' => 'The maximum number of results to retrieve from each DSpace API call. Applies to all resources (communities, collections, items and files) as well as Test Import option on next screen. If you notice errors or missing data, try lowering this number. Increasing it might make imports faster.', // @translate
             ],
             'attributes' => [
                 'id' => 'limit',
                 'required' => 'false',
                 'value' => '100',
-            ],
-        ]);
-
-        $this->add([
-            'name' => 'test_import',
-            'type' => 'checkbox',
-            'options' => [
-                'label' => 'Test import', // @translate
-                'info' => 'If checked, ONLY import the # of results indicated in Limit field above from chosen collection on next screen. Useful for testing and fine-tuning.', // @translate
-            ],
-            'attributes' => [
-                'id' => 'test-import',
-                'required' => false,
             ],
         ]);
     }

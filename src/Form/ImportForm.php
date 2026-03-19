@@ -30,6 +30,18 @@ class ImportForm extends Form
     public function init()
     {
         $this->add([
+            'name' => 'test_import',
+            'type' => 'checkbox',
+            'options' => [
+                'label' => 'Test import', // @translate
+            ],
+            'attributes' => [
+                'id' => 'test-import',
+                'required' => false,
+            ],
+        ]);
+
+        $this->add([
             'name' => 'ingest_files',
             'type' => 'checkbox',
             'options' => [

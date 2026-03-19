@@ -33,7 +33,7 @@ class IndexController extends AbstractActionController
         $params = $this->params()->fromPost();
         $this->limit = $params['limit'];
         if (isset($params['collection_link'])) {
-            //coming from the import page, do the import
+            // Coming from the import page, do the import
             $importForm = $this->getForm(ImportForm::class);
             $importForm->setData($params);
             if (! $importForm->isValid()) {
@@ -62,8 +62,11 @@ class IndexController extends AbstractActionController
             }
 
             $importForm = $this->getForm(ImportForm::class);
+            $testImportElement = $importForm->get('test_import');
+            $testImportOptions = $testImportElement->getOptions();
+            $testImportOptions['info'] = sprintf('If checked, ONLY import the first %d results (as set in Limit field). Useful for testing and fine-tuning.', $this->limit); // @translate
+            $testImportElement->setOptions($testImportOptions);
             $dspaceUrl = rtrim($params['api_url'], '/');
-
 
             try {
                 // Check content-type of endpoint, to determine whether API is post- or pre-7.x
@@ -91,7 +94,6 @@ class IndexController extends AbstractActionController
             $view->setVariable('dspace_url', $dspaceUrl);
             $view->setVariable('form', $importForm);
             $view->setVariable('limit', $this->limit);
-            $view->setVariable('test_import', $params['test_import']);
             $view->setVariable('newAPI', $newAPI);
             return $view;
         }
