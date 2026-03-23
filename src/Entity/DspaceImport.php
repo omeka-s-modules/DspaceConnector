@@ -108,7 +108,7 @@ class DspaceImport extends AbstractEntity
     {
         return $this->updatedCount;
     }
-    
+
     public function setAddedFiles($count)
     {
         $this->addedFiles = $count;
