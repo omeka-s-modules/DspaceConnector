@@ -51,6 +51,10 @@ class DspaceImportAdapter extends AbstractEntityAdapter
             $entity->setUpdatedCount($data['updated_count']);
         }
 
+        if (isset($data['added_files'])) {
+            $entity->setAddedFiles($data['added_files']);
+        }
+
         if (isset($data['comment'])) {
             $entity->setComment($data['comment']);
         }

@@ -16,6 +16,7 @@ class DspaceImportRepresentation extends AbstractEntityRepresentation
         return [
             'added_count' => $this->addedCount(),
             'updated_count' => $this->updatedCount(),
+            'added_files' => $this->addedFiles(),
             'comment' => $this->comment(),
             'o:job' => $this->getReference(),
             'o:undo_job' => $undo_job,
@@ -59,5 +60,10 @@ class DspaceImportRepresentation extends AbstractEntityRepresentation
     public function updatedCount()
     {
         return $this->resource->getUpdatedCount();
+    }
+
+    public function addedFiles()
+    {
+        return $this->resource->getAddedFiles();
     }
 }

@@ -22,6 +22,8 @@ class Import extends AbstractJob
 
     protected $updatedCount;
 
+    protected $addedFiles;
+
     protected $resourceTemplateId;
 
     protected $itemSites;
@@ -38,6 +40,7 @@ class Import extends AbstractJob
         $this->logger = $this->getServiceLocator()->get('Omeka\Logger');
         $this->addedCount = 0;
         $this->updatedCount = 0;
+        $this->addedFiles = 0;
         $this->prepareTermIdMap();
         $this->client = $this->getServiceLocator()->get('Omeka\HttpClient');
         $this->client->setHeaders(['Accept' => 'application/json']);
@@ -63,6 +66,7 @@ class Import extends AbstractJob
             'comment' => $comment,
             'added_count' => $this->addedCount,
             'updated_count' => $this->updatedCount,
+            'added_files' => $this->addedFiles,
         ];
         $response = $this->api->create('dspace_imports', $dspaceImportJson);
         $importRecordId = $response->getContent()->id();
@@ -96,6 +100,7 @@ class Import extends AbstractJob
             'comment' => $comment,
             'added_count' => $this->addedCount,
             'updated_count' => $this->updatedCount,
+            'added_files' => $this->addedFiles,
         ];
         $response = $this->api->update('dspace_imports', $importRecordId, $dspaceImportJson);
     }
@@ -573,8 +578,18 @@ class Import extends AbstractJob
         $createContent = $createResponse->getContent();
 
         foreach ($createContent as $id => $resourceReference) {
-            //get the original data used for individual item creation
+            // Get the original data used for individual item creation
             $toCreateData = $toCreate[$id];
+
+            // Count succesfully added files
+            if ($this->getArg('ingest_files')) {
+                $itemRepresentation = $this->api->read('items', $resourceReference->id())->getContent();
+                foreach ($itemRepresentation->media() as $media) {
+                    if ($media->hasOriginal()) {
+                        $this->addedFiles++;
+                    }
+                }
+            }
 
             $dspaceItemJson = [
                             'o:job' => ['o:id' => $this->job->getId()],
@@ -608,6 +623,16 @@ class Import extends AbstractJob
 
         foreach ($updateResponses as $importRecordId => $resourceReference) {
             $toUpdateData = $toUpdate[$importRecordId];
+
+            // Count succesfully added files
+            if ($this->getArg('ingest_files')) {
+                foreach ($resourceReference->getContent()->media() as $media) {
+                    if ($media->hasOriginal()) {
+                        $this->addedFiles++;
+                    }
+                }
+            }
+
             $dspaceItemJson = [
                             'o:job' => ['o:id' => $this->job->getId()],
                             'remote_id' => $toUpdateData['remote_id'],

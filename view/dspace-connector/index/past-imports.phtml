@@ -26,7 +26,7 @@ $escape = $this->plugin('escapeHtml');
                 <th scope="col"><?php echo $escape($this->translate('Actions'));?></th>
                 <th><?php echo $escape($this->translate('Dspace collection'));?></th>
                 <th><?php echo $escape($this->translate('Comment'));?></th>
-                <th><?php echo $escape($this->translate('Items'));?></th>
+                <th><?php echo $escape($this->translate('Resources'));?></th>
                 <th><?php echo $escape($this->translate('Date'));?></th>
                 <th><?php echo $escape($this->translate('Status'));?></th>
                 <th><?php echo $escape($this->translate('Owner'));?></th>
@@ -70,19 +70,23 @@ $escape = $this->plugin('escapeHtml');
             <td class="dspace-comment">
                 <?php echo $import->comment(); ?>
             </td>
-            <td class="dspace-items">
+            <td class="dspace-resources">
                 <?php
                 $linkID = $job->id();
                 $totalCount = $import->addedCount() + $import->updatedCount();
                 // Only link to search results for Job IDs with associated items
-                $totalResults = $this->api()->search('items', ['dspace_import_id' => $linkID]);
-                if ($totalResults->getTotalResults() > 0) {
-                    echo $this->hyperlink('Total: ' . $totalResults->getTotalResults(), $this->url('admin/default', ['controller' => 'item', 'action' => 'browse'], ['query' => ['dspace_import_id' => $linkID]]), ['target' => '_blank']) . '<br>';
+                $totalResults = $this->api()->search('items', ['dspace_import_id' => $linkID])->getTotalResults();
+                if ($totalResults > 0) {
+                    echo $this->hyperlink('Total: ' . $totalResults, $this->url('admin/default', ['controller' => 'item', 'action' => 'browse'], ['query' => ['dspace_import_id' => $linkID]]), ['target' => '_blank']) . '<br>';
                 } else {
                     echo 'Total: ' . $totalCount . '<br>';
                 }
                 echo 'Added: ' . $import->addedCount() . '<br>';
-                echo 'Updated: ' . $import->updatedCount();
+                echo 'Updated: ' . $import->updatedCount() . '<br>';
+                $totalFiles = $this->api()->search('media', ['dspace_import_id' => $linkID])->getTotalResults();
+                if ($totalFiles > 0) {
+                    echo $this->hyperlink('Added Files: ' . $import->addedFiles(), $this->url('admin/default', ['controller' => 'media', 'action' => 'browse'], ['query' => ['dspace_import_id' => $linkID]]), ['target' => '_blank']) . '<br>';
+                }
                 ?>
             </td>
             <td><?php echo $escape($this->i18n()->dateFormat($job->started())); ?></td>

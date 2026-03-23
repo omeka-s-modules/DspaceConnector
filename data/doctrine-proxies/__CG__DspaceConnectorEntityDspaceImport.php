@@ -67,10 +67,10 @@ class DspaceImport extends \DspaceConnector\Entity\DspaceImport implements \Doct
     public function __sleep()
     {
         if ($this->__isInitialized__) {
-            return ['__isInitialized__', 'id', 'job', 'addedCount', 'updatedCount', 'undoJob', 'rerunJob', 'comment'];
+            return ['__isInitialized__', 'id', 'job', 'addedCount', 'updatedCount', 'addedFiles', 'undoJob', 'rerunJob', 'comment'];
         }
 
-        return ['__isInitialized__', 'id', 'job', 'addedCount', 'updatedCount', 'undoJob', 'rerunJob', 'comment'];
+        return ['__isInitialized__', 'id', 'job', 'addedCount', 'updatedCount', 'addedFiles', 'undoJob', 'rerunJob', 'comment'];
     }
 
     /**
@@ -300,6 +300,28 @@ class DspaceImport extends \DspaceConnector\Entity\DspaceImport implements \Doct
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'getUpdatedCount', []);
 
         return parent::getUpdatedCount();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setAddedFiles($count)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setAddedFiles', [$count]);
+
+        return parent::setAddedFiles($count);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getAddedFiles()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getAddedFiles', []);
+
+        return parent::getAddedFiles();
     }
 
     /**

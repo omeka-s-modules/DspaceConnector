@@ -31,6 +31,12 @@ class DspaceImport extends AbstractEntity
      * @Column(type="integer")
      */
     protected $updatedCount;
+
+    /**
+     * @Column(type="integer")
+     */
+    protected $addedFiles;
+
     /**
      * @OneToOne(targetEntity="Omeka\Entity\Job")
      * @JoinColumn(nullable=true)
@@ -101,6 +107,16 @@ class DspaceImport extends AbstractEntity
     public function getUpdatedCount()
     {
         return $this->updatedCount;
+    }
+    
+    public function setAddedFiles($count)
+    {
+        $this->addedFiles = $count;
+    }
+
+    public function getAddedFiles()
+    {
+        return $this->addedFiles;
     }
 
     public function setComment($comment)
