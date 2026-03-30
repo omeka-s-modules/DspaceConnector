@@ -12,31 +12,42 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-03-27 15:48-0700\n"
+"POT-Creation-Date: 2026-03-23 14:43-0700\n"
 "PO-Revision-Date: 2017-09-14 20:15+0000\n"
 "Last-Translator: Josip Ilic <josip.ilic@ericsson.com>, 2021\n"
-"Language-Team: Croatian (https://www.transifex.com/omeka/teams/14184/hr/)\n"
+"Language-Team: Croatian (https://app.transifex.com/omeka/teams/14184/hr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: hr\n"
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 
-#: Module.php:92
-msgid "Last Modified"
-msgstr "Zadnji Put Promijenjeno"
+#: src/Controller/IndexController.php:48
+msgid "Importing in: "
+msgstr ""
 
-#: Module.php:93
-msgid "Link"
-msgstr "Poveznica"
+#: src/Controller/IndexController.php:50
+#: src/Controller/IndexController.php:231
+#: src/Controller/IndexController.php:236
+msgid "Job #"
+msgstr ""
 
-#: src/Controller/IndexController.php:80
-msgid "Error importing data"
-msgstr "Greška prilikom uvoženja podataka"
+#: src/Controller/IndexController.php:242
+msgid "Undo in progress in: "
+msgstr ""
+
+#: src/Controller/IndexController.php:244
+#: src/Controller/IndexController.php:255
+msgid " for the following jobs: "
+msgstr ""
+
+#: src/Controller/IndexController.php:253
+msgid "Rerun in progress in: "
+msgstr ""
 
 #: view/dspace-connector/index/import.phtml:9
 #: view/dspace-connector/index/index.phtml:10
-#: view/dspace-connector/index/past-imports.phtml:6
+#: view/dspace-connector/index/past-imports.phtml:7
 msgid "Dspace Connector"
 msgstr "Dspace konektor"
 
@@ -62,12 +73,10 @@ msgstr ""
 msgid "Import entire repository"
 msgstr ""
 
-#: view/dspace-connector/index/import.phtml:29
-msgid "Expand all"
-msgstr ""
-
-#: view/dspace-connector/index/import.phtml:30
-msgid "Collapse all"
+#: view/dspace-connector/index/import.phtml:36
+#: view/dspace-connector/index/import.phtml:51
+#, php-format
+msgid "Expand %s"
 msgstr ""
 
 #: view/dspace-connector/index/import.phtml:60
@@ -83,34 +92,54 @@ msgid "Import Settings"
 msgstr "Postavke Uvoza"
 
 #: view/dspace-connector/index/index.phtml:14
-msgid "Get collections and communities"
-msgstr "Dohvati zbirke i zajednice"
+msgid "Get communities and collections"
+msgstr ""
 
-#: view/dspace-connector/index/past-imports.phtml:6
+#: view/dspace-connector/index/past-imports.phtml:7
+#: view/dspace-connector/index/past-imports.phtml:22
 msgid "Past Imports"
 msgstr "Prošli Uvozi"
 
-#: view/dspace-connector/index/past-imports.phtml:20
-msgid "Undo"
-msgstr ""
-
-#: view/dspace-connector/index/past-imports.phtml:21
-msgid "Re-run"
-msgstr ""
-
-#: view/dspace-connector/index/past-imports.phtml:22
+#: view/dspace-connector/index/past-imports.phtml:25
 msgid "Job ID"
 msgstr "ID posla"
 
-#: view/dspace-connector/index/past-imports.phtml:23
+#: view/dspace-connector/index/past-imports.phtml:26
+msgid "Actions"
+msgstr ""
+
+#: view/dspace-connector/index/past-imports.phtml:27
 msgid "Dspace collection"
 msgstr ""
 
-#: view/dspace-connector/index/past-imports.phtml:80
+#: view/dspace-connector/index/past-imports.phtml:44
+msgid "Action options"
+msgstr ""
+
+#: view/dspace-connector/index/past-imports.phtml:46
+#: view/dspace-connector/index/past-imports.phtml:47
+msgid "[No Action]"
+msgstr ""
+
+#: view/dspace-connector/index/past-imports.phtml:50
+#: view/dspace-connector/index/past-imports.phtml:51
+msgid "Undo"
+msgstr ""
+
+#: view/dspace-connector/index/past-imports.phtml:54
+#: view/dspace-connector/index/past-imports.phtml:55
+msgid "Re-run"
+msgstr ""
+
+#: view/dspace-connector/index/past-imports.phtml:62
+msgid "collection link"
+msgstr ""
+
+#: view/dspace-connector/index/past-imports.phtml:96
 msgid "Reran in job "
 msgstr ""
 
-#: view/dspace-connector/index/past-imports.phtml:82
+#: view/dspace-connector/index/past-imports.phtml:98
 msgid "Undone in job "
 msgstr ""
 
@@ -134,35 +163,27 @@ msgstr "Krajnja točka"
 
 #: src/Form/UrlForm.php:31
 msgid ""
-"The endpoint for the API. For DSpace 7.x and higher, change to "
-"\"server/api.\""
+"The endpoint for the API. For DSpace versions lower than 7.x, change to "
+"\"rest\"."
 msgstr ""
 
 #: src/Form/UrlForm.php:45
 msgid ""
-"The maximum number of results to retrieve at once from DSpace. If you notice"
-" errors or missing data, try lowering this number. Increasing it might make "
-"imports faster."
+"The maximum number of results to retrieve from each DSpace API call. Applies"
+" to all resources (communities, collections, items and files) as well as "
+"Test Import option on next screen. If you notice errors or missing data, try"
+" lowering this number. Increasing it might make imports faster."
 msgstr ""
-"Maksimalni broj rezultata za dohvatiti istovremeno iz DSpace-a. Ako uočite "
-"greške ili nedostajuće podatke, probajte smanjiti ovaj broj. Povećavajući ga"
-" bi moglo ubrzati uvoženja. "
 
-#: src/Form/UrlForm.php:58
+#: src/Form/ImportForm.php:36
 msgid "Test import"
 msgstr ""
 
-#: src/Form/UrlForm.php:59
-msgid ""
-"If checked, ONLY import the # of results indicated in Limit field above from"
-" chosen collection on next screen. Useful for testing and fine-tuning."
-msgstr ""
-
-#: src/Form/ImportForm.php:35
+#: src/Form/ImportForm.php:48
 msgid "Import files into Omeka S"
 msgstr "Uvedi datoteke u Omeka S"
 
-#: src/Form/ImportForm.php:36
+#: src/Form/ImportForm.php:49
 msgid ""
 "If checked, original files will be imported into Omeka S. Otherwise, "
 "derivates will be displayed when possible, with links back to the original "
@@ -172,72 +193,69 @@ msgstr ""
 " se prikazivati ​​kad god je to moguće, s vezama natrag na izvornu datoteku "
 "u spremištu DSpace."
 
-#: src/Form/ImportForm.php:45
+#: src/Form/ImportForm.php:67
+msgid "Delete missing items on update"
+msgstr ""
+
+#: src/Form/ImportForm.php:68
+msgid ""
+"Delete Omeka S items not found in DSpace on a rerun/update. If unchecked, "
+"items removed from DSpace collection will remain in Omeka S."
+msgstr ""
+
+#: src/Form/ImportForm.php:85
+msgid "Assign a resource template to all imported resources."
+msgstr ""
+
+#: src/Form/ImportForm.php:96
 msgid "Select item set(s)"
 msgstr ""
 
-#: src/Form/ImportForm.php:51
+#: src/Form/ImportForm.php:102
 msgid "Optional. Import items into item set(s)."
 msgstr ""
 
-#: src/Form/ImportForm.php:67
+#: src/Form/ImportForm.php:118
 msgid "Create from DSpace collection"
 msgstr ""
 
-#: src/Form/ImportForm.php:89
+#: src/Form/ImportForm.php:140
 msgid "Select site(s)"
 msgstr ""
 
-#: src/Form/ImportForm.php:95
+#: src/Form/ImportForm.php:146
 msgid "Optional. Import items into site(s)."
 msgstr ""
 
-#: src/Form/ImportForm.php:114
+#: src/Form/ImportForm.php:169
 msgid "Ignored fields"
 msgstr ""
 
-#: src/Form/ImportForm.php:115
+#: src/Form/ImportForm.php:170
 msgid "DSpace fields to ignore, separated by commas"
 msgstr ""
 
-#: src/Form/ImportForm.php:127
+#: src/Form/ImportForm.php:182
 msgid "A note about the purpose or source of this import"
 msgstr "Bilješka o svrsi ili izvoru ovog uvoza"
 
-#: src/Controller/IndexController.php:40 src/Controller/IndexController.php:55
+#: src/Controller/IndexController.php:40 src/Controller/IndexController.php:60
 msgid "There was an error during validation"
 msgstr "Pojavila se greška prilikom validacije"
 
-#: src/Controller/IndexController.php:46
+#: src/Controller/IndexController.php:67
 #, php-format
-msgid "Importing in Job ID %s"
+msgid ""
+"If checked, ONLY import the first %d results (as set in Limit field). Useful"
+" for testing and fine-tuning."
 msgstr ""
-"Uvoz u ID posla %s\n"
-" \n"
-"\n"
-" \n"
-" \n"
-" \n"
-" \n"
-" "
 
-#: src/Controller/IndexController.php:119
-#: src/Controller/IndexController.php:161
+#: src/Controller/IndexController.php:89
 msgid "There was an error retrieving data. Please try again."
 msgstr ""
 "Pojavila se greška prilikom dohvaćanja podataka. Molimo vas pokušajte "
 "ponovo. "
 
-#: src/Controller/IndexController.php:211
-#, php-format
-msgid "Undo in progress on the following jobs: %s"
-msgstr ""
-
-#: src/Controller/IndexController.php:221
-#, php-format
-msgid "Rerun in progress on the following jobs: %s"
-msgstr ""
-
-#: src/Controller/IndexController.php:226
+#: src/Controller/IndexController.php:262
 msgid "Error: no jobs selected"
 msgstr ""

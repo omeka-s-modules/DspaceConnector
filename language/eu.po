@@ -4,38 +4,49 @@
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 # 
 # Translators:
-# Iametza Interaktiboa, 2022
+# Iametza Interaktiboa, 2024
 # 
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-03-27 15:48-0700\n"
+"POT-Creation-Date: 2026-03-23 14:43-0700\n"
 "PO-Revision-Date: 2017-09-14 20:15+0000\n"
-"Last-Translator: Iametza Interaktiboa, 2022\n"
-"Language-Team: Basque (https://www.transifex.com/omeka/teams/14184/eu/)\n"
+"Last-Translator: Iametza Interaktiboa, 2024\n"
+"Language-Team: Basque (https://app.transifex.com/omeka/teams/14184/eu/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: eu\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: Module.php:92
-msgid "Last Modified"
-msgstr "Azkenekoz Aldatua"
+#: src/Controller/IndexController.php:48
+msgid "Importing in: "
+msgstr ""
 
-#: Module.php:93
-msgid "Link"
-msgstr "Lotura"
+#: src/Controller/IndexController.php:50
+#: src/Controller/IndexController.php:231
+#: src/Controller/IndexController.php:236
+msgid "Job #"
+msgstr ""
 
-#: src/Controller/IndexController.php:80
-msgid "Error importing data"
-msgstr "Errorea datuak inportatzean"
+#: src/Controller/IndexController.php:242
+msgid "Undo in progress in: "
+msgstr ""
+
+#: src/Controller/IndexController.php:244
+#: src/Controller/IndexController.php:255
+msgid " for the following jobs: "
+msgstr ""
+
+#: src/Controller/IndexController.php:253
+msgid "Rerun in progress in: "
+msgstr ""
 
 #: view/dspace-connector/index/import.phtml:9
 #: view/dspace-connector/index/index.phtml:10
-#: view/dspace-connector/index/past-imports.phtml:6
+#: view/dspace-connector/index/past-imports.phtml:7
 msgid "Dspace Connector"
 msgstr "Dspace Konektorea"
 
@@ -63,13 +74,11 @@ msgstr ""
 msgid "Import entire repository"
 msgstr "Inportatu biltegi osoa"
 
-#: view/dspace-connector/index/import.phtml:29
-msgid "Expand all"
-msgstr "Zabaldu dena"
-
-#: view/dspace-connector/index/import.phtml:30
-msgid "Collapse all"
-msgstr "Bildu dena"
+#: view/dspace-connector/index/import.phtml:36
+#: view/dspace-connector/index/import.phtml:51
+#, php-format
+msgid "Expand %s"
+msgstr ""
 
 #: view/dspace-connector/index/import.phtml:60
 msgid "Import collection"
@@ -84,36 +93,56 @@ msgid "Import Settings"
 msgstr "Inportatu Ezarpenak"
 
 #: view/dspace-connector/index/index.phtml:14
-msgid "Get collections and communities"
-msgstr "Lortu bilduma eta komunitateak"
+msgid "Get communities and collections"
+msgstr ""
 
-#: view/dspace-connector/index/past-imports.phtml:6
+#: view/dspace-connector/index/past-imports.phtml:7
+#: view/dspace-connector/index/past-imports.phtml:22
 msgid "Past Imports"
 msgstr "Pasatako Inportazioak"
 
-#: view/dspace-connector/index/past-imports.phtml:20
-msgid "Undo"
-msgstr ""
-
-#: view/dspace-connector/index/past-imports.phtml:21
-msgid "Re-run"
-msgstr ""
-
-#: view/dspace-connector/index/past-imports.phtml:22
+#: view/dspace-connector/index/past-imports.phtml:25
 msgid "Job ID"
 msgstr "Lan ID"
 
-#: view/dspace-connector/index/past-imports.phtml:23
+#: view/dspace-connector/index/past-imports.phtml:26
+msgid "Actions"
+msgstr ""
+
+#: view/dspace-connector/index/past-imports.phtml:27
 msgid "Dspace collection"
+msgstr "Dspace bilduma"
+
+#: view/dspace-connector/index/past-imports.phtml:44
+msgid "Action options"
 msgstr ""
 
-#: view/dspace-connector/index/past-imports.phtml:80
+#: view/dspace-connector/index/past-imports.phtml:46
+#: view/dspace-connector/index/past-imports.phtml:47
+msgid "[No Action]"
+msgstr ""
+
+#: view/dspace-connector/index/past-imports.phtml:50
+#: view/dspace-connector/index/past-imports.phtml:51
+msgid "Undo"
+msgstr "Desegin"
+
+#: view/dspace-connector/index/past-imports.phtml:54
+#: view/dspace-connector/index/past-imports.phtml:55
+msgid "Re-run"
+msgstr "Berriro jaurti"
+
+#: view/dspace-connector/index/past-imports.phtml:62
+msgid "collection link"
+msgstr ""
+
+#: view/dspace-connector/index/past-imports.phtml:96
 msgid "Reran in job "
-msgstr ""
+msgstr "Berriro jaurti lana"
 
-#: view/dspace-connector/index/past-imports.phtml:82
+#: view/dspace-connector/index/past-imports.phtml:98
 msgid "Undone in job "
-msgstr ""
+msgstr "Desegin lana"
 
 #: src/Form/UrlForm.php:17
 msgid "DSpace site URL"
@@ -135,35 +164,27 @@ msgstr "Amaiera-puntua"
 
 #: src/Form/UrlForm.php:31
 msgid ""
-"The endpoint for the API. For DSpace 7.x and higher, change to "
-"\"server/api.\""
+"The endpoint for the API. For DSpace versions lower than 7.x, change to "
+"\"rest\"."
 msgstr ""
 
 #: src/Form/UrlForm.php:45
 msgid ""
-"The maximum number of results to retrieve at once from DSpace. If you notice"
-" errors or missing data, try lowering this number. Increasing it might make "
-"imports faster."
+"The maximum number of results to retrieve from each DSpace API call. Applies"
+" to all resources (communities, collections, items and files) as well as "
+"Test Import option on next screen. If you notice errors or missing data, try"
+" lowering this number. Increasing it might make imports faster."
 msgstr ""
-"Aldi berean DSpacetik eskuratuko den gehienezko emaitza kopurua. Errorea edo"
-" datu falta nabaritzen baduzu, saiatu zenbaki hau txikituz. Handituz "
-"inportazioa azkartu daiteke."
 
-#: src/Form/UrlForm.php:58
+#: src/Form/ImportForm.php:36
 msgid "Test import"
-msgstr ""
+msgstr "Testeatu inportazioa"
 
-#: src/Form/UrlForm.php:59
-msgid ""
-"If checked, ONLY import the # of results indicated in Limit field above from"
-" chosen collection on next screen. Useful for testing and fine-tuning."
-msgstr ""
-
-#: src/Form/ImportForm.php:35
+#: src/Form/ImportForm.php:48
 msgid "Import files into Omeka S"
 msgstr "Inportatu fitxategiak Omeka S barrura"
 
-#: src/Form/ImportForm.php:36
+#: src/Form/ImportForm.php:49
 msgid ""
 "If checked, original files will be imported into Omeka S. Otherwise, "
 "derivates will be displayed when possible, with links back to the original "
@@ -173,62 +194,67 @@ msgstr ""
 "Bestela, eratorriak erakutsiko dira ahal denean, DSpace biltegiko jatorrizko"
 " fitxategietarako itzulera estekarekin."
 
-#: src/Form/ImportForm.php:45
+#: src/Form/ImportForm.php:67
+msgid "Delete missing items on update"
+msgstr ""
+
+#: src/Form/ImportForm.php:68
+msgid ""
+"Delete Omeka S items not found in DSpace on a rerun/update. If unchecked, "
+"items removed from DSpace collection will remain in Omeka S."
+msgstr ""
+
+#: src/Form/ImportForm.php:85
+msgid "Assign a resource template to all imported resources."
+msgstr ""
+
+#: src/Form/ImportForm.php:96
 msgid "Select item set(s)"
 msgstr "Hautatu elementu multzoa(k)"
 
-#: src/Form/ImportForm.php:51
+#: src/Form/ImportForm.php:102
 msgid "Optional. Import items into item set(s)."
 msgstr "Hautazkoa. Inportatu elementuak elementu multzoetan."
 
-#: src/Form/ImportForm.php:67
+#: src/Form/ImportForm.php:118
 msgid "Create from DSpace collection"
 msgstr "Sortu DSpace bildumatik"
 
-#: src/Form/ImportForm.php:89
+#: src/Form/ImportForm.php:140
 msgid "Select site(s)"
 msgstr "Hautatu ataria(k)"
 
-#: src/Form/ImportForm.php:95
+#: src/Form/ImportForm.php:146
 msgid "Optional. Import items into site(s)."
 msgstr "Hautazkoa. Inportatu elementuak atarian/atarietan."
 
-#: src/Form/ImportForm.php:114
+#: src/Form/ImportForm.php:169
 msgid "Ignored fields"
 msgstr "Ezikusitako eremuak"
 
-#: src/Form/ImportForm.php:115
+#: src/Form/ImportForm.php:170
 msgid "DSpace fields to ignore, separated by commas"
 msgstr "Ez ikusia egiteko DSpace eremuak, komaz bereizita"
 
-#: src/Form/ImportForm.php:127
+#: src/Form/ImportForm.php:182
 msgid "A note about the purpose or source of this import"
 msgstr "Inportazio honen helburu edo jatorriaren inguruko oharra"
 
-#: src/Controller/IndexController.php:40 src/Controller/IndexController.php:55
+#: src/Controller/IndexController.php:40 src/Controller/IndexController.php:60
 msgid "There was an error during validation"
 msgstr "Errorea egon da balidazio garaian"
 
-#: src/Controller/IndexController.php:46
+#: src/Controller/IndexController.php:67
 #, php-format
-msgid "Importing in Job ID %s"
-msgstr "%s Lan IDan inportatzen"
+msgid ""
+"If checked, ONLY import the first %d results (as set in Limit field). Useful"
+" for testing and fine-tuning."
+msgstr ""
 
-#: src/Controller/IndexController.php:119
-#: src/Controller/IndexController.php:161
+#: src/Controller/IndexController.php:89
 msgid "There was an error retrieving data. Please try again."
 msgstr "Errorea egon da datuak ekartzen. Saiatu berriro mesedez."
 
-#: src/Controller/IndexController.php:211
-#, php-format
-msgid "Undo in progress on the following jobs: %s"
-msgstr ""
-
-#: src/Controller/IndexController.php:221
-#, php-format
-msgid "Rerun in progress on the following jobs: %s"
-msgstr ""
-
-#: src/Controller/IndexController.php:226
+#: src/Controller/IndexController.php:262
 msgid "Error: no jobs selected"
-msgstr ""
+msgstr "Arazoa: ez da lanik hautatu"

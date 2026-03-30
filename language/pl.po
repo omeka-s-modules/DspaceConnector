@@ -4,7 +4,7 @@
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 # 
 # Translators:
-# Matti Lassila <matti.lassila@gmail.com>, 2018
+# Tomasz Sopylo <tomasz@sopylo.pl>, 2026
 # 
 #, fuzzy
 msgid ""
@@ -13,13 +13,13 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-03-23 14:43-0700\n"
 "PO-Revision-Date: 2017-09-14 20:15+0000\n"
-"Last-Translator: Matti Lassila <matti.lassila@gmail.com>, 2018\n"
-"Language-Team: Finnish (Finland) (https://app.transifex.com/omeka/teams/14184/fi_FI/)\n"
+"Last-Translator: Tomasz Sopylo <tomasz@sopylo.pl>, 2026\n"
+"Language-Team: Polish (https://app.transifex.com/omeka/teams/14184/pl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: fi_FI\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Language: pl\n"
+"Plural-Forms: nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);\n"
 
 #: src/Controller/IndexController.php:48
 msgid "Importing in: "
@@ -48,29 +48,31 @@ msgstr ""
 #: view/dspace-connector/index/index.phtml:10
 #: view/dspace-connector/index/past-imports.phtml:7
 msgid "Dspace Connector"
-msgstr "DSpace-tuonti"
+msgstr "Konektor Dspace"
 
 #: view/dspace-connector/index/import.phtml:9
 msgid "Import options"
-msgstr "Tuontiasetukset"
+msgstr "Opcje importu"
 
 #: view/dspace-connector/index/import.phtml:13
 msgid "Basic import settings"
-msgstr "Perusasetukset"
+msgstr "Podstawowe ustawienia importu"
 
 #: view/dspace-connector/index/import.phtml:14
 msgid "Collections"
-msgstr "Kokoelmat"
+msgstr "Kolekcje"
 
 #: view/dspace-connector/index/import.phtml:24
 msgid ""
 "Import all items in the DSpace repository, without separating by community "
 "or collection"
 msgstr ""
+"Importuj wszystkie elementy w repozytorium DSpace, bez rozdzielania według "
+"społeczności lub kolekcji."
 
 #: view/dspace-connector/index/import.phtml:25
 msgid "Import entire repository"
-msgstr ""
+msgstr "Importuj całe repozytorium"
 
 #: view/dspace-connector/index/import.phtml:36
 #: view/dspace-connector/index/import.phtml:51
@@ -80,15 +82,15 @@ msgstr ""
 
 #: view/dspace-connector/index/import.phtml:60
 msgid "Import collection"
-msgstr "Tuo kokoelma"
+msgstr "Importuj kolekcję"
 
 #: view/dspace-connector/index/import.phtml:65
 msgid "No collections."
-msgstr ""
+msgstr "Brak kolekcji."
 
 #: view/dspace-connector/index/index.phtml:10
 msgid "Import Settings"
-msgstr "Tuontiasetukset"
+msgstr "Ustawienia importu"
 
 #: view/dspace-connector/index/index.phtml:14
 msgid "Get communities and collections"
@@ -97,11 +99,11 @@ msgstr ""
 #: view/dspace-connector/index/past-imports.phtml:7
 #: view/dspace-connector/index/past-imports.phtml:22
 msgid "Past Imports"
-msgstr "Aikaisemmat tuonnit"
+msgstr "Importy z przeszłości"
 
 #: view/dspace-connector/index/past-imports.phtml:25
 msgid "Job ID"
-msgstr "ID"
+msgstr "Identyfikator stanowiska"
 
 #: view/dspace-connector/index/past-imports.phtml:26
 msgid "Actions"
@@ -109,7 +111,7 @@ msgstr ""
 
 #: view/dspace-connector/index/past-imports.phtml:27
 msgid "Dspace collection"
-msgstr ""
+msgstr "Kolekcja Dspace"
 
 #: view/dspace-connector/index/past-imports.phtml:44
 msgid "Action options"
@@ -123,12 +125,12 @@ msgstr ""
 #: view/dspace-connector/index/past-imports.phtml:50
 #: view/dspace-connector/index/past-imports.phtml:51
 msgid "Undo"
-msgstr ""
+msgstr "Cofnij"
 
 #: view/dspace-connector/index/past-imports.phtml:54
 #: view/dspace-connector/index/past-imports.phtml:55
 msgid "Re-run"
-msgstr ""
+msgstr "Uruchom ponownie"
 
 #: view/dspace-connector/index/past-imports.phtml:62
 msgid "collection link"
@@ -136,15 +138,15 @@ msgstr ""
 
 #: view/dspace-connector/index/past-imports.phtml:96
 msgid "Reran in job "
-msgstr ""
+msgstr "Ponowne uruchomienie w zadaniu"
 
 #: view/dspace-connector/index/past-imports.phtml:98
 msgid "Undone in job "
-msgstr ""
+msgstr "Niedokończone w pracy"
 
 #: src/Form/UrlForm.php:17
 msgid "DSpace site URL"
-msgstr "DSpace URL"
+msgstr "Adres URL witryny DSpace"
 
 #: src/Form/UrlForm.php:18
 msgid ""
@@ -152,12 +154,13 @@ msgid ""
 " this in, then click \"Get collections and communities\" to browse what you "
 "want to import."
 msgstr ""
-"DSpace-asennuksen osoite. Jotta tuonti voidaan tehdä, DSpacen on oltava "
-"vähintään versiota 5.6  ja REST-rajapinnan kytkettynä päälle."
+"Adres URL repozytorium, z którym chcesz się połączyć (DSpace 5.6 lub wyższy)"
+" Wypełnij to pole, a następnie kliknij \"Pobierz kolekcje i społeczności\", "
+"aby przeglądać, co chcesz zaimportować."
 
 #: src/Form/UrlForm.php:30
 msgid "Endpoint"
-msgstr "REST-rajapinnan osoite"
+msgstr "Punkt końcowy"
 
 #: src/Form/UrlForm.php:31
 msgid ""
@@ -175,11 +178,11 @@ msgstr ""
 
 #: src/Form/ImportForm.php:36
 msgid "Test import"
-msgstr ""
+msgstr "Test importu"
 
 #: src/Form/ImportForm.php:48
 msgid "Import files into Omeka S"
-msgstr "Kopioi tiedostot Omekaan"
+msgstr "Importuj pliki do Omeka S"
 
 #: src/Form/ImportForm.php:49
 msgid ""
@@ -187,9 +190,9 @@ msgid ""
 "derivates will be displayed when possible, with links back to the original "
 "file in the DSpace repository."
 msgstr ""
-"Valittuna aineistot tuodaan tiedostoineen Omekaan. Muutoin aineistoista "
-"luodaan esikatselukuvat, mikäli mahdollista, ja luodaan linkki "
-"alkuperäistiedostoon DSpacessa."
+"Jeśli zaznaczone, oryginalne pliki zostaną zaimportowane do Omeka S. W "
+"przeciwnym razie, pochodne pliki będą wyświetlane, gdy to możliwe, z linkami"
+" powracającymi do oryginalnego pliku w repozytorium DSpace."
 
 #: src/Form/ImportForm.php:67
 msgid "Delete missing items on update"
@@ -207,39 +210,39 @@ msgstr ""
 
 #: src/Form/ImportForm.php:96
 msgid "Select item set(s)"
-msgstr ""
+msgstr "Wybierz zestaw(y) elementów"
 
 #: src/Form/ImportForm.php:102
 msgid "Optional. Import items into item set(s)."
-msgstr ""
+msgstr "Opcjonalnie. Importuj elementy do zestawu elementów."
 
 #: src/Form/ImportForm.php:118
 msgid "Create from DSpace collection"
-msgstr ""
+msgstr "Utwórz z kolekcji DSpace"
 
 #: src/Form/ImportForm.php:140
 msgid "Select site(s)"
-msgstr ""
+msgstr "Wybierz witrynę(y)"
 
 #: src/Form/ImportForm.php:146
 msgid "Optional. Import items into site(s)."
-msgstr ""
+msgstr "Opcjonalnie. Importuj przedmioty do witryny(-y)."
 
 #: src/Form/ImportForm.php:169
 msgid "Ignored fields"
-msgstr ""
+msgstr "Zignorowane pola"
 
 #: src/Form/ImportForm.php:170
 msgid "DSpace fields to ignore, separated by commas"
-msgstr ""
+msgstr "Pola DSpace do zignorowania, oddzielone przecinkami"
 
 #: src/Form/ImportForm.php:182
 msgid "A note about the purpose or source of this import"
-msgstr "Tuonnin kuvaus"
+msgstr "Uwaga dotycząca celu lub źródła tego importu"
 
 #: src/Controller/IndexController.php:40 src/Controller/IndexController.php:60
 msgid "There was an error during validation"
-msgstr "Validointivirhe"
+msgstr "Wystąpił błąd podczas walidacji"
 
 #: src/Controller/IndexController.php:67
 #, php-format
@@ -250,8 +253,8 @@ msgstr ""
 
 #: src/Controller/IndexController.php:89
 msgid "There was an error retrieving data. Please try again."
-msgstr "Virhe ladatteassa tietoja. Ole hyvä ja yritä uudelleen."
+msgstr "Wystąpił błąd podczas pobierania danych. Proszę spróbować ponownie."
 
 #: src/Controller/IndexController.php:262
 msgid "Error: no jobs selected"
-msgstr ""
+msgstr "Błąd: nie wybrano żadnych zadań"

@@ -4,38 +4,49 @@
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 # 
 # Translators:
-# Rubén Alcaraz Martínez <rubenalcarazmartinez@gmail.com>, 2023
+# Rubén Alcaraz Martínez <rubenalcarazmartinez@gmail.com>, 2025
 # 
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-03-27 15:48-0700\n"
+"POT-Creation-Date: 2026-03-23 14:43-0700\n"
 "PO-Revision-Date: 2017-09-14 20:15+0000\n"
-"Last-Translator: Rubén Alcaraz Martínez <rubenalcarazmartinez@gmail.com>, 2023\n"
-"Language-Team: Catalan (Spain) (https://www.transifex.com/omeka/teams/14184/ca_ES/)\n"
+"Last-Translator: Rubén Alcaraz Martínez <rubenalcarazmartinez@gmail.com>, 2025\n"
+"Language-Team: Catalan (Spain) (https://app.transifex.com/omeka/teams/14184/ca_ES/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: ca_ES\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: Module.php:92
-msgid "Last Modified"
-msgstr "Darrera modificació"
+#: src/Controller/IndexController.php:48
+msgid "Importing in: "
+msgstr ""
 
-#: Module.php:93
-msgid "Link"
-msgstr "Enllaç"
+#: src/Controller/IndexController.php:50
+#: src/Controller/IndexController.php:231
+#: src/Controller/IndexController.php:236
+msgid "Job #"
+msgstr ""
 
-#: src/Controller/IndexController.php:80
-msgid "Error importing data"
-msgstr "Error en la importació de dades"
+#: src/Controller/IndexController.php:242
+msgid "Undo in progress in: "
+msgstr ""
+
+#: src/Controller/IndexController.php:244
+#: src/Controller/IndexController.php:255
+msgid " for the following jobs: "
+msgstr ""
+
+#: src/Controller/IndexController.php:253
+msgid "Rerun in progress in: "
+msgstr ""
 
 #: view/dspace-connector/index/import.phtml:9
 #: view/dspace-connector/index/index.phtml:10
-#: view/dspace-connector/index/past-imports.phtml:6
+#: view/dspace-connector/index/past-imports.phtml:7
 msgid "Dspace Connector"
 msgstr "Dspace Connector"
 
@@ -63,13 +74,11 @@ msgstr ""
 msgid "Import entire repository"
 msgstr "Importa tot el repositori"
 
-#: view/dspace-connector/index/import.phtml:29
-msgid "Expand all"
-msgstr "Expandeix-ho tot"
-
-#: view/dspace-connector/index/import.phtml:30
-msgid "Collapse all"
-msgstr "Col·lapsa-ho tot"
+#: view/dspace-connector/index/import.phtml:36
+#: view/dspace-connector/index/import.phtml:51
+#, php-format
+msgid "Expand %s"
+msgstr ""
 
 #: view/dspace-connector/index/import.phtml:60
 msgid "Import collection"
@@ -84,36 +93,56 @@ msgid "Import Settings"
 msgstr "Importa els paràmetres"
 
 #: view/dspace-connector/index/index.phtml:14
-msgid "Get collections and communities"
-msgstr "Veure col·leccions i comunitats"
+msgid "Get communities and collections"
+msgstr ""
 
-#: view/dspace-connector/index/past-imports.phtml:6
+#: view/dspace-connector/index/past-imports.phtml:7
+#: view/dspace-connector/index/past-imports.phtml:22
 msgid "Past Imports"
 msgstr "Importacions anteriors"
 
-#: view/dspace-connector/index/past-imports.phtml:20
-msgid "Undo"
-msgstr ""
-
-#: view/dspace-connector/index/past-imports.phtml:21
-msgid "Re-run"
-msgstr ""
-
-#: view/dspace-connector/index/past-imports.phtml:22
+#: view/dspace-connector/index/past-imports.phtml:25
 msgid "Job ID"
 msgstr "Job ID"
 
-#: view/dspace-connector/index/past-imports.phtml:23
+#: view/dspace-connector/index/past-imports.phtml:26
+msgid "Actions"
+msgstr ""
+
+#: view/dspace-connector/index/past-imports.phtml:27
 msgid "Dspace collection"
+msgstr "Col·lecció DSpace"
+
+#: view/dspace-connector/index/past-imports.phtml:44
+msgid "Action options"
 msgstr ""
 
-#: view/dspace-connector/index/past-imports.phtml:80
+#: view/dspace-connector/index/past-imports.phtml:46
+#: view/dspace-connector/index/past-imports.phtml:47
+msgid "[No Action]"
+msgstr ""
+
+#: view/dspace-connector/index/past-imports.phtml:50
+#: view/dspace-connector/index/past-imports.phtml:51
+msgid "Undo"
+msgstr "Desfés"
+
+#: view/dspace-connector/index/past-imports.phtml:54
+#: view/dspace-connector/index/past-imports.phtml:55
+msgid "Re-run"
+msgstr "Torna a executar"
+
+#: view/dspace-connector/index/past-imports.phtml:62
+msgid "collection link"
+msgstr ""
+
+#: view/dspace-connector/index/past-imports.phtml:96
 msgid "Reran in job "
-msgstr ""
+msgstr "S'ha tornat a executar a la tasca"
 
-#: view/dspace-connector/index/past-imports.phtml:82
+#: view/dspace-connector/index/past-imports.phtml:98
 msgid "Undone in job "
-msgstr ""
+msgstr "Acció desfeta a la tasca"
 
 #: src/Form/UrlForm.php:17
 msgid "DSpace site URL"
@@ -135,34 +164,27 @@ msgstr "Endpoint"
 
 #: src/Form/UrlForm.php:31
 msgid ""
-"The endpoint for the API. For DSpace 7.x and higher, change to "
-"\"server/api.\""
+"The endpoint for the API. For DSpace versions lower than 7.x, change to "
+"\"rest\"."
 msgstr ""
 
 #: src/Form/UrlForm.php:45
 msgid ""
-"The maximum number of results to retrieve at once from DSpace. If you notice"
-" errors or missing data, try lowering this number. Increasing it might make "
-"imports faster."
+"The maximum number of results to retrieve from each DSpace API call. Applies"
+" to all resources (communities, collections, items and files) as well as "
+"Test Import option on next screen. If you notice errors or missing data, try"
+" lowering this number. Increasing it might make imports faster."
 msgstr ""
-"El nombre màxim de resultats que es recuperaran simultàniament d'un "
-"repositori DSpace. Si observeu errors en la importació, reduïu el valor."
 
-#: src/Form/UrlForm.php:58
+#: src/Form/ImportForm.php:36
 msgid "Test import"
-msgstr ""
+msgstr "Prova d'importació"
 
-#: src/Form/UrlForm.php:59
-msgid ""
-"If checked, ONLY import the # of results indicated in Limit field above from"
-" chosen collection on next screen. Useful for testing and fine-tuning."
-msgstr ""
-
-#: src/Form/ImportForm.php:35
+#: src/Form/ImportForm.php:48
 msgid "Import files into Omeka S"
 msgstr "Importa els fitxers en l'Omeka S"
 
-#: src/Form/ImportForm.php:36
+#: src/Form/ImportForm.php:49
 msgid ""
 "If checked, original files will be imported into Omeka S. Otherwise, "
 "derivates will be displayed when possible, with links back to the original "
@@ -172,62 +194,67 @@ msgstr ""
 "contrari, es mostrarà un derivat a partir d'un enllaç al repositori DSpace "
 "d'origen."
 
-#: src/Form/ImportForm.php:45
+#: src/Form/ImportForm.php:67
+msgid "Delete missing items on update"
+msgstr ""
+
+#: src/Form/ImportForm.php:68
+msgid ""
+"Delete Omeka S items not found in DSpace on a rerun/update. If unchecked, "
+"items removed from DSpace collection will remain in Omeka S."
+msgstr ""
+
+#: src/Form/ImportForm.php:85
+msgid "Assign a resource template to all imported resources."
+msgstr ""
+
+#: src/Form/ImportForm.php:96
 msgid "Select item set(s)"
 msgstr "Selecciona el conjunt(s) de registres"
 
-#: src/Form/ImportForm.php:51
+#: src/Form/ImportForm.php:102
 msgid "Optional. Import items into item set(s)."
-msgstr ""
+msgstr "Opcional. Importa els elements dins del(s) conjunts de recursos."
 
-#: src/Form/ImportForm.php:67
+#: src/Form/ImportForm.php:118
 msgid "Create from DSpace collection"
 msgstr "Creat des de una col·lecció del DSpace"
 
-#: src/Form/ImportForm.php:89
+#: src/Form/ImportForm.php:140
 msgid "Select site(s)"
 msgstr "Selecciona el lloc(s)"
 
-#: src/Form/ImportForm.php:95
+#: src/Form/ImportForm.php:146
 msgid "Optional. Import items into site(s)."
-msgstr ""
+msgstr "Opcional. Importa els elements dins del(s) llocs."
 
-#: src/Form/ImportForm.php:114
+#: src/Form/ImportForm.php:169
 msgid "Ignored fields"
 msgstr "Camps ignorats"
 
-#: src/Form/ImportForm.php:115
+#: src/Form/ImportForm.php:170
 msgid "DSpace fields to ignore, separated by commas"
 msgstr "Camps del DSpace que s'han d'ignorar, separats per coma."
 
-#: src/Form/ImportForm.php:127
+#: src/Form/ImportForm.php:182
 msgid "A note about the purpose or source of this import"
 msgstr "Una nota sobre el propòsit o origen de la importació"
 
-#: src/Controller/IndexController.php:40 src/Controller/IndexController.php:55
+#: src/Controller/IndexController.php:40 src/Controller/IndexController.php:60
 msgid "There was an error during validation"
 msgstr "Error en la validació"
 
-#: src/Controller/IndexController.php:46
+#: src/Controller/IndexController.php:67
 #, php-format
-msgid "Importing in Job ID %s"
-msgstr "S'està important en l'acció amb ID %s"
+msgid ""
+"If checked, ONLY import the first %d results (as set in Limit field). Useful"
+" for testing and fine-tuning."
+msgstr ""
 
-#: src/Controller/IndexController.php:119
-#: src/Controller/IndexController.php:161
+#: src/Controller/IndexController.php:89
 msgid "There was an error retrieving data. Please try again."
 msgstr "Error en l'obtenció de dades. Torneu a provar."
 
-#: src/Controller/IndexController.php:211
-#, php-format
-msgid "Undo in progress on the following jobs: %s"
-msgstr ""
-
-#: src/Controller/IndexController.php:221
-#, php-format
-msgid "Rerun in progress on the following jobs: %s"
-msgstr ""
-
-#: src/Controller/IndexController.php:226
+#: src/Controller/IndexController.php:262
 msgid "Error: no jobs selected"
-msgstr ""
+msgstr "Error: no s'ha seleccionat cap procés"
