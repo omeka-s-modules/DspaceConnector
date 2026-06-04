@@ -188,20 +188,25 @@ class IndexController extends AbstractActionController
 
                 $collectionLink = $community['_links']['collections']['href'] ?? null;
                 if ($collectionLink) {
-                    $this->client->setUri($collectionLink);
-                    // Clear parameters, otherwise a low limit + pagination can miss collections
-                    $this->client->setParameterGet([]);
-                    $collectionResponse = $this->client->send();
-                    $collectionBody = json_decode($collectionResponse->getBody(), true);
+                    $collPage = 0;
+                    $collTotalPages = 1;
+                    while ($collPage < $collTotalPages) {
+                        $this->client->setUri($collectionLink);
+                        $this->client->setParameterGet(['page' => $collPage, 'size' => $limit]);
+                        $collectionResponse = $this->client->send();
+                        $collectionBody = json_decode($collectionResponse->getBody(), true);
+                        $collTotalPages = (int)($collectionBody['page']['totalPages'] ?? 1);
 
-                    foreach ($collectionBody['_embedded']['collections'] as $collection) {
-                        $collectionArray['name'] = $collection['name'];
-                        $collectionArray['shortDescription'] = $collection['metadata']['dc.description.abstract'][0]['value'] ?? null;
-                        $collectionArray['introductoryText'] = $collection['metadata']['dc.description'][0]['value'] ?? null;
-                        // Build collection link with discovery API
-                        $collectionArray['link'] = $endpoint . '/discover/search/objects?dsoType=item&scope=' . $collection['uuid'];
+                        foreach ($collectionBody['_embedded']['collections'] as $collection) {
+                            $collectionArray['name'] = $collection['name'];
+                            $collectionArray['shortDescription'] = $collection['metadata']['dc.description.abstract'][0]['value'] ?? null;
+                            $collectionArray['introductoryText'] = $collection['metadata']['dc.description'][0]['value'] ?? null;
+                            // Build collection link with discovery API
+                            $collectionArray['link'] = $endpoint . '/discover/search/objects?dsoType=item&scope=' . $collection['uuid'];
 
-                        $communityArray['collections'][] = $collectionArray;
+                            $communityArray['collections'][] = $collectionArray;
+                        }
+                        $collPage++;
                     }
                 }
                 $fullResponse[] = $communityArray;
