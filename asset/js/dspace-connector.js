@@ -7,7 +7,7 @@
             $('.communities .collapse').click();
         });
 
-        $(document).on('click', '.import-collection', function() {
+        $(document).on('click', '.import-collection, .import-community', function() {
             $('input[name="collection_name"]').val($(this).data('collection-name'));
         });
 

@@ -31,17 +31,22 @@ $this->headScript()->appendFile($this->assetUrl('js/dspace-connector.js', 'Dspac
         </div>
         <?php foreach($communities as $community): ?>
         <div class="community">
-            <span class="name"><?php echo($community['name']); ?></span>
-            <?php if (!empty($community['shortDescription']) || !empty($community['introductoryText'])): ?>
-                <a href="#" class="expand" data-name="<?php echo $this->escapeHtmlAttr($community['name']); ?>" aria-label="<?php echo $this->escapeHtml(sprintf($this->translate('Expand %s'), $community['name'])); ?>"></a>
-                <div class="description collapsible">
-                    <?php if (!empty($community['shortDescription'])): ?>
-                    <?php echo $community['shortDescription']; ?>
-                    <?php elseif (!empty($community['introductoryText'])): ?>
-                    <?php echo $community['introductoryText']; ?>
-                    <?php endif;?>
-                </div>
-            <?php endif; ?>
+            <div class="community-info">
+                <span class="name"><?php echo($community['name']); ?></span>
+                <?php if (!empty($community['shortDescription']) || !empty($community['introductoryText'])): ?>
+                    <a href="#" class="expand" data-name="<?php echo $this->escapeHtmlAttr($community['name']); ?>" aria-label="<?php echo $this->escapeHtml(sprintf($this->translate('Expand %s'), $community['name'])); ?>"></a>
+                    <div class="description collapsible">
+                        <?php if (!empty($community['shortDescription'])): ?>
+                        <?php echo $community['shortDescription']; ?>
+                        <?php elseif (!empty($community['introductoryText'])): ?>
+                        <?php echo $community['introductoryText']; ?>
+                        <?php endif;?>
+                    </div>
+                <?php endif; ?>
+                <?php if ($newAPI && !empty($community['link'])): ?>
+                <button class='import-community' name='collection_link' value='<?php echo $community['link']; ?>' data-collection-name='<?php echo $this->escapeHtmlAttr($community['name']); ?>'><?php echo $this->escapeHtml($this->translate('Import community')); ?></button>
+                <?php endif; ?>
+            </div>
             <?php if (isset($community['collections']) && count($community['collections']) > 0): ?>
                 <div class="collections">
                 <?php foreach($community['collections'] as $collection): ?>

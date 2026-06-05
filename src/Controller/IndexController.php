@@ -185,6 +185,7 @@ class IndexController extends AbstractActionController
                 $communityArray['name'] = $community['name'];
                 $communityArray['shortDescription'] = $community['metadata']['dc.description.abstract'][0]['value'] ?? null;
                 $communityArray['introductoryText'] = $community['metadata']['dc.description'][0]['value'] ?? null;
+                $communityArray['link'] = $endpoint . '/discover/search/objects?dsoType=item&scope=' . $community['uuid'];
 
                 $collectionLink = $community['_links']['collections']['href'] ?? null;
                 if ($collectionLink) {
